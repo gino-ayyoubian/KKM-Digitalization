@@ -1,4 +1,3 @@
-
 export enum Page {
   Home = 'Home',
   AboutUs = 'About Us',
@@ -13,4 +12,43 @@ export enum Page {
   News = 'News & Insights',
   Contact = 'Contact Us',
   Legal = 'Legal & Policies',
+  SearchResults = 'Search Results',
+  InternalPortal = 'Internal Portal',
+}
+
+export interface Project {
+    name: string;
+    description: string;
+    image: string;
+    coordinates: { lat: number; lng: number };
+    gallery: string[];
+    videoUrl?: string;
+    detailedContent: string;
+}
+
+export interface NavLink {
+  name: Page;
+  subLinks?: { name: string; id: string }[];
+}
+
+export interface NewsItem {
+    title: string;
+    date: string;
+    excerpt: string;
+    image: string;
+    content: string;
+    category: 'Technology' | 'Projects' | 'Corporate';
+}
+
+export interface Video {
+    title: string;
+    description: string;
+    thumbnail: string;
+    youtubeId: string;
+}
+
+export interface SearchResult {
+  title: string;
+  description: string;
+  onClick: () => void;
 }

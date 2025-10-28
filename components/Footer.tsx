@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Page } from '../types';
 
@@ -7,27 +8,39 @@ interface FooterProps {
 }
 
 const KkmLogoWhite: React.FC = () => (
-    <svg width="60" height="60" viewBox="0 0 100 100" className="h-10 w-auto md:h-12">
+    <svg width="100" height="120" viewBox="0 0 133 160" className="h-14 md:h-16 w-auto">
         <defs>
-            <linearGradient id="logoGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#0DA5E7', stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: '#FFFFFF', stopOpacity: 1 }} />
-            </linearGradient>
-            <linearGradient id="sunGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: '#F68F00', stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: '#FFC533', stopOpacity: 1 }} />
-            </linearGradient>
+            <radialGradient id="logoSphereGradientFooter" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" stopColor="#FFD200" />
+                <stop offset="100%" stopColor="#F7971E" />
+            </radialGradient>
         </defs>
-        <path d="M50 10 C 20 50, 20 80, 50 90 C 80 80, 80 50, 50 10 Z" fill="url(#logoGradientFooter)" transform="rotate(-15 50 50)"/>
-        <circle cx="60" cy="60" r="12" fill="url(#sunGradientFooter)"/>
+        <g transform="translate(10, 0)">
+            {/* Outer Swoosh */}
+            <path 
+                d="M56.5,110 C-10,80 15,25 51.5,5 C40,40 45,75 56.5,105 C75,70 80,45 61.5,15 C100,45 105,85 56.5,110 Z"
+                fill="white"
+            />
+            {/* Inner Swoosh */}
+            <path 
+                d="M61,108 C45,80 75,40 81,10 C85,45 80,75 61,108 Z"
+                fill="white"
+                transform="translate(-15, -4)"
+            />
+            {/* Sphere */}
+            <circle cx="66.5" cy="74" r="22" fill="url(#logoSphereGradientFooter)" />
+        </g>
+        <text x="66.5" y="132" fontFamily="Montserrat, sans-serif" fontWeight="bold" fontSize="22" fill="white" textAnchor="middle">K.K.M.</text>
+        <text x="66.5" y="150" fontFamily="Montserrat, sans-serif" fontWeight="bold" fontSize="13" fill="white" textAnchor="middle" letterSpacing="0.5">INTERNATIONAL</text>
     </svg>
 );
 
 const Footer: React.FC<FooterProps> = ({ setPage }) => {
     const quickLinks = [Page.Home, Page.AboutUs, Page.CoreTechnologies, Page.Projects];
-    const engagementLinks = [Page.Careers, Page.InnovationHub, Page.News, Page.Contact];
+    const engagementLinks = [Page.Careers, Page.InnovationHub, Page.News, Page.Contact, Page.InternalPortal];
 
-    const FooterLink: React.FC<{page: Page}> = ({ page, children }) => (
+    // Fix: Explicitly define children prop for FooterLink component. In newer versions of @types/react, React.FC does not implicitly include children.
+    const FooterLink: React.FC<{page: Page; children?: React.ReactNode}> = ({ page, children }) => (
         <li>
             <button onClick={() => setPage(page)} className="text-gray-400 hover:text-white transition-colors duration-200">
                 {children || page}
@@ -36,13 +49,12 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
     );
 
     return (
-        <footer className="bg-primary text-white">
+        <footer className="bg-text-dark text-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div className="md:col-span-2 lg:col-span-1">
-                        <button onClick={() => setPage(Page.Home)} className="flex items-center space-x-2">
+                        <button onClick={() => setPage(Page.Home)} className="flex items-center">
                              <KkmLogoWhite />
-                            <span className="font-display font-bold text-xl">K.K.M. International</span>
                         </button>
                         <p className="mt-4 text-gray-400 text-sm">Engineering a sustainable future, together.</p>
                     </div>
