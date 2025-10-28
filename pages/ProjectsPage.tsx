@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-// Fix: Import Project type from types.ts where it is defined, not from constants.ts.
 import { PROJECTS } from '../constants';
-import { Project } from '../types';
+// FIX: Import the `Page` enum to use it as a valid translation key.
+import { Project, Page } from '../types';
 import ProjectDetailModal from './ProjectDetailModal';
+import { useLanguage } from '../LanguageContext';
 
 const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
     <div className="bg-primary/10 py-16">
@@ -17,6 +18,7 @@ const ProjectsPage: React.FC = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [activeProjectForMap, setActiveProjectForMap] = useState<Project>(PROJECTS[0]);
+    const { t } = useLanguage();
     
     const handleViewDetails = (project: Project) => {
         setSelectedProject(project);
@@ -26,13 +28,14 @@ const ProjectsPage: React.FC = () => {
     return (
         <div>
             {modalOpen && selectedProject && <ProjectDetailModal project={selectedProject} onClose={() => setModalOpen(false)} />}
-            <PageHeader title="Projects & Pilots" subtitle="Transforming ideas into tangible impact. Explore our portfolio of projects that are shaping a sustainable future."/>
+            {/* FIX: Replaced the raw string 'Projects & Pilots' with the correct `Page.Projects` enum key for translation. */}
+            <PageHeader title={t(Page.Projects)} subtitle={t('ProjectsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Projects List */}
                     <div className="lg:w-1/3 space-y-4">
-                         <h2 className="text-2xl font-display font-bold text-primary mb-4">Our Key Initiatives</h2>
+                         <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurKeyInitiatives')}</h2>
                         {PROJECTS.map((project) => (
                             <div 
                                 key={project.name} 
@@ -41,8 +44,8 @@ const ProjectsPage: React.FC = () => {
                             >
                                 <h3 className="text-lg font-display font-bold text-primary">{project.name}</h3>
                                 <p className="text-sm text-text-light mt-1">{project.description}</p>
-                                <button onClick={() => handleViewDetails(project)} className="mt-3 font-bold text-sm text-accent">
-                                    View Case Study →
+                                <button onClick={() => handleViewDetails(project)} className="mt-3 font-bold text-sm text-accent-yellow">
+                                    {t('ViewCaseStudy')} →
                                 </button>
                             </div>
                         ))}
@@ -51,7 +54,7 @@ const ProjectsPage: React.FC = () => {
                     {/* Interactive Map */}
                     <div className="lg:w-2/3">
                         <div className="sticky top-24">
-                            <h2 className="text-2xl font-display font-bold text-primary mb-4">Our Global Footprint</h2>
+                            <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurGlobalFootprint')}</h2>
                             <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg">
                                 <iframe
                                     width="100%"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Page, NewsItem, SearchResult } from './types';
+import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -14,12 +15,18 @@ import NewsPage from './pages/NewsPage';
 import NewsArticlePage from './pages/NewsArticlePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS } from './constants';
+import { useLanguage } from './LanguageContext';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const { direction } = useLanguage();
+
+  useEffect(() => {
+    document.documentElement.dir = direction;
+  }, [direction]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,6 +47,8 @@ const App: React.FC = () => {
     const lowerQuery = query.toLowerCase();
     const results: SearchResult[] = [];
 
+    // Note: In a real app, search would use translated content.
+    // For this example, we'll keep it simple and search the English constants.
     GMEL_TECHNOLOGIES.forEach(tech => {
         if (tech.name.toLowerCase().includes(lowerQuery) || tech.description.toLowerCase().includes(lowerQuery)) {
             results.push({
@@ -77,41 +86,78 @@ const App: React.FC = () => {
     setCurrentPage(Page.SearchResults);
   }
 
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    in: { opacity: 1, y: 0 },
+    out: { opacity: 0, y: -20 }
+  };
+
+  const pageTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 0.5
+  };
+
   const renderPage = () => {
+    let pageComponent;
     switch (currentPage) {
       case Page.Home:
-        return <HomePage setPage={setCurrentPage} onSelectArticle={handleSelectArticle} />;
+        pageComponent = <HomePage setPage={setCurrentPage} onSelectArticle={handleSelectArticle} />;
+        break;
       case Page.AboutUs:
-        return <AboutUsPage />;
+        pageComponent = <AboutUsPage />;
+        break;
       case Page.CoreTechnologies:
-        return <CoreTechnologiesPage />;
+        pageComponent = <CoreTechnologiesPage />;
+        break;
       case Page.Projects:
-        return <ProjectsPage />;
+        pageComponent = <ProjectsPage />;
+        break;
       case Page.InnovationHub:
-        return <InnovationHubPage />;
+        pageComponent = <InnovationHubPage />;
+        break;
       case Page.Contact:
-        return <ContactPage />;
+        pageComponent = <ContactPage />;
+        break;
       case Page.News:
-        return selectedArticle 
+        pageComponent = selectedArticle 
             ? <NewsArticlePage article={selectedArticle} onBack={handleBackToNews} /> 
             : <NewsPage onSelectArticle={handleSelectArticle} />;
+        break;
       case Page.Legal:
-        return <LegalPage />;
+        pageComponent = <LegalPage />;
+        break;
       case Page.SearchResults:
-        return <SearchResultsPage results={searchResults} query={searchQuery} />;
+        pageComponent = <SearchResultsPage results={searchResults} query={searchQuery} />;
+        break;
       case Page.InternalPortal:
-        return <ComingSoonPage pageTitle={currentPage} />;
       case Page.Careers:
       default:
-        return <ComingSoonPage pageTitle={currentPage} />;
+        pageComponent = <ComingSoonPage pageTitle={currentPage} />;
+        break;
     }
+
+    return (
+      <motion.div
+        key={currentPage + (selectedArticle?.title || '')}
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        {pageComponent}
+      </motion.div>
+    );
   };
 
   return (
     <div className="bg-background min-h-screen flex flex-col font-sans text-text-dark">
       <Header currentPage={currentPage} setPage={setCurrentPage} onSearch={handleSearch} />
       <main className="flex-grow">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          {renderPage()}
+        </AnimatePresence>
       </main>
       <Footer setPage={setCurrentPage} />
     </div>

@@ -7,19 +7,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: '#007CC8', // Primary Blue from Brand Guidelines
-              accent: '#F7971E', // Orange from logo sphere
-              secondary: '#00A9E0', // Light Blue from logo flame
-              highlight: '#FFD200', // Yellow from logo sphere
-              background: '#F8F9FA', // Light Neutral (Unchanged)
-              'text-dark': '#002D56', // Dark Blue from logo text
-              'text-light': '#5a646a', // (Unchanged)
+              primary: '#0A92EF',       // Primary Blue from Brand Guidelines
+              secondary: '#89CFF0',     // A lighter, complementary blue
+              'accent-yellow': '#FFC107', // Accent Yellow/Orange from Brand Guidelines
+              'light-yellow': '#FFF9C4', // A very light yellow for backgrounds
+              background: '#F8F9FA',
+              'text-dark': '#002D56',   // Dark Blue from Brand Guidelines text
+              'text-light': '#5a646a',
             },
             fontFamily: {
               sans: ['Open Sans', 'sans-serif'],
@@ -31,7 +31,7 @@
     </script>
     <style>
       .gradient-hero {
-        background-image: linear-gradient(98deg, #007CC8 0%, #002D56 100%);
+        background-image: linear-gradient(98deg, #0A92EF 0%, #002D56 100%);
       }
       @keyframes slideInUp {
         from {
@@ -55,7 +55,8 @@
   "imports": {
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.18"
   }
 }
 </script>

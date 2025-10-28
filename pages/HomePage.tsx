@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Page, NewsItem, Video } from '../types';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
 import Card from '../components/Card';
+import { useLanguage } from '../LanguageContext';
 
 interface HomePageProps {
   setPage: (page: Page) => void;
@@ -37,6 +38,7 @@ const VideoModal: React.FC<{video: Video; onClose: () => void}> = ({ video, onCl
 
 const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
   const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
+  const { t } = useLanguage();
 
   return (
     <div className="space-y-24 pb-24">
@@ -45,23 +47,23 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       <section className="gradient-hero text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
           <h1 className="text-4xl md:text-6xl font-display font-extrabold !text-white opacity-0 animate-slide-in-up">
-            Engineering a Sustainable Future.
+            {t('HeroTitle')}
           </h1>
           <p className="mt-6 text-xl md:text-2xl max-w-3xl mx-auto text-gray-300 opacity-0 animate-slide-in-up animation-delay-200">
-            We innovate at the intersection of energy, technology, and community to solve global challenges.
+            {t('HeroSubtitle')}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 opacity-0 animate-slide-in-up animation-delay-400">
             <button
               onClick={() => setPage(Page.CoreTechnologies)}
-              className="px-8 py-3 font-bold text-white bg-accent rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105"
+              className="px-8 py-3 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105"
             >
-              Explore Our Technologies
+              {t('ExploreTech')}
             </button>
             <button
               onClick={() => setPage(Page.Contact)}
               className="px-8 py-3 font-bold text-white bg-transparent border-2 border-white rounded-full hover:bg-white hover:text-primary transition-colors duration-300"
             >
-              Partner With Us
+              {t('PartnerWithUs')}
             </button>
           </div>
         </div>
@@ -69,9 +71,9 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
 
       {/* Core Technologies Teaser */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle>The GMEL Ecosystem</SectionTitle>
+        <SectionTitle>{t('GmelEcosystem')}</SectionTitle>
         <SectionSubtitle>
-          Our integrated suite of proprietary technologies is designed to create sustainable value chains and solve complex energy and environmental challenges.
+          {t('GmelEcosystemSubtitle')}
         </SectionSubtitle>
         <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {GMEL_TECHNOLOGIES.slice(0, 3).map(tech => (
@@ -79,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               key={tech.name}
               title={tech.name}
               description={tech.description}
-              actionText="Learn More"
+              actionText={t('LearnMore')}
               onActionClick={() => setPage(Page.CoreTechnologies)}
             />
           ))}
@@ -90,16 +92,16 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       <section className="bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <h3 className="text-base text-accent font-semibold tracking-wider uppercase">Innovation & Ideation Hub</h3>
-            <SectionTitle>From Idea to Impact</SectionTitle>
+            <h3 className="text-base text-accent-yellow font-semibold tracking-wider uppercase">{t('InnovationHubTitle')}</h3>
+            <SectionTitle>{t('FromIdeaToImpact')}</SectionTitle>
             <SectionSubtitle>
-              Our hub is a dynamic ecosystem for collaboration, turning visionary ideas into real-world solutions through accelerator programs, design thinking, and cross-disciplinary dialogue.
+             {t('InnovationHubSubtitle')}
             </SectionSubtitle>
             <button
               onClick={() => setPage(Page.InnovationHub)}
               className="mt-8 px-8 py-3 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300"
             >
-              Join the Innovation
+              {t('JoinTheInnovation')}
             </button>
           </div>
         </div>
@@ -107,9 +109,9 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
 
       {/* Projects & Pilots */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle>Projects & Pilots Showcase</SectionTitle>
+        <SectionTitle>{t('ProjectsShowcaseTitle')}</SectionTitle>
         <SectionSubtitle>
-          Demonstrating our commitment to real-world impact through pioneering projects that integrate our core technologies.
+          {t('ProjectsShowcaseSubtitle')}
         </SectionSubtitle>
         <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PROJECTS.slice(0,3).map(project => (
@@ -118,7 +120,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               title={project.name}
               description={project.description}
               imageUrl={project.image}
-              actionText="View Project"
+              actionText={t('ViewProject')}
               onActionClick={() => setPage(Page.Projects)}
             />
           ))}
@@ -128,8 +130,8 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       {/* Videos Section */}
       <section className="bg-gray-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-              <SectionTitle>Our Vision in Motion</SectionTitle>
-              <SectionSubtitle>See our technology and projects in action and hear from the leaders driving our vision forward.</SectionSubtitle>
+              <SectionTitle>{t('VisionInMotionTitle')}</SectionTitle>
+              <SectionSubtitle>{t('VisionInMotionSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {VIDEOS.map(video => (
                       <div key={video.title} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group cursor-pointer" onClick={() => setPlayingVideo(video)}>
@@ -154,8 +156,8 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       {/* News & Insights */}
       <section className="bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-              <SectionTitle>News & Insights</SectionTitle>
-              <SectionSubtitle>Stay updated with our latest announcements, thought leadership, and event highlights.</SectionSubtitle>
+              <SectionTitle>{t('NewsInsightsTitle')}</SectionTitle>
+              <SectionSubtitle>{t('NewsInsightsSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {NEWS_ITEMS.map(item => (
                       <div key={item.title} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
@@ -164,7 +166,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
                               <p className="text-sm text-gray-500">{item.date}</p>
                               <h3 className="text-lg font-bold text-primary mt-2">{item.title}</h3>
                               <p className="mt-2 text-sm text-text-light flex-grow">{item.excerpt}</p>
-                              <button onClick={() => onSelectArticle(item)} className="mt-4 font-bold text-accent self-start">Read More →</button>
+                              <button onClick={() => onSelectArticle(item)} className="mt-4 font-bold text-accent-yellow self-start">{t('ReadMore')} →</button>
                           </div>
                       </div>
                   ))}

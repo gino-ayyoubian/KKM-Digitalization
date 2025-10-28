@@ -1,5 +1,7 @@
-
 import React from 'react';
+// FIX: Import the `Page` enum to use it as a valid translation key.
+import { Page } from '../types';
+import { useLanguage } from '../LanguageContext';
 
 const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
     <div className="bg-primary/10 py-16">
@@ -12,7 +14,7 @@ const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitl
 
 const InnovationStep: React.FC<{ number: string; title: string; children: React.ReactNode }> = ({ number, title, children }) => (
     <div className="flex">
-        <div className="flex flex-col items-center mr-4">
+        <div className="flex flex-col items-center me-4">
             <div>
                 <div className="flex items-center justify-center w-10 h-10 border rounded-full border-secondary text-secondary font-bold">
                     {number}
@@ -28,35 +30,37 @@ const InnovationStep: React.FC<{ number: string; title: string; children: React.
 );
 
 const InnovationHubPage: React.FC = () => {
+    const { t } = useLanguage();
     return (
         <div>
-            <PageHeader title="Innovation & Ideation Hub" subtitle="Where visionaries collaborate, and groundbreaking ideas become reality."/>
+            {/* FIX: Replaced the raw string 'Innovation & Ideation Hub' with the correct `Page.InnovationHub` enum key for translation. */}
+            <PageHeader title={t(Page.InnovationHub)} subtitle={t('InnovationHubPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                     <div>
-                        <h2 className="text-3xl font-display font-bold text-primary mb-6">Our Process: From Idea to Impact</h2>
+                        <h2 className="text-3xl font-display font-bold text-primary mb-6">{t('OurProcessTitle')}</h2>
                         <div className="flex flex-col">
-                            <InnovationStep number="1" title="Cross-disciplinary Dialogues">
-                                We bring together experts from diverse fields to spark conversations, challenge assumptions, and identify new opportunities for innovation.
+                            <InnovationStep number="1" title={t('InnovationStep1Title')}>
+                                {t('InnovationStep1Text')}
                             </InnovationStep>
-                             <InnovationStep number="2" title="Design Thinking Workshops">
-                                Promising ideas are explored through structured workshops, focusing on human-centered design to develop viable and desirable solutions.
+                             <InnovationStep number="2" title={t('InnovationStep2Title')}>
+                                {t('InnovationStep2Text')}
                             </InnovationStep>
-                             <InnovationStep number="3" title="Hackathons & Challenges">
-                                We host intensive, collaborative events to rapidly prototype and test solutions for specific, real-world problems.
+                             <InnovationStep number="3" title={t('InnovationStep3Title')}>
+                                {t('InnovationStep3Text')}
                             </InnovationStep>
-                             <InnovationStep number="4" title="Accelerator & Incubator Programs">
-                                The most promising projects receive dedicated mentorship, funding, and resources to scale their solutions and bring them to market.
+                             <InnovationStep number="4" title={t('InnovationStep4Title')}>
+                                {t('InnovationStep4Text')}
                             </InnovationStep>
                         </div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-lg text-center">
                         <img src="https://picsum.photos/seed/innovation/500/300" alt="Collaborative workshop" className="rounded-lg mb-6 mx-auto"/>
-                        <h3 className="text-2xl font-display font-bold text-primary">Have a Visionary Idea?</h3>
-                        <p className="mt-4 text-text-light">Our accelerator program provides the resources, mentorship, and network to help you succeed. We're looking for bold ideas that can change the world.</p>
-                        <button className="mt-6 px-8 py-3 font-bold text-white bg-accent rounded-full hover:bg-secondary transition-colors duration-300">
-                            Submit Your Idea
+                        <h3 className="text-2xl font-display font-bold text-primary">{t('HaveVisionaryIdea')}</h3>
+                        <p className="mt-4 text-text-light">{t('AcceleratorProgramPitch')}</p>
+                        <button className="mt-6 px-8 py-3 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300">
+                            {t('SubmitYourIdea')}
                         </button>
                     </div>
                 </div>
