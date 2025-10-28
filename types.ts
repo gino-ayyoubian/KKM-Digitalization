@@ -21,6 +21,7 @@ export interface Project {
     name: string;
     description: string;
     image: string;
+    category: string;
     coordinates: { lat: number; lng: number };
     gallery: string[];
     videoUrl?: string;

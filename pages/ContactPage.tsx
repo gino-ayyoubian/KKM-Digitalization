@@ -80,11 +80,23 @@ const ContactPage: React.FC = () => {
                     <div>
                         <h2 className="text-2xl font-display font-bold text-primary mb-6">{t('ContactInformation')}</h2>
                         <div className="bg-white p-8 rounded-lg shadow-lg space-y-6">
-                            <div>
-                                <h3 className="text-lg font-bold text-primary">{t('CentralOffice')}</h3>
-                                <a href="https://maps.app.goo.gl/yKJYc3TNjyURAkUw6" target="_blank" rel="noopener noreferrer" className="mt-2 text-text-light hover:text-accent-yellow transition-colors">
-                                    Qeshm Free Zone, Iran
+                           <div>
+                                <h3 className="text-lg font-bold text-primary">{t('HeadOffice')}</h3>
+                                <a href="https://www.google.com/maps/place/KKM+Intl+Co./@35.7646896,51.4163221,17z/" target="_blank" rel="noopener noreferrer" className="mt-2 text-text-light hover:text-accent-yellow transition-colors block">
+                                    {t('TehranAddress')}
                                 </a>
+                                <div className="mt-4 rounded-lg overflow-hidden shadow-md">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3237.434995110592!2d51.416322074575945!3d35.764689625387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06903e4e328f%3A0xb36c828cd4438fc!2sKKM%20Intl%20Co.!5e0!3m2!1sen!2sus!4v1761692709016!5m2!1sen!2sus" width="100%" height="200" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-primary">{t('BranchOffice')}</h3>
+                                <a href="https://maps.app.goo.gl/Zo2siC6YJZFPRor27" target="_blank" rel="noopener noreferrer" className="mt-2 text-text-light hover:text-accent-yellow transition-colors block">
+                                    {t('QeshmAddress')}
+                                </a>
+                                <div className="mt-4 rounded-lg overflow-hidden shadow-md">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.5573457712435!2d56.26325777415092!3d26.949244157510627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef77732551e33af%3A0x9ab29edfc0cff47f!2sPark%20Sam%20o%20Zal%202!5e0!3m2!1sen!2sus!4v1761692619027!5m2!1sen!2sus" width="100%" height="200" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
                             </div>
                             
                             <div>

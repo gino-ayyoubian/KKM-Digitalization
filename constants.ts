@@ -38,6 +38,7 @@ export const PROJECTS: Project[] = [
         name: "Qeshm Island Oil Field Development",
         description: "A comprehensive infrastructure upgrade on Qeshm Island to enhance crude oil transport, storage, and operational safety.",
         image: "https://picsum.photos/seed/qeshm-oilfield/600/400",
+        category: "Oil & Gas Infrastructure",
         coordinates: { lat: 26.907, lng: 56.002 },
         gallery: ["https://picsum.photos/seed/qeshm-gallery1/800/600", "https://picsum.photos/seed/qeshm-gallery2/800/600", "https://picsum.photos/seed/qeshm-gallery3/800/600"],
         videoUrl: "https://www.youtube.com/embed/GLK6DErFBPA",
@@ -58,6 +59,7 @@ export const PROJECTS: Project[] = [
         name: "Iranian Central Oil Fields (ICOFC) Enhancement",
         description: "A multi-faceted project to boost efficiency, production, and cross-border capabilities for the Iranian Central Oil Fields Company.",
         image: "https://picsum.photos/seed/icofc-sarakhs/600/400",
+        category: "Oil & Gas Infrastructure",
         coordinates: { lat: 36.544, lng: 61.157 },
         gallery: ["https://picsum.photos/seed/icofc-gallery1/800/600", "https://picsum.photos/seed/icofc-gallery2/800/600"],
         detailedContent: `
@@ -76,6 +78,7 @@ export const PROJECTS: Project[] = [
         name: "Combined Cycle Power Plant EPCI",
         description: "End-to-end EPCI services for the construction of modern, efficient Combined Cycle Power Plants to meet growing energy demands.",
         image: "https://picsum.photos/seed/power-plant/600/400",
+        category: "Power Generation",
         coordinates: { lat: 35.689, lng: 51.389 },
         gallery: ["https://picsum.photos/seed/power-gallery1/800/600", "https://picsum.photos/seed/power-gallery2/800/600"],
         detailedContent: `
@@ -93,6 +96,7 @@ export const PROJECTS: Project[] = [
         name: "Advanced Drilling & Coring Services Expansion",
         description: "Strategic expansion of upstream services for MIS International, introducing modern coring techniques and optimizing drilling operations.",
         image: "https://picsum.photos/seed/drilling-services/600/400",
+        category: "Upstream Services",
         coordinates: { lat: 25.2048, lng: 55.2708 },
         gallery: ["https://picsum.photos/seed/drilling-gallery1/800/600", "https://picsum.photos/seed/drilling-gallery2/800/600"],
         detailedContent: `
@@ -110,6 +114,7 @@ export const PROJECTS: Project[] = [
         name: "Industrial Water Treatment Solutions",
         description: "Development and deployment of customized water treatment programs for heavy industries, including power plants and petrochemical refineries.",
         image: "https://picsum.photos/seed/water-treatment/600/400",
+        category: "Industrial Solutions",
         coordinates: { lat: 28.802, lng: -81.366 },
         gallery: ["https://picsum.photos/seed/water-gallery1/800/600", "https://picsum.photos/seed/water-gallery2/800/600"],
         // FIX: Corrected a syntax error where an extra double quote was present after the property name. Changed "detailedContent":" to "detailedContent:".

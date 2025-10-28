@@ -1,7 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { TranslationKey } from '../translations';
 import PageHeader from '../components/PageHeader';
+
+const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
+    const { t } = useLanguage();
+    const [email, setEmail] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (email && email.includes('@')) {
+            setSubmitted(true);
+            // In a real app, this would call an API
+            console.log(`Email submitted for notification: ${email}`);
+        }
+    };
+
+    return (
+        <div 
+            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+            onClick={onClose}
+        >
+            <div 
+                className="bg-white rounded-lg shadow-2xl max-w-md w-full p-8 text-center"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {submitted ? (
+                    <>
+                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('NotifyModalSuccessTitle')}</h2>
+                        <p className="text-text-light mb-6">{t('NotifyModalSuccessText')}</p>
+                        <button 
+                            onClick={onClose} 
+                            className="px-6 py-2 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300"
+                        >
+                            {t('Close')}
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('NotifyModalTitle')}</h2>
+                        <p className="text-text-light mb-6">{t('NotifyModalText')}</p>
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                            <input 
+                                type="email"
+                                placeholder={t('NotifyModalPlaceholder')}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="w-full px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
+                            />
+                            <button 
+                                type="submit" 
+                                className="px-6 py-2 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300"
+                            >
+                                {t('NotifyMe')}
+                            </button>
+                        </form>
+                        <button onClick={onClose} className="mt-4 text-sm text-gray-500 hover:underline">
+                            {t('NotifyModalNoThanks')}
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+};
 
 const FuturesSection: React.FC<{title: string; icon: React.ReactNode; children: React.ReactNode}> = ({ title, icon, children }) => (
     <div className="bg-white p-8 rounded-lg shadow-lg h-full">
@@ -60,6 +124,7 @@ const OrgTable: React.FC<{title: TranslationKey, members: OrgMember[], descHeade
 
 const FuturesPage: React.FC = () => {
     const { t } = useLanguage();
+    const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
 
     const executiveLeadership: OrgMember[] = [
         { name: 'GinoAyyoubian', role: 'CEO', desc: 'CEODesc', rbac: 'Admin' },
@@ -108,6 +173,7 @@ const FuturesPage: React.FC = () => {
     
     return (
         <div>
+            {isNotifyModalOpen && <NotifyModal onClose={() => setIsNotifyModalOpen(false)} />}
             <PageHeader title={t('FuturesPageTitle')} subtitle={t('FuturesPageSubtitle')} />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
@@ -142,7 +208,44 @@ const FuturesPage: React.FC = () => {
                         <OrgTable title="SeniorManagement" members={seniorManagement} descHeader="FocusArea" />
                         <OrgTable title="CorporateFunctions" members={corporateFunctions} descHeader="Domain" />
                         <OrgTable title="SpecializedRD" members={specializedRD} descHeader="Domain" />
-                        <OrgTable title="AdvisoryBoard" members={advisoryBoard} descHeader="Domain" />
+                        
+                        <div>
+                            <h3 className="font-display font-bold text-2xl text-secondary mb-4 mt-6">{t('AdvisoryBoard')}</h3>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left text-sm">
+                                    <thead className="border-b bg-gray-50">
+                                        <tr>
+                                            <th className="font-semibold p-3 text-text-dark">{t('Name')}</th>
+                                            <th className="font-semibold p-3 text-text-dark">{t('Role')}</th>
+                                            <th className="font-semibold p-3 text-text-dark">{t('Domain')}</th>
+                                            <th className="font-semibold p-3 text-text-dark">{t('RBAC')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {advisoryBoard.map(member => (
+                                            <tr key={member.name + member.role} className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
+                                                <td className="p-3 font-semibold text-text-dark">
+                                                    {t(member.name) === '(TBD)' ? (
+                                                        <button onClick={() => setIsNotifyModalOpen(true)} className="text-accent-yellow hover:underline font-semibold">
+                                                            {t(member.name)}
+                                                        </button>
+                                                    ) : (
+                                                        t(member.name)
+                                                    )}
+                                                </td>
+                                                <td className="p-3 text-text-light">{t(member.role)}</td>
+                                                <td className="p-3 text-text-light">{t(member.desc)}</td>
+                                                <td className="p-3 text-text-light">
+                                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800`}>
+                                                      {t(member.rbac)}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

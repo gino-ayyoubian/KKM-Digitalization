@@ -69,6 +69,19 @@ const CoreTechnologiesPage: React.FC = () => {
                         ))}
                     </div>
                 </div>
+
+                <div className="mt-24 bg-gradient-to-r from-primary to-text-dark text-white p-12 rounded-lg text-center shadow-2xl">
+                     <h2 className="text-3xl font-display font-bold text-white mb-4">{t('GMELVisionWebAppTitle')}</h2>
+                     <p className="max-w-3xl mx-auto mb-8 text-lg text-gray-200">{t('GMELVisionWebAppSubtitle')}</p>
+                     <a 
+                        href="https://aistudio.google.com/apps/drive/1qB40WZghDEbRaR0O4Xje2vjbmdHWaa-W?showPreview=true&showAssistant=true" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-block px-10 py-4 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-white transition-all duration-300 transform hover:scale-110 shadow-lg"
+                     >
+                        {t('LaunchGMELVision')}
+                     </a>
+                </div>
             </div>
         </div>
     );

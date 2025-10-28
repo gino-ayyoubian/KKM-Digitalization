@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// Fix: Import Project type from types.ts where it is defined, not from constants.ts.
 import { Project } from '../types';
 
 interface ProjectDetailModalProps {
@@ -20,22 +19,39 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
   
   return (
     <div 
-        className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
+        className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
         onClick={onClose}
     >
       <div 
-        className="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+        className="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-slide-in-up"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="sticky top-4 right-4 z-20 bg-black/50 text-white rounded-full h-8 w-8 flex items-center justify-center text-2xl">&times;</button>
+        <button onClick={onClose} className="fixed top-4 right-4 z-20 bg-black/50 text-white rounded-full h-8 w-8 flex items-center justify-center text-2xl hover:bg-black/80 transition-colors">&times;</button>
         
         {/* Gallery */}
-        <div className="relative h-96 bg-gray-200">
-            <img src={project.gallery[currentImageIndex]} alt={`${project.name} gallery image ${currentImageIndex + 1}`} className="w-full h-full object-cover"/>
+        <div className="relative bg-gray-900">
+            <div className="relative h-96 flex items-center justify-center">
+                <img src={project.gallery[currentImageIndex]} alt={`${project.name} gallery image ${currentImageIndex + 1}`} className="max-w-full max-h-full object-contain"/>
+            </div>
+            
             {project.gallery.length > 1 && (
                 <>
-                    <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">‹</button>
-                    <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">›</button>
+                    <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors">‹</button>
+                    <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors">›</button>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
+                        <div className="flex justify-center gap-2">
+                            {project.gallery.map((imgSrc, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentImageIndex(index)}
+                                    className={`w-16 h-10 rounded-md overflow-hidden transition-all duration-200 ${index === currentImageIndex ? 'ring-2 ring-accent-yellow ring-offset-2 ring-offset-black/50' : 'opacity-60 hover:opacity-100'}`}
+                                >
+                                    <img src={imgSrc} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </>
             )}
         </div>
