@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-// FIX: Import the `Page` enum to use it as a valid translation key.
 import { Page } from '../types';
 import { useLanguage } from '../LanguageContext';
-
-const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
-    <div className="bg-primary/10 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary">{title}</h1>
-            <p className="mt-4 text-lg text-text-light max-w-3xl mx-auto">{subtitle}</p>
-        </div>
-    </div>
-);
+import PageHeader from '../components/PageHeader';
 
 const ContactPage: React.FC = () => {
     const { t } = useLanguage();
@@ -52,7 +43,6 @@ const ContactPage: React.FC = () => {
 
     return (
         <div>
-            {/* FIX: Replaced the raw string 'Contact' with the correct `Page.Contact` enum key for translation. */}
             <PageHeader title={t(Page.Contact)} subtitle={t('ContactSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">

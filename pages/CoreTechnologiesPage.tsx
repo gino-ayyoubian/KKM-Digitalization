@@ -1,25 +1,19 @@
-
 import React, { useState } from 'react';
 import { GMEL_TECHNOLOGIES, OTHER_CORE_AREAS } from '../constants';
-
-const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
-    <div className="bg-primary/10 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary">{title}</h1>
-            <p className="mt-4 text-lg text-text-light max-w-3xl mx-auto">{subtitle}</p>
-        </div>
-    </div>
-);
+import PageHeader from '../components/PageHeader';
+import { useLanguage } from '../LanguageContext';
+import { Page } from '../types';
 
 const CoreTechnologiesPage: React.FC = () => {
     const [selectedTech, setSelectedTech] = useState(GMEL_TECHNOLOGIES[0].name);
+    const { t } = useLanguage();
 
     return (
         <div>
-            <PageHeader title="Core Technologies" subtitle="Our intellectual property is the engine of our innovation, driving progress across multiple sectors."/>
+            <PageHeader title={t(Page.CoreTechnologies)} subtitle={t('CoreTechPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
-                <h2 className="text-3xl font-display font-bold text-primary mb-8 text-center">The GMEL Ecosystem</h2>
+                <h2 className="text-3xl font-display font-bold text-primary mb-8 text-center">{t('GmelEcosystem')}</h2>
                 
                 <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
                     {/* Sidebar */}
@@ -65,7 +59,7 @@ const CoreTechnologiesPage: React.FC = () => {
                 </div>
 
                 <div className="mt-24">
-                    <h2 className="text-3xl font-display font-bold text-primary mb-8 text-center">Expanding Horizons</h2>
+                    <h2 className="text-3xl font-display font-bold text-primary mb-8 text-center">{t('ExpandingHorizons')}</h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {OTHER_CORE_AREAS.map(area => (
                             <div key={area.name} className="bg-white p-6 rounded-lg shadow-md">

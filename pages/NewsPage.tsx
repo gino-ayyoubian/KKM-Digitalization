@@ -1,23 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { NEWS_ITEMS } from '../constants';
-import { NewsItem } from '../types';
+import { NewsItem, Page } from '../types';
+import PageHeader from '../components/PageHeader';
+import { useLanguage } from '../LanguageContext';
 
 interface NewsPageProps {
     onSelectArticle: (article: NewsItem) => void;
 }
 
-const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
-    <div className="bg-primary/10 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary">{title}</h1>
-            <p className="mt-4 text-lg text-text-light max-w-3xl mx-auto">{subtitle}</p>
-        </div>
-    </div>
-);
-
 const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
     const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
     const [filterCategory, setFilterCategory] = useState<string>('All');
+    const { t } = useLanguage();
     
     const categories = ['All', ...Array.from(new Set(NEWS_ITEMS.map(item => item.category)))];
 
@@ -39,7 +33,7 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
 
     return (
         <div>
-            <PageHeader title="News & Insights" subtitle="Stay updated with our latest announcements, thought leadership, and event highlights."/>
+            <PageHeader title={t(Page.News)} subtitle={t('NewsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
                 <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-white rounded-lg shadow-sm">

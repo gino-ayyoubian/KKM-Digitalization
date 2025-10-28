@@ -4,6 +4,7 @@ export const NAV_LINKS: NavLink[] = [
   { name: Page.Home },
   { name: Page.AboutUs },
   { name: Page.CoreTechnologies },
+  { name: Page.Futures },
   { name: Page.Projects },
   { name: Page.InnovationHub },
   { name: Page.Careers },

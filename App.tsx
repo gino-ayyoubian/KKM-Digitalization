@@ -14,6 +14,7 @@ import LegalPage from './pages/LegalPage';
 import NewsPage from './pages/NewsPage';
 import NewsArticlePage from './pages/NewsArticlePage';
 import SearchResultsPage from './pages/SearchResultsPage';
+import FuturesPage from './pages/FuturesPage';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS } from './constants';
 import { useLanguage } from './LanguageContext';
 
@@ -109,6 +110,9 @@ const App: React.FC = () => {
         break;
       case Page.CoreTechnologies:
         pageComponent = <CoreTechnologiesPage />;
+        break;
+      case Page.Futures:
+        pageComponent = <FuturesPage />;
         break;
       case Page.Projects:
         pageComponent = <ProjectsPage />;

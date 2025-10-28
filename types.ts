@@ -2,6 +2,7 @@ export enum Page {
   Home = 'Home',
   AboutUs = 'About Us',
   CoreTechnologies = 'Core Technologies',
+  Futures = 'Futures',
   Biomedical = 'Biomedical & Health Innovation',
   SportsManagement = 'Sports Management',
   RuralStudies = 'Rural Studies & Development',

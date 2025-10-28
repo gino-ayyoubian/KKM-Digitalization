@@ -15,10 +15,16 @@ const KkmLogoWhite: React.FC = () => (
             </radialGradient>
         </defs>
         <g transform="translate(10, 0)">
-            {/* Outer Swoosh */}
-            <path d="M66.5,108.3c-2.2-22.3-19.3-43.2-34.5-54.3C14,44.2,2.8,27.7,11.3,12.5c2.3-4.1,6.5-6.7,11.3-7.5 C40-1.2,50.8,11.5,56,23.3c11,25.3,4.2,55.5-3,81.2C52,106.3,51,107.5,49.8,108.3z" fill="white"/>
-            {/* Inner Swoosh */}
-            <path d="M66.5,108.3c13.2-14.3,21.5-32.9,21.1-51.5c-0.5-23-16-43.9-35.3-51.8c-4.1-1.7-8.5-2.1-12.7-1.7 c-3.5,0.3-6,1.8-6.1,4.7c-0.2,3.3,2.4,5.4,5.8,6.2c16.1,3.7,28.4,17.4,30.3,33.5c2.4,20-5.7,39.5-19.5,53.4 C58.6,108.8,59.9,109.5,61.1,109.5C62.9,109.5,64.8,109.1,66.5,108.3z" fill="white"/>
+            {/* Outer Flame Path (Optimized) */}
+            <path
+                d="M53.1,108.3C55.6,83.8,42.5,63.4,29.7,51.7C15.2,38.5,6.5,23.3,13.2,9.3c2.4-5,7.9-8.1,13.7-7.2c16,2.5,26.4,16.5,31.3,29.2c10.3,26.8,3.2,59.2-7.2,84.1C50.2,107,49.6,107.8,48.9,108.3H53.1z"
+                fill="white"
+            />
+            {/* Inner Flame Path (Optimized) */}
+            <path
+                d="M66.5,108.3c15.8-15.1,23.6-36.4,22.8-57c-1-25.5-18.4-48.4-40.1-55.5c-4.9-1.6-10.1-1.9-15.1-1.3c-4.1,0.5-7.1,2.8-6.9,6.2c0.2,3.8,3.4,6.1,7.2,7.1c17.5,4.5,31.2,19.8,32.7,37.9c2,22.1-7.2,43.5-22.6,58.7c2.1,0.6,4,1,6,1C56.1,109.5,61.4,109.2,66.5,108.3z"
+                fill="white"
+            />
             {/* Sphere */}
             <circle cx="66.5" cy="74" r="22" fill="url(#logoSphereGradientFooter)"/>
         </g>
@@ -29,7 +35,7 @@ const KkmLogoWhite: React.FC = () => (
 
 const Footer: React.FC<FooterProps> = ({ setPage }) => {
     const { t } = useLanguage();
-    const quickLinks = [Page.Home, Page.AboutUs, Page.CoreTechnologies, Page.Projects];
+    const quickLinks = [Page.Home, Page.AboutUs, Page.CoreTechnologies, Page.Futures, Page.Projects];
     const engagementLinks = [Page.Careers, Page.InnovationHub, Page.News, Page.Contact, Page.InternalPortal];
 
     const FooterLink: React.FC<{page: Page; children?: React.ReactNode}> = ({ page, children }) => (

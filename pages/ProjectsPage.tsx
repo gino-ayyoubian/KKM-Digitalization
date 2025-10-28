@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { PROJECTS } from '../constants';
-// FIX: Import the `Page` enum to use it as a valid translation key.
 import { Project, Page } from '../types';
 import ProjectDetailModal from './ProjectDetailModal';
 import { useLanguage } from '../LanguageContext';
-
-const PageHeader: React.FC<{title: string; subtitle: string}> = ({title, subtitle}) => (
-    <div className="bg-primary/10 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary">{title}</h1>
-            <p className="mt-4 text-lg text-text-light max-w-3xl mx-auto">{subtitle}</p>
-        </div>
-    </div>
-);
+import PageHeader from '../components/PageHeader';
 
 const ProjectsPage: React.FC = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -28,7 +19,6 @@ const ProjectsPage: React.FC = () => {
     return (
         <div>
             {modalOpen && selectedProject && <ProjectDetailModal project={selectedProject} onClose={() => setModalOpen(false)} />}
-            {/* FIX: Replaced the raw string 'Projects & Pilots' with the correct `Page.Projects` enum key for translation. */}
             <PageHeader title={t(Page.Projects)} subtitle={t('ProjectsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
