@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, memo } from 'react';
-import { Project } from '../types';
+import { MapMarker } from '../types';
+import { useLanguage } from '../LanguageContext';
 
 // FIX: Add global declaration for window.google to resolve TypeScript errors
 // for the dynamically loaded Google Maps API script.
@@ -11,8 +12,8 @@ declare global {
 }
 
 interface InteractiveMapProps {
-    projects: Project[];
-    activeProject: Project | null;
+    projects: MapMarker[];
+    activeProject: MapMarker | null;
 }
 
 const loadGoogleMapsScript = (callback: () => void) => {
@@ -36,11 +37,18 @@ const loadGoogleMapsScript = (callback: () => void) => {
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject }) => {
     const mapRef = useRef<HTMLDivElement>(null);
-    // FIX: Replaced specific google.maps types with `any` to resolve TypeScript errors
-    // for the dynamically loaded Google Maps API, which doesn't provide compile-time type info.
     const googleMap = useRef<any | null>(null);
     const markers = useRef<any[]>([]);
     const infoWindow = useRef<any | null>(null);
+    const { t } = useLanguage();
+
+    const getInfoWindowContent = (project: MapMarker) => `
+        <div style="font-family: 'Open Sans', sans-serif; color: #002D56; padding: 5px; max-width: 250px;">
+            <h3 style="font-weight: 700; font-family: 'Montserrat', sans-serif; margin: 0 0 8px 0; font-size: 16px;">${project.name}</h3>
+            <p style="font-size: 14px; margin: 0 0 12px 0; line-height: 1.5;">${project.description}</p>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}" target="_blank" rel="noopener noreferrer" style="color: #0A92EF; text-decoration: none; font-weight: bold; font-size: 14px;">${t('GetDirections')} &rarr;</a>
+        </div>
+    `;
 
     useEffect(() => {
         loadGoogleMapsScript(() => {
@@ -61,39 +69,28 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
                     });
 
                     marker.addListener('click', () => {
-                        const content = `
-                            <div style="font-family: sans-serif; color: #002D56;">
-                                <h3 style="font-weight: bold; margin: 0 0 5px 0;">${project.name}</h3>
-                                <p style="font-size: 13px; margin: 0;">${project.description}</p>
-                            </div>
-                        `;
-                        infoWindow.current?.setContent(content);
+                        infoWindow.current?.setContent(getInfoWindowContent(project));
                         infoWindow.current?.open(map, marker);
                     });
                     return marker;
                 });
             }
         });
-    }, [projects]);
+    }, [projects, t]);
     
     useEffect(() => {
         if (googleMap.current && activeProject) {
             googleMap.current.panTo(activeProject.coordinates);
             googleMap.current.setZoom(10);
 
-            const activeMarker = markers.current[projects.findIndex(p => p.name === activeProject.name)];
+            const activeMarker = markers.current.find(marker => marker.getTitle() === activeProject.name);
+
             if (activeMarker && infoWindow.current) {
-                const content = `
-                    <div style="font-family: sans-serif; color: #002D56;">
-                        <h3 style="font-weight: bold; margin: 0 0 5px 0;">${activeProject.name}</h3>
-                        <p style="font-size: 13px; margin: 0;">${activeProject.description}</p>
-                    </div>
-                `;
-                infoWindow.current.setContent(content);
+                infoWindow.current.setContent(getInfoWindowContent(activeProject));
                 infoWindow.current.open(googleMap.current, activeMarker);
             }
         }
-    }, [activeProject, projects]);
+    }, [activeProject, projects, t]);
 
     return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />;
 };

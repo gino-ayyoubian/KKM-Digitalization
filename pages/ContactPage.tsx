@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
-import { Page } from '../types';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Page, MapMarker } from '../types';
 import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
+import InteractiveMap from '../components/InteractiveMap';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ContactPage: React.FC = () => {
     const { t } = useLanguage();
     const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [activeLocation, setActiveLocation] = useState<MapMarker | null>(null);
+    const [showOtherLocations, setShowOtherLocations] = useState(false);
+
+    const officeLocationsForMap: MapMarker[] = useMemo(() => [
+        {
+            name: t('HeadOffice'),
+            description: t('TehranAddress'),
+            coordinates: { lat: 35.7646896, lng: 51.4163221 },
+        },
+        {
+            name: t('BranchOffice'),
+            description: t('QeshmAddress'),
+            coordinates: { lat: 26.9492441, lng: 56.2632577 },
+        }
+    ], [t]);
+
+    useEffect(() => {
+        if (officeLocationsForMap.length > 0 && !activeLocation) {
+            setActiveLocation(officeLocationsForMap[0]);
+        }
+    }, [officeLocationsForMap, activeLocation]);
 
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
@@ -32,7 +55,6 @@ const ContactPage: React.FC = () => {
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
             setIsSubmitting(true);
-            // Simulate API call
             setTimeout(() => {
                 alert(t('ContactFormSuccess'));
                 setFormData({ name: '', email: '', subject: '', message: '' });
@@ -80,24 +102,20 @@ const ContactPage: React.FC = () => {
                     <div>
                         <h2 className="text-2xl font-display font-bold text-primary mb-6">{t('ContactInformation')}</h2>
                         <div className="bg-white p-8 rounded-lg shadow-lg space-y-6">
-                           <div>
-                                <h3 className="text-lg font-bold text-primary">{t('HeadOffice')}</h3>
-                                <a href="https://www.google.com/maps/place/KKM+Intl+Co./@35.7646896,51.4163221,17z/" target="_blank" rel="noopener noreferrer" className="mt-2 text-text-light hover:text-accent-yellow transition-colors block">
-                                    {t('TehranAddress')}
-                                </a>
-                                <div className="mt-4 rounded-lg overflow-hidden shadow-md">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3237.434995110592!2d51.416322074575945!3d35.764689625387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06903e4e328f%3A0xb36c828cd4438fc!2sKKM%20Intl%20Co.!5e0!3m2!1sen!2sus!4v1761692709016!5m2!1sen!2sus" width="100%" height="200" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                                </div>
+                            <div className="relative h-80 rounded-lg overflow-hidden shadow-md bg-gray-200 mb-6">
+                                <InteractiveMap projects={officeLocationsForMap} activeProject={activeLocation} />
                             </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-primary">{t('BranchOffice')}</h3>
-                                <a href="https://maps.app.goo.gl/Zo2siC6YJZFPRor27" target="_blank" rel="noopener noreferrer" className="mt-2 text-text-light hover:text-accent-yellow transition-colors block">
-                                    {t('QeshmAddress')}
-                                </a>
-                                <div className="mt-4 rounded-lg overflow-hidden shadow-md">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.5573457712435!2d56.26325777415092!3d26.949244157510627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef77732551e33af%3A0x9ab29edfc0cff47f!2sPark%20Sam%20o%20Zal%202!5e0!3m2!1sen!2sus!4v1761692619027!5m2!1sen!2sus" width="100%" height="200" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+
+                            {officeLocationsForMap.map(location => (
+                                <div 
+                                    key={location.name}
+                                    className={`p-4 rounded-lg cursor-pointer border-2 transition-all duration-300 ${activeLocation?.name === location.name ? 'border-secondary bg-blue-50' : 'border-transparent hover:bg-gray-100'}`}
+                                    onClick={() => setActiveLocation(location)}
+                                >
+                                    <h3 className="text-lg font-bold text-primary">{location.name}</h3>
+                                    <p className="mt-1 text-text-light">{location.description}</p>
                                 </div>
-                            </div>
+                            ))}
                             
                             <div>
                                 <h3 className="text-lg font-bold text-primary">{t('PhoneLines')}</h3>
@@ -126,6 +144,38 @@ const ContactPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16 border-t pt-16">
+                <div className="text-center">
+                    <h2 className="text-3xl font-display font-bold text-primary mb-4">{t('OtherLocationsTitle')}</h2>
+                    <p className="text-lg text-text-light max-w-3xl mx-auto mb-8">{t('OtherLocationsSubtitle')}</p>
+                    
+                    {!showOtherLocations && (
+                        <button 
+                            onClick={() => setShowOtherLocations(true)}
+                            className="px-8 py-3 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105"
+                        >
+                            {t('ExploreOtherLocations')}
+                        </button>
+                    )}
+                </div>
+
+                <AnimatePresence>
+                {showOtherLocations && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="mt-8 bg-white p-12 rounded-lg shadow-xl text-center"
+                    >
+                        <p className="text-text-light mb-8 max-w-2xl mx-auto">{t('OtherLocationsText')}</p>
+                        <button className="px-8 py-3 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105">
+                            {t('DiscoverMore')}
+                        </button>
+                    </motion.div>
+                )}
+                </AnimatePresence>
             </div>
         </div>
     );

@@ -57,7 +57,7 @@ const en = {
     'ContactInformation': 'Contact Information',
     'HeadOffice': 'Head Office',
     'BranchOffice': 'Branch Office',
-    'TehranAddress': 'Tehran Province, Tehran, Nelson Mandela Blvd, Iran',
+    'TehranAddress': 'Tehran Province, Tehran, Nelson Mandela Blvd, QC79+VHC, Iran',
     'QeshmAddress': 'Hormozgan Province, Qeshm, Sam o Zal',
     'PhoneLines': 'Phone Lines',
     'IVRNotice': 'Our lines feature IVR for directing your call efficiently.',
@@ -237,6 +237,12 @@ const en = {
     'NotifyModalSuccessTitle': 'Thank You!',
     'NotifyModalSuccessText': "You've been added to our notification list. We'll be in touch soon.",
     'Close': 'Close',
+    'GetDirections': 'Get Directions',
+    'OtherLocationsTitle': 'Our Growing Network',
+    'OtherLocationsSubtitle': 'Beyond our main offices, KKM International is establishing a presence in key strategic locations worldwide to better serve our partners and projects.',
+    'ExploreOtherLocations': 'Explore Other Locations',
+    'OtherLocationsText': 'We are currently developing operational hubs in key regions. More information about our international offices and partner facilities will be available soon.',
+    'DiscoverMore': 'Discover More',
 };
 
 const fa = {
@@ -292,7 +298,7 @@ const fa = {
     'ContactInformation': 'اطلاعات تماس',
     'HeadOffice': 'دفتر مرکزی',
     'BranchOffice': 'دفتر شعبه',
-    'TehranAddress': 'استان تهران، تهران، بلوار نلسون ماندلا، ایران',
+    'TehranAddress': 'استان تهران، تهران، بلوار نلسون ماندلا، QC79+VHC، ایران',
     'QeshmAddress': 'استان هرمزگان، قشم، سام و زال',
     'PhoneLines': 'خطوط تلفن',
     'IVRNotice': 'خطوط ما دارای IVR برای هدایت کارآمد تماس شما هستند.',
@@ -473,6 +479,12 @@ const fa = {
     'NotifyModalSuccessTitle': 'متشکرم!',
     'NotifyModalSuccessText': 'شما به لیست اطلاع‌رسانی ما اضافه شدید. به زودی با شما در تماس خواهیم بود.',
     'Close': 'بستن',
+    'GetDirections': 'دریافت مسیرها',
+    'OtherLocationsTitle': 'شبکه در حال رشد ما',
+    'OtherLocationsSubtitle': 'فراتر از دفاتر اصلی ما، KKM International در حال ایجاد حضور در مکان‌های استراتژیک کلیدی در سراسر جهان برای خدمت‌رسانی بهتر به شرکا و پروژه‌هایمان است.',
+    'ExploreOtherLocations': 'کاوش مکان‌های دیگر',
+    'OtherLocationsText': 'ما در حال حاضر در حال توسعه مراکز عملیاتی در مناطق کلیدی هستیم. اطلاعات بیشتر در مورد دفاتر بین‌المللی و امکانات شرکای ما به زودی در دسترس خواهد بود.',
+    'DiscoverMore': 'بیشتر کاوش کنید',
 };
 
 const ku = {
@@ -528,7 +540,7 @@ const ku = {
     'ContactInformation': 'زانیاری پەیوەندی',
     'HeadOffice': 'نووسینگەی سەرەکی',
     'BranchOffice': 'نووسینگەی لق',
-    'TehranAddress': 'پارێزگای تاران، تاران، bulevarê Nelson Mandela, ئێران',
+    'TehranAddress': 'پارێزگای تاران، تاران، bulevarê Nelson Mandela, QC79+VHC, ئێران',
     'QeshmAddress': 'پارێزگای هورموزگان، قشم، سام و زال',
     'PhoneLines': 'هێڵەکانی تەلەفۆن',
     'IVRNotice': 'هێڵەکانمان IVRیان هەیە بۆ ئاراستەکردنی کارای پەیوەندییەکەت.',
@@ -690,7 +702,7 @@ const ku = {
     'ComplianceMatrix': 'ماتریکسی پابەندبوون',
     'AuditTimeline': 'هێڵی کاتی وردبینی',
     'ExceptionsLog': 'تۆماری حاڵەتە دەگمەنەکان',
-    'AboutUsPageSubtitle': 'پێشەنگ لە چارەسەری بەردەوام بۆ جیهانێکی ئاڵۆز لە ڕێگەی داهێنان، هاوکاری و پابەندبوونی پتەوەوە.',
+    'AboutUsPageSubtitle': 'پێشەنگ لە چارەسەری بەردەوام بۆ جیهانێکی ئاڵۆز لە ڕێگەی داهێnan، هاوکاری و پابەندبوونی پتەوەوە.',
     'CompanyOverview': 'پێشبینی کۆمپانیا',
     'LeadershipGovernance': 'سەرکردایەتی و حوکمڕانی',
     'StrategicRoles': 'ڕۆڵ و بەشدارییە ستراتیژییەکان',
@@ -709,6 +721,12 @@ const ku = {
     'NotifyModalSuccessTitle': 'سوپاس!',
     'NotifyModalSuccessText': 'تۆ بۆ لیستی ئاگادارکردنەوەمان زیاد کرایت. بەم زووانە پەیوەندیت پێوە دەکەین.',
     'Close': 'داخستن',
+    'GetDirections': 'وەرگرتنی ڕێنماییەکان',
+    'OtherLocationsTitle': 'تۆڕی گەشەسەندومان',
+    'OtherLocationsSubtitle': 'جگە لە نووسینگە سەرەکییەکانمان، KKM International لە حالەتی دامەزراندنی بنکە لە شوێنە ستراتیژییە گرنگەکانی جیهاندا بۆ خزمەتکردنی باشتر بە هاوبەش و پڕۆژەکانمان.',
+    'ExploreOtherLocations': 'گەڕان بە شوێنەکانی تردا',
+    'OtherLocationsText': 'ئێمە لە حالەتی پەرەپێدانی ناوەندە کارگێڕییەکانین لە ناوچە گرنگەکاندا. زانیاری زیاتر دەربارەی نووسینگە نێودەوڵەتییەکان و ئاسانکارییەکانی هاوبەشەکانمان بەم زووانە بەردەست دەبێت.',
+    'DiscoverMore': 'زیاتر بگەڕێ',
 };
 
 const ar = {
@@ -764,7 +782,7 @@ const ar = {
     'ContactInformation': 'معلومات الاتصال',
     'HeadOffice': 'المكتب الرئيسي',
     'BranchOffice': 'مكتب الفرع',
-    'TehranAddress': 'محافظة طهران، طهران، شارع نيلسون مانديلا، إيران',
+    'TehranAddress': 'محافظة طهران، طهران، شارع نيلسون مانديلا، QC79+VHC، إيران',
     'QeshmAddress': 'محافظة هرمزغان، قشم، سام و زال',
     'PhoneLines': 'خطوط الهاتف',
     'IVRNotice': 'تتميز خطوطنا بنظام الرد الصوتي التفاعلي لتوجيه مكالمتك بكفاءة.',
@@ -945,6 +963,12 @@ const ar = {
     'NotifyModalSuccessTitle': 'شكرا لك!',
     'NotifyModalSuccessText': 'لقد تمت إضافتك إلى قائمة الإشعارات الخاصة بنا. سنتواصل معك قريبًا.',
     'Close': 'إغلاق',
+    'GetDirections': 'الحصول على الاتجاهات',
+    'OtherLocationsTitle': 'شبكتنا المتنامية',
+    'OtherLocationsSubtitle': 'بالإضافة إلى مكاتبنا الرئيسية، تعمل KKM International على تأسيس وجود لها في مواقع استراتيجية رئيسية في جميع أنحاء العالم لخدمة شركائنا ومشاريعنا بشكل أفضل.',
+    'ExploreOtherLocations': 'استكشاف مواقع أخرى',
+    'OtherLocationsText': 'نقوم حاليًا بتطوير مراكز تشغيلية في مناطق رئيسية. ستتوفر قريبًا مزيد من المعلومات حول مكاتبنا الدولية ومرافق الشركاء.',
+    'DiscoverMore': 'اكتشف المزيد',
 };
 
 type Translations = { [key in 'EN' | 'FA' | 'KU' | 'AR']: typeof en };

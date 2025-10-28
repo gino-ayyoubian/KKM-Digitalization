@@ -54,3 +54,9 @@ export interface SearchResult {
   description: string;
   onClick: () => void;
 }
+
+export interface MapMarker {
+  name: string;
+  description: string;
+  coordinates: { lat: number; lng: number };
+}
