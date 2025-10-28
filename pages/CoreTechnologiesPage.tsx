@@ -3,6 +3,7 @@ import { GMEL_TECHNOLOGIES, OTHER_CORE_AREAS } from '../constants';
 import PageHeader from '../components/PageHeader';
 import { useLanguage } from '../LanguageContext';
 import { Page } from '../types';
+import Card from '../components/Card';
 
 const CoreTechnologiesPage: React.FC = () => {
     const [selectedTech, setSelectedTech] = useState(GMEL_TECHNOLOGIES[0].name);
@@ -62,10 +63,11 @@ const CoreTechnologiesPage: React.FC = () => {
                     <h2 className="text-3xl font-display font-bold text-primary mb-8 text-center">{t('ExpandingHorizons')}</h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {OTHER_CORE_AREAS.map(area => (
-                            <div key={area.name} className="bg-white p-6 rounded-lg shadow-md">
-                                <h3 className="text-xl font-display font-bold text-primary">{area.name}</h3>
-                                <p className="mt-2 text-text-light">{area.description}</p>
-                            </div>
+                           <Card 
+                                key={area.name}
+                                title={area.name}
+                                description={area.description}
+                           />
                         ))}
                     </div>
                 </div>

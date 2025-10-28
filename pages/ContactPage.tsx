@@ -32,28 +32,55 @@ const ContactPage: React.FC = () => {
         }
     }, [officeLocationsForMap, activeLocation]);
 
-    const validate = () => {
-        const newErrors: { [key: string]: string } = {};
-        if (!formData.name) newErrors.name = t('ValidationRequired', { field: t('FullName') });
-        if (!formData.email) {
-            newErrors.email = t('ValidationRequired', { field: t('EmailAddress') });
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = t('ValidationInvalid', { field: t('EmailAddress') });
+    const validateField = (name: string, value: string): string => {
+        switch (name) {
+            case 'name':
+                if (!value.trim()) return t('ValidationRequired', { field: t('FullName') });
+                break;
+            case 'email':
+                if (!value.trim()) return t('ValidationRequired', { field: t('EmailAddress') });
+                if (!/\S+@\S+\.\S+/.test(value)) return t('ValidationInvalid', { field: t('EmailAddress') });
+                break;
+            case 'subject':
+                if (!value.trim()) return t('ValidationRequired', { field: t('Subject') });
+                break;
+            case 'message':
+                if (!value.trim()) return t('ValidationRequired', { field: t('Message') });
+                break;
         }
-        if (!formData.subject) newErrors.subject = t('ValidationRequired', { field: t('Subject') });
-        if (!formData.message) newErrors.message = t('ValidationRequired', { field: t('Message') });
-        return newErrors;
+        return '';
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        const error = validateField(name, value);
+        setErrors(prev => ({ ...prev, [name]: error }));
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        if (errors[name]) {
+             setErrors(prev => ({ ...prev, [name]: '' }));
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const validationErrors = validate();
-        setErrors(validationErrors);
-        if (Object.keys(validationErrors).length === 0) {
+        const newErrors: { [key: string]: string } = {};
+        let formIsValid = true;
+        Object.keys(formData).forEach(key => {
+            const fieldName = key as keyof typeof formData;
+            const error = validateField(fieldName, formData[fieldName]);
+            if (error) {
+                newErrors[fieldName] = error;
+                formIsValid = false;
+            }
+        });
+
+        setErrors(newErrors);
+
+        if (formIsValid) {
             setIsSubmitting(true);
             setTimeout(() => {
                 alert(t('ContactFormSuccess'));
@@ -61,6 +88,14 @@ const ContactPage: React.FC = () => {
                 setIsSubmitting(false);
             }, 1000);
         }
+    };
+    
+    const getInputClassName = (fieldName: keyof typeof formData) => {
+        const baseClasses = "mt-1 block w-full px-3 py-2 bg-white border rounded-md shadow-sm focus:outline-none";
+        if (errors[fieldName]) {
+            return `${baseClasses} border-red-500 focus:ring-red-500 focus:border-red-500`;
+        }
+        return `${baseClasses} border-gray-300 focus:ring-secondary focus:border-secondary`;
     };
 
     return (
@@ -74,22 +109,22 @@ const ContactPage: React.FC = () => {
                         <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-text-dark">{t('FullName')}</label>
-                                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"/>
+                                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} onBlur={handleBlur} required className={getInputClassName('name')}/>
                                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                             </div>
                              <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-text-dark">{t('EmailAddress')}</label>
-                                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"/>
+                                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} required className={getInputClassName('email')}/>
                                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                             </div>
                              <div>
                                 <label htmlFor="subject" className="block text-sm font-medium text-text-dark">{t('Subject')}</label>
-                                <input type="text" id="subject" name="subject" value={formData.subject} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"/>
+                                <input type="text" id="subject" name="subject" value={formData.subject} onChange={handleChange} onBlur={handleBlur} required className={getInputClassName('subject')}/>
                                 {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
                             </div>
                              <div>
                                 <label htmlFor="message" className="block text-sm font-medium text-text-dark">{t('Message')}</label>
-                                <textarea id="message" name="message" rows={4} value={formData.message} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"></textarea>
+                                <textarea id="message" name="message" rows={4} value={formData.message} onChange={handleChange} onBlur={handleBlur} required className={getInputClassName('message')}></textarea>
                                 {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
                             </div>
                             <div>
