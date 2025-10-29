@@ -38,7 +38,7 @@ export const PROJECTS: Project[] = [
         name: "Qeshm Island Oil Field Development",
         description: "A comprehensive infrastructure upgrade on Qeshm Island to enhance crude oil transport, storage, and operational safety.",
         image: "https://picsum.photos/seed/qeshm-oilfield/600/400",
-        category: "Oil & Gas Infrastructure",
+        tags: ["Oil & Gas Infrastructure", "EPCI", "Midstream"],
         coordinates: { lat: 26.907, lng: 56.002 },
         gallery: ["https://picsum.photos/seed/qeshm-gallery1/800/600", "https://picsum.photos/seed/qeshm-gallery2/800/600", "https://picsum.photos/seed/qeshm-gallery3/800/600"],
         videoUrl: "https://www.youtube.com/embed/GLK6DErFBPA",
@@ -59,7 +59,7 @@ export const PROJECTS: Project[] = [
         name: "Iranian Central Oil Fields (ICOFC) Enhancement",
         description: "A multi-faceted project to boost efficiency, production, and cross-border capabilities for the Iranian Central Oil Fields Company.",
         image: "https://picsum.photos/seed/icofc-sarakhs/600/400",
-        category: "Oil & Gas Infrastructure",
+        tags: ["Oil & Gas Infrastructure", "Upstream Services", "Field Development"],
         coordinates: { lat: 36.544, lng: 61.157 },
         gallery: ["https://picsum.photos/seed/icofc-gallery1/800/600", "https://picsum.photos/seed/icofc-gallery2/800/600"],
         detailedContent: `
@@ -71,14 +71,14 @@ export const PROJECTS: Project[] = [
                 <li><strong>International Project Leadership:</strong> KKM successfully led the international project D1-D2, showcasing our strong capabilities in cross-border project management and adherence to international standards.</li>
                 <li><strong>Gas Recovery Enhancement:</strong> We implemented targeted initiatives for C.G.C (Condensate Gas Compressor) 52 & 53, which significantly enhanced gas recovery rates and improved overall operational efficiency.</li>
             </ul>
-            <p>This project solidified our reputation as a trusted partner for national oil companies seeking to maximize the potential of their strategic assets.</p>
+            <p>This solidified our reputation as a trusted partner for national oil companies seeking to maximize the potential of their strategic assets.</p>
         `
     },
     { 
         name: "Combined Cycle Power Plant EPCI",
         description: "End-to-end EPCI services for the construction of modern, efficient Combined Cycle Power Plants to meet growing energy demands.",
         image: "https://picsum.photos/seed/power-plant/600/400",
-        category: "Power Generation",
+        tags: ["Power Generation", "EPCI", "Energy"],
         coordinates: { lat: 35.689, lng: 51.389 },
         gallery: ["https://picsum.photos/seed/power-gallery1/800/600", "https://picsum.photos/seed/power-gallery2/800/600"],
         detailedContent: `
@@ -96,7 +96,7 @@ export const PROJECTS: Project[] = [
         name: "Advanced Drilling & Coring Services Expansion",
         description: "Strategic expansion of upstream services for MIS International, introducing modern coring techniques and optimizing drilling operations.",
         image: "https://picsum.photos/seed/drilling-services/600/400",
-        category: "Upstream Services",
+        tags: ["Upstream Services", "Technology", "Drilling"],
         coordinates: { lat: 25.2048, lng: 55.2708 },
         gallery: ["https://picsum.photos/seed/drilling-gallery1/800/600", "https://picsum.photos/seed/drilling-gallery2/800/600"],
         detailedContent: `
@@ -114,10 +114,9 @@ export const PROJECTS: Project[] = [
         name: "Industrial Water Treatment Solutions",
         description: "Development and deployment of customized water treatment programs for heavy industries, including power plants and petrochemical refineries.",
         image: "https://picsum.photos/seed/water-treatment/600/400",
-        category: "Industrial Solutions",
+        tags: ["Industrial Solutions", "Water Management", "Petrochemical"],
         coordinates: { lat: 28.802, lng: -81.366 },
         gallery: ["https://picsum.photos/seed/water-gallery1/800/600", "https://picsum.photos/seed/water-gallery2/800/600"],
-        // FIX: Corrected a syntax error where an extra double quote was present after the property name. Changed "detailedContent":" to "detailedContent:".
         detailedContent: `
             <p>In partnership with World Chem, KKM leadership was pivotal in developing and delivering specialized water treatment solutions for critical industrial facilities. This work focused on creating customized programs to address the unique challenges faced by power plants, oil refineries, and petrochemical industries.</p>
             <strong>Our contributions included:</strong>

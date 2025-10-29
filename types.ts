@@ -21,7 +21,7 @@ export interface Project {
     name: string;
     description: string;
     image: string;
-    category: string;
+    tags: string[];
     coordinates: { lat: number; lng: number };
     gallery: string[];
     videoUrl?: string;
@@ -61,4 +61,5 @@ export interface MapMarker {
   coordinates: { lat: number; lng: number };
   imageUrl?: string;
   category?: string;
+  type?: 'project' | 'office';
 }

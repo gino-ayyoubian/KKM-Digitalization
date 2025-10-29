@@ -19,14 +19,16 @@ const ContactPage: React.FC = () => {
             description: t('TehranAddress'),
             coordinates: { lat: 35.7646896, lng: 51.4163221 },
             category: 'Head Office',
-            imageUrl: 'https://picsum.photos/seed/tehran-office/200/150'
+            imageUrl: 'https://picsum.photos/seed/tehran-office/200/150',
+            type: 'office',
         },
         {
             name: t('BranchOffice'),
             description: t('QeshmAddress'),
             coordinates: { lat: 26.9583, lng: 56.2722 },
             category: 'Branch Office',
-            imageUrl: 'https://picsum.photos/seed/qeshm-office/200/150'
+            imageUrl: 'https://picsum.photos/seed/qeshm-office/200/150',
+            type: 'office',
         },
     ], [t]);
     
