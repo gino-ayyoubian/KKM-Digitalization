@@ -70,7 +70,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
             {project.videoUrl && (
                 <div className="mt-8">
                     <h2 className="text-2xl font-display font-bold text-primary mb-4">Project Video</h2>
-                    <div className="aspect-video rounded-lg overflow-hidden">
+                    <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
                         <iframe
                             width="100%"
                             height="100%"

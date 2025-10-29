@@ -40,6 +40,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     const infoWindow = useRef<any | null>(null);
     const markerClusterer = useRef<any | null>(null);
     const userLocationMarker = useRef<any | null>(null);
+    const pulsingMarkerElement = useRef<HTMLElement | null>(null);
     const { t } = useLanguage();
 
     const getInfoWindowContent = (project: MapMarker) => `
@@ -162,7 +163,15 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
             });
 
             markers.current = newMarkers;
-            markerClusterer.current = new MarkerClusterer({ map: googleMap.current, markers: newMarkers });
+            markerClusterer.current = new MarkerClusterer({
+                map: googleMap.current,
+                markers: newMarkers,
+                onClusterClick: (event, cluster, map) => {
+                    if (cluster.bounds) {
+                        map.fitBounds(cluster.bounds);
+                    }
+                },
+            });
             
         };
 
@@ -170,19 +179,25 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     }, [projects, t]);
     
     useEffect(() => {
+        // Cleanup previous pulsing marker
+        if (pulsingMarkerElement.current) {
+            pulsingMarkerElement.current.classList.remove('animate-marker-pulse');
+            pulsingMarkerElement.current = null;
+        }
+
         if (googleMap.current && activeProject) {
             googleMap.current.panTo(activeProject.coordinates);
             googleMap.current.setZoom(10);
 
             const activeMarker = markers.current.find(marker => marker.title === activeProject.name);
             if (activeMarker && infoWindow.current) {
-                
                 const pinElement = activeMarker.content as HTMLElement;
-                pinElement.classList.add('animate-marker-pop');
-                setTimeout(() => {
-                    pinElement.classList.remove('animate-marker-pop');
-                }, 500); // Corresponds to animation duration in index.html
+                
+                // Add pulsing animation
+                pinElement.classList.add('animate-marker-pulse');
+                pulsingMarkerElement.current = pinElement;
 
+                // Open info window after a slight delay
                 setTimeout(() => {
                     infoWindow.current.setContent(getInfoWindowContent(activeProject));
                     infoWindow.current.open({ map: googleMap.current, anchor: activeMarker });

@@ -221,6 +221,16 @@ const ContactPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <div className="mt-20 text-center bg-white p-12 rounded-lg shadow-lg">
+                    <h2 className="text-3xl font-display font-bold text-primary">{t('OtherLocationsTitle')}</h2>
+                    <p className="mt-4 text-lg text-text-light max-w-3xl mx-auto">{t('OtherLocationsSubtitle')}</p>
+                    <button 
+                        className="mt-8 px-8 py-3 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300 opacity-60 cursor-not-allowed"
+                        aria-disabled="true"
+                    >
+                        {t('ExploreOtherLocations')}
+                    </button>
+                </div>
             </div>
         </div>
     );
