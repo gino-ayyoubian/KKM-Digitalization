@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { PROJECTS } from '../constants';
-import { Project, Page } from '../types';
+import { Project, Page, MapMarker } from '../types';
 import ProjectDetailModal from './ProjectDetailModal';
 import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
@@ -26,6 +26,25 @@ const ProjectsPage: React.FC = () => {
         setSelectedProject(project);
         setModalOpen(true);
     };
+
+    const projectMarkers = useMemo(() => PROJECTS.map((p): MapMarker => ({
+        name: p.name,
+        description: p.description,
+        coordinates: p.coordinates,
+        category: p.category,
+        imageUrl: p.image
+    })), []);
+    
+    const activeMarker = useMemo((): MapMarker | null => {
+        if (!activeProjectForMap) return null;
+        return {
+            name: activeProjectForMap.name,
+            description: activeProjectForMap.description,
+            coordinates: activeProjectForMap.coordinates,
+            category: activeProjectForMap.category,
+            imageUrl: activeProjectForMap.image
+        };
+    }, [activeProjectForMap]);
 
     return (
         <div>
@@ -72,7 +91,7 @@ const ProjectsPage: React.FC = () => {
                         <div className="sticky top-24">
                             <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurGlobalFootprint')}</h2>
                             <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg bg-gray-200">
-                                <InteractiveMap projects={PROJECTS} activeProject={activeProjectForMap} />
+                                <InteractiveMap projects={projectMarkers} activeProject={activeMarker} />
                             </div>
                         </div>
                     </div>

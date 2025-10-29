@@ -45,6 +45,31 @@ const KkmLogo: React.FC = () => (
     </svg>
 );
 
+const KkmLogoWhite: React.FC = () => (
+    <svg width="100" height="120" viewBox="0 0 133 160" className="h-14 md:h-16 w-auto">
+        <defs>
+            <radialGradient id="logoSphereGradientFooter" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                <stop offset="0%" stopColor="#FFD700"/>
+                <stop offset="100%" stopColor="#FFC107"/>
+            </radialGradient>
+        </defs>
+        <g transform="translate(10, 0)">
+            <path
+                d="M53.1,108.3C55.6,83.8,42.5,63.4,29.7,51.7C15.2,38.5,6.5,23.3,13.2,9.3c2.4-5,7.9-8.1,13.7-7.2c16,2.5,26.4,16.5,31.3,29.2c10.3,26.8,3.2,59.2-7.2,84.1C50.2,107,49.6,107.8,48.9,108.3H53.1z"
+                fill="white"
+            />
+            <path
+                d="M66.5,108.3c15.8-15.1,23.6-36.4,22.8-57c-1-25.5-18.4-48.4-40.1-55.5c-4.9-1.6-10.1-1.9-15.1-1.3c-4.1,0.5-7.1,2.8-6.9,6.2c0.2,3.8,3.4,6.1,7.2,7.1c17.5,4.5,31.2,19.8,32.7,37.9c2,22.1-7.2,43.5-22.6,58.7c2.1,0.6,4,1,6,1C56.1,109.5,61.4,109.2,66.5,108.3z"
+                fill="white"
+                opacity="0.8"
+            />
+            <circle cx="66.5" cy="74" r="22" fill="url(#logoSphereGradientFooter)"/>
+        </g>
+        <text x="66.5" y="132" fontFamily="Montserrat, sans-serif" fontWeight="bold" fontSize="22" fill="white" textAnchor="middle">K.K.M.</text>
+        <text x="66.5" y="150" fontFamily="Montserrat, sans-serif" fontWeight="bold" fontSize="13" fill="white" textAnchor="middle" letterSpacing="0.5">INTERNATIONAL</text>
+    </svg>
+);
+
 const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -52,6 +77,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const { language, setLanguage, t } = useLanguage();
+
+  const isHomePage = currentPage === Page.Home;
+  const isTransparent = isHomePage && !isScrolled;
 
   const languages: { key: Language; name: string }[] = [
       { key: 'EN', name: 'English' },
@@ -63,6 +91,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Set initial state
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
@@ -90,13 +119,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   }
 
   const selectedLangName = languages.find(l => l.key === language)?.name || 'English';
+  
+  const headerBaseClasses = "sticky top-0 z-50 transition-all duration-300";
+  const headerBgClass = isTransparent ? "bg-transparent" : "bg-white";
+  const headerShadowClass = !isTransparent && isScrolled ? "shadow-lg" : "";
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 shadow-lg backdrop-blur-sm' : 'bg-white'}`}>
+    <header className={`${headerBaseClasses} ${headerBgClass} ${headerShadowClass}`}>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <button onClick={() => setPage(Page.Home)} className="flex items-center text-primary" aria-label="Go to Home page">
-            <KkmLogo />
+            {isTransparent ? <KkmLogoWhite /> : <KkmLogo />}
           </button>
 
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
@@ -104,7 +137,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.name)}
-                className={`px-3 py-2 lg:px-4 font-display font-semibold text-sm rounded-md transition-colors duration-200 ${currentPage === link.name ? 'text-white bg-text-dark' : 'text-text-dark hover:text-accent-yellow'}`}
+                className={`px-3 py-2 lg:px-4 font-display font-semibold text-sm rounded-md transition-colors duration-200 ${
+                    isTransparent 
+                        ? (currentPage === link.name ? 'text-white border-b-2 border-white' : 'text-gray-200 hover:text-white')
+                        : (currentPage === link.name ? 'text-white bg-text-dark' : 'text-text-dark hover:text-accent-yellow')
+                }`}
               >
                 {t(link.name)}
               </button>
@@ -115,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
              <div className="relative" ref={langMenuRef}>
                 <button 
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} 
-                  className="flex items-center space-x-1 px-3 py-2 text-sm font-semibold text-text-dark rounded-md hover:bg-gray-100 transition-colors"
+                  className={`flex items-center space-x-1 px-3 py-2 text-sm font-semibold ${isTransparent ? 'text-white hover:bg-white/10' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9m-9 9a9 9 0 00-9-9" />
@@ -152,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 )}
                 </AnimatePresence>
             </div>
-             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2 text-primary hover:text-accent-yellow transition-colors duration-200" aria-label="Open search">
+             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`p-2 ${isTransparent ? 'text-white hover:text-gray-300' : 'text-primary hover:text-accent-yellow'} transition-colors duration-200`} aria-label="Open search">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -163,7 +200,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           </div>
 
           <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-primary" aria-label="Open menu">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isTransparent ? 'text-white' : 'text-primary'} aria-label="Open menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
               </svg>
@@ -186,7 +223,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 } }}
                   onClick={() => handleNavClick(link.name)}
-                  className={`block px-4 py-2 text-start font-display font-semibold rounded-md ${currentPage === link.name ? 'bg-primary text-white' : 'text-text-dark hover:bg-gray-100'}`}
+                  className={`block px-4 py-2 text-start font-display font-semibold rounded-md ${currentPage === link.name ? 'bg-primary text-white' : (isTransparent ? 'text-gray-200 hover:bg-white/10' : 'text-text-dark hover:bg-gray-100')}`}
                 >
                   {t(link.name)}
                 </motion.button>

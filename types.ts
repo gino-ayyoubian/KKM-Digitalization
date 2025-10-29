@@ -59,4 +59,6 @@ export interface MapMarker {
   name: string;
   description: string;
   coordinates: { lat: number; lng: number };
+  imageUrl?: string;
+  category?: string;
 }

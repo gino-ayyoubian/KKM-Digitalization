@@ -49,6 +49,14 @@
       .animation-delay-200 { animation-delay: 200ms; }
       .animation-delay-400 { animation-delay: 400ms; }
       .animation-delay-600 { animation-delay: 600ms; }
+      @keyframes marker-pop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.25); }
+        100% { transform: scale(1); }
+      }
+      .animate-marker-pop {
+        animation: marker-pop 0.5s ease-out;
+      }
     </style>
   <script type="importmap">
 {

@@ -77,8 +77,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                 <div className="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} KKM International Group. {t('AllRightsReserved')}</p>
                     <div className="flex space-x-4 mt-4 md:mt-0">
-                         <button onClick={() => setPage(Page.Legal)} className="text-gray-500 hover:text-white text-sm">{t('PrivacyPolicy')}</button>
-                         <button onClick={() => setPage(Page.Legal)} className="text-gray-500 hover:text-white text-sm">{t('TermsOfUse')}</button>
+                         <button onClick={() => setPage(Page.Legal)} className="text-gray-400 hover:text-white text-sm">{t('PrivacyPolicy')}</button>
+                         <button onClick={() => setPage(Page.Legal)} className="text-gray-400 hover:text-white text-sm">{t('TermsOfUse')}</button>
                     </div>
                 </div>
             </div>

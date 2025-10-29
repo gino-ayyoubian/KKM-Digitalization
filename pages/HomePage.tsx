@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Page, NewsItem, Video } from '../types';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
@@ -134,9 +135,9 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               <SectionSubtitle>{t('VisionInMotionSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {VIDEOS.map(video => (
-                      <div key={video.title} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group cursor-pointer" onClick={() => setPlayingVideo(video)}>
-                          <div className="relative">
-                            <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover" />
+                      <div key={video.title} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group cursor-pointer transform hover:-translate-y-1 transition-all duration-300" onClick={() => setPlayingVideo(video)}>
+                          <div className="relative overflow-hidden">
+                            <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
                             <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <svg className="h-16 w-16 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
@@ -160,8 +161,10 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               <SectionSubtitle>{t('NewsInsightsSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {NEWS_ITEMS.map(item => (
-                      <div key={item.title} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                          <img src={item.image} alt={item.title} className="w-full h-48 object-cover" />
+                      <div key={item.title} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1 transition-all duration-300">
+                          <div className="overflow-hidden rounded-t-lg">
+                            <img src={item.image} alt={item.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
+                          </div>
                           <div className="p-6 flex flex-col flex-grow">
                               <p className="text-sm text-gray-500">{item.date}</p>
                               <h3 className="text-lg font-bold text-primary mt-2">{item.title}</h3>
