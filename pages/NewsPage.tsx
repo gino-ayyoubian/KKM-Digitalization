@@ -1,36 +1,17 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { NEWS_ITEMS } from '../constants';
 import { NewsItem, Page } from '../types';
 import PageHeader from '../components/PageHeader';
 import { useLanguage } from '../LanguageContext';
+import NewsCard from '../components/NewsCard';
 
 interface NewsPageProps {
     onSelectArticle: (article: NewsItem) => void;
 }
 
-const NewsCardSkeleton: React.FC = () => (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-        <div className="w-full h-64 bg-gray-200 animate-pulse"></div>
-        <div className="p-6 flex flex-col flex-grow">
-            <div className="flex justify-between items-center">
-                <div className="h-5 w-20 bg-gray-200 rounded-full animate-pulse"></div>
-            </div>
-            <div className="h-4 w-1/3 bg-gray-200 rounded mt-4 animate-pulse"></div>
-            <div className="h-6 w-3/4 bg-gray-200 rounded mt-3 animate-pulse"></div>
-            <div className="space-y-2 mt-4 flex-grow">
-                <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 w-5/6 bg-gray-200 rounded animate-pulse"></div>
-            </div>
-            <div className="h-5 w-28 bg-gray-200 rounded mt-6 animate-pulse"></div>
-        </div>
-    </div>
-);
-
 const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
     const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
     const [filterCategory, setFilterCategory] = useState<string>('All');
-    const [isLoading, setIsLoading] = useState(true);
     const { t } = useLanguage();
     
     const categories = ['All', ...Array.from(new Set(NEWS_ITEMS.map(item => item.category)))];
@@ -49,15 +30,6 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
         });
 
         return items;
-    }, [sortOrder, filterCategory]);
-    
-    useEffect(() => {
-        setIsLoading(true);
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 800); // Simulate network delay
-
-        return () => clearTimeout(timer);
     }, [sortOrder, filterCategory]);
 
     return (
@@ -92,26 +64,14 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    {isLoading ? (
-                        <>
-                            <NewsCardSkeleton />
-                            <NewsCardSkeleton />
-                        </>
-                    ) : filteredAndSortedNews.length > 0 ? filteredAndSortedNews.map(item => (
-                        <div key={item.title} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col group">
-                            <div className="overflow-hidden">
-                                <img src={item.image} alt={item.title} className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                            </div>
-                            <div className="p-6 flex flex-col flex-grow">
-                                <div>
-                                    <span className="text-xs font-semibold uppercase tracking-wider text-white bg-secondary px-2 py-1 rounded-full">{item.category}</span>
-                                </div>
-                                <p className="text-sm text-gray-500 mt-3">{new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                <h3 className="text-xl font-bold text-primary mt-2">{item.title}</h3>
-                                <p className="mt-2 text-sm text-text-light flex-grow">{item.excerpt}</p>
-                                <button onClick={() => onSelectArticle(item)} className="mt-4 font-bold text-accent-yellow hover:underline self-start">Read More →</button>
-                            </div>
-                        </div>
+                    {filteredAndSortedNews.length > 0 ? filteredAndSortedNews.map(item => (
+                       <NewsCard 
+                            key={item.title} 
+                            item={item} 
+                            onSelectArticle={onSelectArticle}
+                            imageHeight="h-64"
+                            showCategory={true}
+                        />
                     )) : (
                         <p className="md:col-span-2 text-center text-text-light">No news articles match the current filters.</p>
                     )}

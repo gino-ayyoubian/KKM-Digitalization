@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
 
     const FooterLink: React.FC<{page: Page; children?: React.ReactNode}> = ({ page, children }) => (
         <li>
-            <button onClick={() => setPage(page)} className="text-gray-400 hover:text-white transition-colors duration-200">
+            <button onClick={() => setPage(page)} className="text-gray-200 hover:text-white transition-colors duration-200">
                 {children || t(page)}
             </button>
         </li>
@@ -54,7 +54,7 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                         <button onClick={() => setPage(Page.Home)} className="flex items-center" aria-label="Go to Home page">
                              <KkmLogoWhite />
                         </button>
-                        <p className="mt-4 text-gray-400 text-sm">{t('FooterSlogan')}</p>
+                        <p className="mt-4 text-gray-300 text-sm">{t('FooterSlogan')}</p>
                     </div>
                     <div>
                         <h3 className="font-display font-semibold tracking-wider uppercase">{t('QuickLinks')}</h3>
@@ -70,15 +70,15 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                     </div>
                     <div>
                          <h3 className="font-display font-semibold tracking-wider uppercase">{t('ConnectWithUs')}</h3>
-                        <p className="mt-4 text-gray-400 text-sm">Qeshm Free Zone, Iran</p>
-                        <p className="text-gray-400 text-sm">info@kkm-intl.org</p>
+                        <p className="mt-4 text-gray-300 text-sm">Qeshm Free Zone, Iran</p>
+                        <p className="text-gray-300 text-sm">info@kkm-intl.org</p>
                     </div>
                 </div>
                 <div className="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} KKM International Group. {t('AllRightsReserved')}</p>
+                    <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} KKM International Group. {t('AllRightsReserved')}</p>
                     <div className="flex space-x-4 mt-4 md:mt-0">
-                         <button onClick={() => setPage(Page.Legal)} className="text-gray-400 hover:text-white text-sm">{t('PrivacyPolicy')}</button>
-                         <button onClick={() => setPage(Page.Legal)} className="text-gray-400 hover:text-white text-sm">{t('TermsOfUse')}</button>
+                         <button onClick={() => setPage(Page.Legal)} className="text-gray-300 hover:text-white text-sm">{t('PrivacyPolicy')}</button>
+                         <button onClick={() => setPage(Page.Legal)} className="text-gray-300 hover:text-white text-sm">{t('TermsOfUse')}</button>
                     </div>
                 </div>
             </div>

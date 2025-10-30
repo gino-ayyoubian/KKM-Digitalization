@@ -6,7 +6,11 @@ import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
 import InteractiveMap from '../components/InteractiveMap';
 
-const ProjectsPage: React.FC = () => {
+interface ProjectsPageProps {
+    setPage: (page: Page) => void;
+}
+
+const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [activeProjectForMap, setActiveProjectForMap] = useState<Project | null>(null);
@@ -61,7 +65,7 @@ const ProjectsPage: React.FC = () => {
 
     return (
         <div>
-            {modalOpen && selectedProject && <ProjectDetailModal project={selectedProject} onClose={() => setModalOpen(false)} />}
+            {modalOpen && selectedProject && <ProjectDetailModal project={selectedProject} onClose={() => setModalOpen(false)} setPage={setPage} />}
             <PageHeader title={t(Page.Projects)} subtitle={t('ProjectsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
@@ -84,9 +88,9 @@ const ProjectsPage: React.FC = () => {
                         </div>
                         <div className="max-h-[500px] overflow-y-auto pr-2">
                             {filteredProjects.map((project) => (
-                                <div 
+                                <button 
                                     key={project.name} 
-                                    className={`p-4 mb-4 rounded-lg cursor-pointer border-2 transition-all duration-300 ${activeProjectForMap?.name === project.name ? 'border-secondary bg-secondary/10 shadow-md' : 'border-transparent hover:bg-white hover:shadow-md'}`}
+                                    className={`w-full text-left p-4 mb-4 rounded-lg border-2 transform transition-all duration-300 ${activeProjectForMap?.name === project.name ? 'border-secondary bg-secondary/10 shadow-md' : 'border-transparent hover:bg-white hover:shadow-xl hover:scale-[1.03]'}`}
                                     onClick={() => setActiveProjectForMap(project)}
                                 >
                                     <div className="flex flex-wrap gap-2 mb-2">
@@ -96,10 +100,10 @@ const ProjectsPage: React.FC = () => {
                                     </div>
                                     <h3 className="text-lg font-display font-bold text-primary">{project.name}</h3>
                                     <p className="text-sm text-text-light mt-1">{project.description}</p>
-                                    <button onClick={() => handleViewDetails(project)} className="mt-3 font-bold text-sm text-primary hover:text-accent-yellow">
+                                    <button onClick={(e) => { e.stopPropagation(); handleViewDetails(project); }} className="mt-3 font-bold text-sm text-primary hover:text-accent-yellow">
                                         {t('ViewCaseStudy')} →
                                     </button>
-                                </div>
+                                </button>
                             ))}
                         </div>
                     </div>

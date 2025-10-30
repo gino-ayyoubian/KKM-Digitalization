@@ -4,6 +4,7 @@ import { Page, NewsItem, Video } from '../types';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
 import Card from '../components/Card';
 import { useLanguage } from '../LanguageContext';
+import NewsCard from '../components/NewsCard';
 
 interface HomePageProps {
   setPage: (page: Page) => void;
@@ -51,7 +52,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
 
       {/* Core Technologies Teaser */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="core-technologies-section" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle>{t('GmelEcosystem')}</SectionTitle>
         <SectionSubtitle>
           {t('GmelEcosystemSubtitle')}
@@ -70,7 +71,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
 
       {/* Innovation Hub Spotlight */}
-      <section className="bg-white">
+      <section id="innovation-hub-section" className="bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h3 className="text-base text-accent-yellow font-semibold tracking-wider uppercase">{t('InnovationHubTitle')}</h3>
@@ -89,7 +90,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
 
       {/* Projects & Pilots */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="projects-section" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle>{t('ProjectsShowcaseTitle')}</SectionTitle>
         <SectionSubtitle>
           {t('ProjectsShowcaseSubtitle')}
@@ -151,23 +152,13 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
       
       {/* News & Insights */}
-      <section className="bg-white">
+      <section id="news-insights-section" className="bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
               <SectionTitle>{t('NewsInsightsTitle')}</SectionTitle>
               <SectionSubtitle>{t('NewsInsightsSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {NEWS_ITEMS.map(item => (
-                      <div key={item.title} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col group transform hover:-translate-y-1 transition-all duration-300">
-                          <div className="overflow-hidden rounded-t-lg">
-                            <img src={item.image} alt={item.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
-                          </div>
-                          <div className="p-6 flex flex-col flex-grow">
-                              <p className="text-sm text-gray-500">{item.date}</p>
-                              <h3 className="text-lg font-bold text-primary mt-2">{item.title}</h3>
-                              <p className="mt-2 text-sm text-text-light flex-grow">{item.excerpt}</p>
-                              <button onClick={() => onSelectArticle(item)} className="mt-4 font-bold text-accent-yellow self-start">{t('ReadMore')} →</button>
-                          </div>
-                      </div>
+                     <NewsCard key={item.title} item={item} onSelectArticle={onSelectArticle} />
                   ))}
               </div>
           </div>

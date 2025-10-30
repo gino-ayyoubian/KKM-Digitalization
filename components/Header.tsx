@@ -106,9 +106,23 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
     }, [langMenuRef]);
 
   const handleNavClick = (page: Page) => {
-    setPage(page);
     setIsMenuOpen(false);
     setIsSearchOpen(false);
+  
+    const sectionIdMap: { [key in Page]?: string } = {
+        [Page.CoreTechnologies]: 'core-technologies-section',
+        [Page.InnovationHub]: 'innovation-hub-section',
+        [Page.Projects]: 'projects-section',
+        [Page.News]: 'news-insights-section',
+    };
+
+    const sectionId = sectionIdMap[page];
+
+    if (currentPage === Page.Home && sectionId) {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        setPage(page);
+    }
   };
   
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -139,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 onClick={() => handleNavClick(link.name)}
                 className={`px-3 py-2 lg:px-4 font-display font-semibold text-sm rounded-md transition-colors duration-200 ${
                     isTransparent 
-                        ? (currentPage === link.name ? 'text-white border-b-2 border-white' : 'text-gray-200 hover:text-white')
+                        ? (currentPage === link.name ? 'text-white border-b-2 border-white' : 'text-white hover:text-gray-200')
                         : (currentPage === link.name ? 'text-white bg-text-dark' : 'text-text-dark hover:text-accent-yellow')
                 }`}
               >
@@ -153,6 +167,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 <button 
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} 
                   className={`flex items-center space-x-1 px-3 py-2 text-sm font-semibold ${isTransparent ? 'text-white hover:bg-white/10' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}
+                  aria-haspopup="true"
+                  aria-expanded={isLangMenuOpen}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9m-9 9a9 9 0 00-9-9" />
@@ -169,11 +185,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         className="absolute top-full end-0 mt-2 w-36 bg-white rounded-md shadow-lg z-20 border"
+                        role="menu"
                     >
                         <ul className="py-1">
                             {languages.map(lang => (
                             <li key={lang.key}>
                                 <button
+                                role="menuitem"
                                 onClick={() => {
                                     setLanguage(lang.key);
                                     setIsLangMenuOpen(false);
@@ -189,7 +207,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 )}
                 </AnimatePresence>
             </div>
-             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`p-2 ${isTransparent ? 'text-white hover:text-gray-300' : 'text-primary hover:text-accent-yellow'} transition-colors duration-200`} aria-label="Open search">
+             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`p-2 ${isTransparent ? 'text-white hover:text-white' : 'text-primary hover:text-accent-yellow'} transition-colors duration-200`} aria-label="Open search">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -200,7 +218,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           </div>
 
           <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isTransparent ? 'text-white' : 'text-primary'} aria-label="Open menu">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isTransparent ? 'text-white' : 'text-primary'} aria-label="Open menu" aria-expanded={isMenuOpen} aria-controls="mobile-menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
               </svg>
@@ -211,19 +229,26 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
         <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden"
+            className={`md:hidden overflow-hidden ${isTransparent ? 'bg-text-dark/95 backdrop-blur-sm' : ''}`}
           >
-            <div className="flex flex-col space-y-2 pb-4">
+            <div className="flex flex-col space-y-2 p-4">
               {NAV_LINKS.map((link, index) => (
                 <motion.button
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 } }}
                   onClick={() => handleNavClick(link.name)}
-                  className={`block px-4 py-2 text-start font-display font-semibold rounded-md ${currentPage === link.name ? 'bg-primary text-white' : (isTransparent ? 'text-gray-200 hover:bg-white/10' : 'text-text-dark hover:bg-gray-100')}`}
+                  className={`block px-4 py-2 text-start font-display font-semibold rounded-md transition-colors duration-200 ${
+                    currentPage === link.name 
+                        ? 'bg-secondary/20 text-primary font-bold' 
+                        : (isTransparent 
+                            ? 'text-white hover:bg-white/10' 
+                            : 'text-text-dark hover:bg-gray-100')
+                  }`}
                 >
                   {t(link.name)}
                 </motion.button>

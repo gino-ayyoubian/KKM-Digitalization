@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Page, NewsItem, SearchResult } from './types';
+import { Page, NewsItem, GeminiSearchResult } from './types';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -15,13 +15,13 @@ import NewsPage from './pages/NewsPage';
 import NewsArticlePage from './pages/NewsArticlePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import FuturesPage from './pages/FuturesPage';
-import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS } from './constants';
 import { useLanguage } from './LanguageContext';
+import { GoogleGenAI } from '@google/genai';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<GeminiSearchResult | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const { direction } = useLanguage();
 
@@ -43,50 +43,38 @@ const App: React.FC = () => {
     setCurrentPage(Page.News);
   };
   
-  const handleSearch = (query: string) => {
+  const handleSearch = async (query: string) => {
     if (!query.trim()) return;
-    const lowerQuery = query.toLowerCase();
-    const queryTokens = lowerQuery.split(/\s+/).filter(Boolean);
-    const results: SearchResult[] = [];
-
-    // Note: In a real app, search would use translated content.
-    // For this example, we'll keep it simple and search the English constants.
-    GMEL_TECHNOLOGIES.forEach(tech => {
-        const contentToSearch = `${tech.name} ${tech.description}`.toLowerCase();
-        if (queryTokens.every(token => contentToSearch.includes(token))) {
-            results.push({
-                title: `Technology: ${tech.name}`,
-                description: tech.description,
-                onClick: () => setCurrentPage(Page.CoreTechnologies)
-            });
-        }
-    });
-
-    PROJECTS.forEach(project => {
-        const contentToSearch = `${project.name} ${project.description} ${project.detailedContent}`.toLowerCase();
-        if (queryTokens.every(token => contentToSearch.includes(token))) {
-            results.push({
-                title: `Project: ${project.name}`,
-                description: project.description,
-                onClick: () => setCurrentPage(Page.Projects)
-            });
-        }
-    });
-
-    NEWS_ITEMS.forEach(news => {
-        const contentToSearch = `${news.title} ${news.excerpt} ${news.content}`.toLowerCase();
-        if (queryTokens.every(token => contentToSearch.includes(token))) {
-            results.push({
-                title: `News: ${news.title}`,
-                description: news.excerpt,
-                onClick: () => handleSelectArticle(news)
-            });
-        }
-    });
-    
     setSearchQuery(query);
-    setSearchResults(results);
-    setCurrentPage(Page.SearchResults);
+    setCurrentPage(Page.SearchResults); // Navigate immediately to show loading state
+    setSearchResults(null); // Clear previous results and trigger loading state
+
+    try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const prompt = `You are a helpful assistant for KKM International Group. Your task is to provide a comprehensive and informative answer to user queries based on real-time, verifiable information from the web. The user is asking about news, projects, or other aspects related to KKM International Group.
+        User Query: "${query}"
+        Please provide a summary based on your search findings.`;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                tools: [{ googleSearch: {} }],
+            },
+        });
+
+        const summary = response.text;
+        const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+
+        setSearchResults({ summary, sources });
+
+    } catch (error) {
+        console.error("Error during Gemini API call:", error);
+        setSearchResults({
+            summary: "Sorry, we couldn't complete your search at this moment. Please try again later.",
+            sources: [],
+        });
+    }
   }
 
   const pageVariants = {
@@ -95,11 +83,13 @@ const App: React.FC = () => {
     out: { opacity: 0, y: -20 }
   };
 
+  // FIX: Added `as const` to ensure TypeScript infers literal types for `type` and `ease`,
+  // which is required by framer-motion's `Transition` type.
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
     duration: 0.5
-  };
+  } as const;
 
   const renderPage = () => {
     let pageComponent;
@@ -117,7 +107,7 @@ const App: React.FC = () => {
         pageComponent = <FuturesPage />;
         break;
       case Page.Projects:
-        pageComponent = <ProjectsPage />;
+        pageComponent = <ProjectsPage setPage={setCurrentPage} />;
         break;
       case Page.InnovationHub:
         pageComponent = <InnovationHubPage />;
@@ -134,7 +124,7 @@ const App: React.FC = () => {
         pageComponent = <LegalPage />;
         break;
       case Page.SearchResults:
-        pageComponent = <SearchResultsPage results={searchResults} query={searchQuery} />;
+        pageComponent = <SearchResultsPage result={searchResults} query={searchQuery} />;
         break;
       case Page.InternalPortal:
       case Page.Careers:

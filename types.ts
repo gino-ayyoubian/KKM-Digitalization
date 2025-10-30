@@ -26,6 +26,18 @@ export interface Project {
     gallery: string[];
     videoUrl?: string;
     detailedContent: string;
+    metrics?: {
+        budget: {
+            total: number;
+            currency: string;
+            allocation: { name: string; value: number; fill: string; }[];
+        };
+        timeline: {
+            start: string;
+            end: string;
+            progress: number;
+        };
+    };
 }
 
 export interface NavLink {
@@ -49,11 +61,20 @@ export interface Video {
     youtubeId: string;
 }
 
-export interface SearchResult {
-  title: string;
-  description: string;
-  onClick: () => void;
+export interface GroundingChunk {
+  web?: {
+    // FIX: made uri and title optional to match @google/genai type
+    uri?: string;
+    title?: string;
+  };
+  [key: string]: any;
 }
+
+export interface GeminiSearchResult {
+  summary: string;
+  sources: GroundingChunk[];
+}
+
 
 export interface MapMarker {
   name: string;
