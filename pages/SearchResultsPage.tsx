@@ -43,6 +43,14 @@ const SearchResultsPage: React.FC<SearchResultsPageProps> = ({ result, query }) 
         <div className="h-4 w-5/6 bg-gray-200 rounded"></div>
     </div>
   );
+  
+  const getHostname = (url: string) => {
+    try {
+        return new URL(url).hostname;
+    } catch (e) {
+        return '';
+    }
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 min-h-[60vh]">
@@ -60,20 +68,26 @@ const SearchResultsPage: React.FC<SearchResultsPageProps> = ({ result, query }) 
           <div className="bg-white p-6 rounded-lg shadow-md">
               <SimpleMarkdown text={result.summary} />
 
-              {/* FIX: Filter for sources that have a web property with a valid URI */}
               {result.sources && result.sources.filter(s => s.web?.uri).length > 0 && (
                 <div className="mt-8 border-t pt-6">
                     <h3 className="text-lg font-display font-bold text-primary mb-4">Sources</h3>
                     <ul className="space-y-3">
-                        {/* FIX: Filter for sources with a valid URI and provide a fallback for the title */}
-                        {result.sources.filter(s => s.web?.uri).map((source, index) => (
-                            <li key={index} className="flex items-start">
-                                <span className="text-accent-yellow mr-2 mt-1">&#10148;</span>
-                                <a href={source.web!.uri} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent-yellow transition-colors break-all">
-                                    {source.web!.title || source.web!.uri}
-                                </a>
-                            </li>
-                        ))}
+                        {result.sources.filter(s => s.web?.uri).map((source, index) => {
+                            const hostname = getHostname(source.web!.uri!);
+                            return (
+                                <li key={index} className="flex items-start">
+                                    <img
+                                        src={`https://www.google.com/s2/favicons?sz=16&domain_url=${hostname}`}
+                                        alt="favicon"
+                                        className="w-4 h-4 mr-3 mt-1 flex-shrink-0"
+                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                    />
+                                    <a href={source.web!.uri} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent-yellow transition-colors break-all">
+                                        {source.web!.title || source.web!.uri}
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
               )}

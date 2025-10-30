@@ -30,7 +30,7 @@ const ProjectMetricsChart: React.FC<ProjectMetricsChartProps> = ({ metrics }) =>
         <div className="grid md:grid-cols-2 gap-8 items-center bg-gray-50 p-6 rounded-lg">
             {/* Budget Allocation Pie Chart */}
             <div className="h-64">
-                <h3 className="text-lg font-display font-semibold text-text-dark text-center mb-2">Budget Allocation</h3>
+                <h3 className="text-lg font-display font-semibold text-text-dark text-center mb-2">Budget Allocation ({budget.total} {budget.currency})</h3>
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
