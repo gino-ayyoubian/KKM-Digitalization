@@ -46,12 +46,14 @@ const App: React.FC = () => {
   const handleSearch = (query: string) => {
     if (!query.trim()) return;
     const lowerQuery = query.toLowerCase();
+    const queryTokens = lowerQuery.split(/\s+/).filter(Boolean);
     const results: SearchResult[] = [];
 
     // Note: In a real app, search would use translated content.
     // For this example, we'll keep it simple and search the English constants.
     GMEL_TECHNOLOGIES.forEach(tech => {
-        if (tech.name.toLowerCase().includes(lowerQuery) || tech.description.toLowerCase().includes(lowerQuery)) {
+        const contentToSearch = `${tech.name} ${tech.description}`.toLowerCase();
+        if (queryTokens.every(token => contentToSearch.includes(token))) {
             results.push({
                 title: `Technology: ${tech.name}`,
                 description: tech.description,
@@ -62,7 +64,7 @@ const App: React.FC = () => {
 
     PROJECTS.forEach(project => {
         const contentToSearch = `${project.name} ${project.description} ${project.detailedContent}`.toLowerCase();
-        if (contentToSearch.includes(lowerQuery)) {
+        if (queryTokens.every(token => contentToSearch.includes(token))) {
             results.push({
                 title: `Project: ${project.name}`,
                 description: project.description,
@@ -73,7 +75,7 @@ const App: React.FC = () => {
 
     NEWS_ITEMS.forEach(news => {
         const contentToSearch = `${news.title} ${news.excerpt} ${news.content}`.toLowerCase();
-        if (contentToSearch.includes(lowerQuery)) {
+        if (queryTokens.every(token => contentToSearch.includes(token))) {
             results.push({
                 title: `News: ${news.title}`,
                 description: news.excerpt,

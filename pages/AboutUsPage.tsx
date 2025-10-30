@@ -11,16 +11,24 @@ const AboutUsPage: React.FC = () => {
     <div>
         <PageHeader title={t(Page.AboutUs)} subtitle={t('AboutUsPageSubtitle')}/>
         
-        <Section title={t('CompanyOverview')} className="bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-12 sticky top-20 z-10">
+            <div className="bg-white/80 backdrop-blur-sm shadow-md rounded-lg p-4 flex flex-wrap justify-center gap-4 sm:gap-8">
+                <a href="#overview" className="font-semibold text-text-light hover:text-primary transition-colors">{t('CompanyOverview')}</a>
+                <a href="#governance" className="font-semibold text-text-light hover:text-primary transition-colors">{t('LeadershipGovernance')}</a>
+                <a href="#roles" className="font-semibold text-text-light hover:text-primary transition-colors">{t('StrategicRoles')}</a>
+            </div>
+        </div>
+        
+        <Section title={t('CompanyOverview')} id="overview" className="bg-white">
             <p>KKM International Group is a global consortium dedicated to developing and deploying cutting-edge technologies that address critical challenges in energy, health, and sustainable development. Founded on the principle of integrated innovation, we bring together diverse expertise in engineering, biomedical sciences, and rural development to create holistic solutions with lasting impact.</p>
             <p>Our mission is to engineer a self-sustaining future where communities thrive, powered by clean energy, supported by advanced healthcare, and connected by resilient infrastructure. We operate globally, with a focus on projects that foster regional growth and international collaboration.</p>
         </Section>
 
-        <Section title={t('LeadershipGovernance')}>
+        <Section title={t('LeadershipGovernance')} id="governance">
             <p>Our leadership team comprises seasoned executives, world-class engineers, and visionary strategists with decades of experience in their respective fields. They guide our company with a steady hand, ensuring ethical governance, operational excellence, and a culture of continuous innovation. We are committed to transparency and accountability in all our engagements.</p>
         </Section>
         
-        <Section title={t('StrategicRoles')} className="bg-white">
+        <Section title={t('StrategicRoles')} id="roles" className="bg-white">
             <div className="grid md:grid-cols-2 gap-8">
                 <div>
                     <h3 className="text-xl font-display font-semibold text-secondary mb-2">Regional Engagements</h3>

@@ -12,7 +12,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, description, icon, imageUrl, actionText, onActionClick }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+    <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col group border border-transparent hover:border-secondary">
       {imageUrl && (
         <div className="overflow-hidden rounded-t-lg">
           <img src={imageUrl} alt={title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />

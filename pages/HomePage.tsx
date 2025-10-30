@@ -18,32 +18,12 @@ const SectionSubtitle: React.FC<{children: React.ReactNode}> = ({ children }) =>
     <p className="mt-4 text-lg text-text-light text-center max-w-3xl mx-auto">{children}</p>
 );
 
-const VideoModal: React.FC<{video: Video; onClose: () => void}> = ({ video, onClose }) => (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={onClose}>
-        <div className="bg-white rounded-lg overflow-hidden relative max-w-4xl w-full" onClick={e => e.stopPropagation()}>
-            <button onClick={onClose} className="absolute top-2 right-2 text-white bg-black/50 rounded-full p-1 z-10">&times;</button>
-            <div className="aspect-video">
-                <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
-                    title={video.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                ></iframe>
-            </div>
-        </div>
-    </div>
-);
-
 const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
-  const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const { t } = useLanguage();
 
   return (
     <div className="space-y-24 pb-24">
-      {playingVideo && <VideoModal video={playingVideo} onClose={() => setPlayingVideo(null)} />}
       {/* Hero Section */}
       <section className="gradient-hero text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
@@ -135,19 +115,35 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               <SectionSubtitle>{t('VisionInMotionSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {VIDEOS.map(video => (
-                      <div key={video.title} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group cursor-pointer transform hover:-translate-y-1 transition-all duration-300" onClick={() => setPlayingVideo(video)}>
-                          <div className="relative overflow-hidden">
-                            <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <svg className="h-16 w-16 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                          </div>
-                          <div className="p-6 flex flex-col flex-grow">
-                              <h3 className="text-lg font-bold text-primary">{video.title}</h3>
-                              <p className="mt-2 text-sm text-text-light flex-grow">{video.description}</p>
-                          </div>
+                      <div key={video.youtubeId} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group transform hover:-translate-y-1 transition-all duration-300">
+                          {playingVideoId === video.youtubeId ? (
+                              <div className="aspect-video">
+                                  <iframe
+                                      width="100%"
+                                      height="100%"
+                                      src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
+                                      title={video.title}
+                                      frameBorder="0"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                  ></iframe>
+                              </div>
+                          ) : (
+                              <div className="cursor-pointer" onClick={() => setPlayingVideoId(video.youtubeId)}>
+                                  <div className="relative overflow-hidden">
+                                    <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
+                                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <svg className="h-16 w-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                  </div>
+                                  <div className="p-6 flex flex-col flex-grow">
+                                      <h3 className="text-lg font-bold text-primary">{video.title}</h3>
+                                      <p className="mt-2 text-sm text-text-light flex-grow">{video.description}</p>
+                                  </div>
+                              </div>
+                          )}
                       </div>
                   ))}
               </div>
