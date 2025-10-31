@@ -99,7 +99,7 @@ const App: React.FC = () => {
         pageComponent = <HomePage setPage={setCurrentPage} onSelectArticle={handleSelectArticle} />;
         break;
       case Page.AboutUs:
-        pageComponent = <AboutUsPage />;
+        pageComponent = <AboutUsPage setPage={setCurrentPage} />;
         break;
       case Page.CoreTechnologies:
         pageComponent = <CoreTechnologiesPage />;

@@ -4,7 +4,11 @@ import Section from '../components/Section';
 import { useLanguage } from '../LanguageContext';
 import { Page } from '../types';
 
-const AboutUsPage: React.FC = () => {
+interface AboutUsPageProps {
+    setPage: (page: Page) => void;
+}
+
+const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
   const { t } = useLanguage();
 
   return (
@@ -38,6 +42,18 @@ const AboutUsPage: React.FC = () => {
                     <h3 className="text-xl font-display font-semibold text-secondary mb-2">Institutional Collaborations</h3>
                     <p>We believe in the power of partnership. KKM collaborates with leading universities, research institutions, and technology firms to accelerate the development of new solutions and bring them to market faster. These collaborations are the lifeblood of our Innovation & Ideation Hub.</p>
                 </div>
+            </div>
+        </Section>
+
+        <Section title={t('AboutKKM')} id="about-kkm">
+            <p>{t('AboutKKMText')}</p>
+            <div className="mt-8 text-center">
+                <button
+                    onClick={() => setPage(Page.Careers)}
+                    className="px-8 py-3 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300"
+                >
+                    {t('ExploreCareers')}
+                </button>
             </div>
         </Section>
     </div>

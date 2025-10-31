@@ -245,6 +245,9 @@ const en = {
     'OtherLocationsSubtitle': 'Beyond our main offices, KKM International is establishing a presence in key strategic locations worldwide to better serve our partners and projects.',
     'ExploreOtherLocations': 'Explore Other Locations',
     'OtherLocationsText': 'We are currently developing operational hubs in key regions. More information about our international offices and partner facilities will be available soon.',
+    'AboutKKM': 'About KKM',
+    'AboutKKMText': "At KKM International Group, we are more than just an engineering consortium; we are architects of a sustainable future. Our unwavering commitment to innovation drives us to push the boundaries of what's possible in energy, health, and development. By fostering a culture of curiosity and collaboration, we empower our teams to tackle the world's most pressing challenges, shaping the industries of tomorrow. Join us on our mission to build a better world.",
+    'ExploreCareers': 'Explore Career Opportunities',
     'DiscoverMore': 'Discover More',
 };
 
@@ -489,6 +492,9 @@ const fa = {
     'OtherLocationsTitle': 'شبکه در حال رشد ما',
     'OtherLocationsSubtitle': 'فراتر از دفاتر اصلی ما، KKM International در حال ایجاد حضور در مکان‌های استراتژیک کلیدی در سراسر جهان برای خدمت‌رسانی بهتر به شرکا و پروژه‌هایمان است.',
     'ExploreOtherLocations': 'کاوش مکان‌های دیگر',
+    'AboutKKM': 'درباره KKM',
+    'AboutKKMText': "در گروه بین‌المللی KKM، ما فراتر از یک کنسرسیوم مهندسی هستیم؛ ما معماران آینده‌ای پایداریم. تعهد تزلزل‌ناپذیر ما به نوآوری، ما را به فراتر بردن مرزهای ممکن در انرژی، سلامت و توسعه سوق می‌دهد. با پرورش فرهنگ کنجکاوی و همکاری، ما تیم‌های خود را برای مقابله با فوری‌ترین چالش‌های جهان توانمند می‌سازیم و صنایع فردا را شکل می‌دههیم. به ما در مأموریت‌مان برای ساختن دنیایی بهتر بپیوندید.",
+    'ExploreCareers': 'فرصت‌های شغلی را کاوش کنید',
     'DiscoverMore': 'بیشتر کاوش کنید',
 };
 
@@ -733,6 +739,9 @@ const ku = {
     'OtherLocationsTitle': 'تۆڕی گەشەسەندومان',
     'OtherLocationsSubtitle': 'جگە لە نووسینگە سەرەکییەکانمان، KKM International لە حالەتی دامەزراندنی بنکە لە شوێنە ستراتیژییە گرنگەکانی جیهاندا بۆ خزمەتکردنی باشتر بە هاوبەش و پڕۆژەکانمان.',
     'ExploreOtherLocations': 'گەڕان بە شوێنەکانی تردا',
+    'AboutKKM': 'دەربارەی KKM',
+    'AboutKKMText': "لە گروپی نێودەوڵەتی KKM، ئێمە زیاتر لە تەنها کۆنسۆرتیۆمێکی ئەندازیارین؛ ئێمە تەلارسازانی داهاتوویەکی بەردەوامین. پابەندبوونی پتەومان بە داهێنان، هانمان دەدات کە سنوورەکانی ئەوەی لە وزە، تەندروستی و گەشەپێداندا مومکینە تێپەڕێنین. بە پەرەپێدانی کولتووری زانینخوازی و هاوکاری، ئێمە تیمەکانمان بەهێز دەکەین بۆ ڕووبەڕووبوونەوەی بەپەلەترین ئاڵنگارییەکانی جیهان و داڕشتنی پیشەسازییەکانی سبەی. لە ئەرکماندا بۆ دروستکردنی جیهانێکی باشتر، لەگەڵمان بن.",
+    'ExploreCareers': 'هەلەکانی کار بپشکنە',
     'DiscoverMore': 'زیاتر بگەڕێ',
 };
 
@@ -977,6 +986,9 @@ const ar = {
     'OtherLocationsTitle': 'شبكتنا المتنامية',
     'OtherLocationsSubtitle': 'بالإضافة إلى مكاتبنا الرئيسية، تعمل KKM International على تأسيس وجود لها في مواقع استراتيجية رئيسية في جميع أنحاء العالم لخدمة شركائنا ومشاريعنا بشكل أفضل.',
     'ExploreOtherLocations': 'استكشاف مواقع أخرى',
+    'AboutKKM': 'حول KKM',
+    'AboutKKMText': "في مجموعة KKM الدولية، نحن أكثر من مجرد اتحاد هندسي؛ نحن مهندسو مستقبل مستدام. إن التزامنا الراسخ بالابتكار يدفعنا لتجاوز حدود الممكن في مجالات الطاقة والصحة والتنمية. من خلال تعزيز ثقافة الفضول والتعاون، نمكّن فرقنا من مواجهة أكثر تحديات العالم إلحاحًا، وتشكيل صناعات الغد. انضم إلينا في مهمتنا لبناء عالم أفضل.",
+    'ExploreCareers': 'استكشف فرص العمل',
     'DiscoverMore': 'اكتشف المزيد',
 };
 
