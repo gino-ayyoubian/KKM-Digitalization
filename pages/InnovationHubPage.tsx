@@ -46,7 +46,7 @@ const InnovationHubPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                        <img src="https://picsum.photos/seed/innovation/500/300" alt="Collaborative workshop" className="rounded-lg mb-6 mx-auto"/>
+                        <img src="https://picsum.photos/seed/innovation/500/300" alt="Collaborative workshop" loading="lazy" className="rounded-lg mb-6 mx-auto"/>
                         <h3 className="text-2xl font-display font-bold text-primary">{t('HaveVisionaryIdea')}</h3>
                         <p className="mt-4 text-text-light">{t('AcceleratorProgramPitch')}</p>
                         <button className="mt-6 px-8 py-3 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300">

@@ -18,7 +18,7 @@ const NewsArticlePage: React.FC<NewsArticlePageProps> = ({ article, onBack }) =>
                 <article>
                     <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary">{article.title}</h1>
                     <p className="mt-4 text-text-light">{article.date}</p>
-                    <img src={article.image} alt={article.title} className="w-full h-96 object-cover rounded-lg my-8" />
+                    <img src={article.image} alt={article.title} loading="lazy" className="w-full h-96 object-cover rounded-lg my-8" />
                     <div 
                         className="prose max-w-none text-text-light" 
                         dangerouslySetInnerHTML={{ __html: article.content }}

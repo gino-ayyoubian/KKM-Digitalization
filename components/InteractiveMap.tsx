@@ -69,7 +69,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
 
         return `
         <div style="font-family: 'Open Sans', sans-serif; color: #002D56; padding: 5px; max-width: 250px;">
-            ${project.imageUrl ? `<img src="${project.imageUrl}" alt="${project.name}" style="width: 100%; height: auto; max-height: 140px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">` : ''}
+            ${project.imageUrl ? `<img src="${project.imageUrl}" alt="${project.name}" loading="lazy" style="width: 100%; height: auto; max-height: 140px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">` : ''}
             <h3 style="font-weight: 700; font-family: 'Montserrat', sans-serif; margin: 0 0 8px 0; font-size: 16px;">${project.name}</h3>
             <p style="font-size: 14px; margin: 0 0 12px 0; line-height: 1.5;">${project.description}</p>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">

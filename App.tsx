@@ -88,7 +88,7 @@ const App: React.FC = () => {
   // which is required by framer-motion's `Transition` type.
   const pageTransition = {
     type: 'tween',
-    ease: 'anticipate',
+    ease: 'easeInOut',
     duration: 0.5
   } as const;
 
@@ -149,7 +149,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-background dark:bg-slate-900 min-h-screen flex flex-col font-sans text-text-dark dark:text-slate-200">
+    <div className="min-h-screen flex flex-col font-sans text-text-dark dark:text-slate-200">
       <Header currentPage={currentPage} setPage={setCurrentPage} onSearch={handleSearch} />
       <main className="flex-grow">
         <AnimatePresence mode="wait">

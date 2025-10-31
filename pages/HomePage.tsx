@@ -168,7 +168,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
                           ) : (
                               <div className="cursor-pointer" onClick={() => setPlayingVideoId(video.youtubeId)}>
                                   <div className="relative overflow-hidden">
-                                    <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
+                                    <img src={video.thumbnail} alt={video.title} loading="lazy" className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
                                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <svg className="h-16 w-16 text-white" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />

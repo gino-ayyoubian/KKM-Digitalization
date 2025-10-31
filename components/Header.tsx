@@ -217,6 +217,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
                         className="absolute top-full end-0 mt-2 w-36 bg-white dark:bg-slate-800 rounded-md shadow-lg z-20 border dark:border-slate-700"
                         role="menu"
                     >
@@ -267,6 +268,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className={`md:hidden overflow-hidden ${isTransparent ? 'bg-text-dark/95 backdrop-blur-sm' : 'dark:bg-slate-900'}`}
           >
             <div className="flex flex-col space-y-2 p-4">
@@ -274,7 +276,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 <motion.button
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05 } }}
+                  animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05, duration: 0.2, ease: 'easeOut' } }}
                   onClick={() => handleNavClick(link.name)}
                   className={`block px-4 py-2 text-start font-display font-semibold rounded-md transition-colors duration-200 ${
                     currentPage === link.name 
@@ -289,7 +291,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
               ))}
                <motion.button 
                  initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0, transition: { delay: NAV_LINKS.length * 0.05 } }}
+                 animate={{ opacity: 1, y: 0, transition: { delay: NAV_LINKS.length * 0.05, duration: 0.2, ease: 'easeOut' } }}
                  onClick={() => handleNavClick(Page.Contact)} 
                  className="w-full mt-2 inline-flex items-center justify-center px-5 py-2.5 text-base font-medium text-center text-white bg-accent-yellow rounded-full hover:bg-secondary focus:ring-4 focus:ring-blue-300 transition-colors duration-300"
                >
@@ -306,6 +308,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg dark:border-b dark:border-slate-700"
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">

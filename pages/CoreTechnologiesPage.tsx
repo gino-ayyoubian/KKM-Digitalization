@@ -43,7 +43,7 @@ const CoreTechnologiesPage: React.FC = () => {
                                 <div key={tech.name}>
                                     <h3 className="text-2xl font-display font-bold text-primary">{tech.name}</h3>
                                     <p className="mt-4 text-text-light">{tech.description}</p>
-                                    <img src={`https://picsum.photos/seed/${tech.name}/800/400`} alt={tech.name} className="mt-6 rounded-lg object-cover w-full h-64" />
+                                    <img src={`https://picsum.photos/seed/${tech.name}/800/400`} alt={tech.name} loading="lazy" className="mt-6 rounded-lg object-cover w-full h-64" />
                                     <div className="mt-6 prose max-w-none">
                                         <h4>Key Innovations</h4>
                                         <p>Detailed information about the innovations, applications, and impact of {tech.name} would be presented here. This includes technical specifications, case studies, and benefits.</p>

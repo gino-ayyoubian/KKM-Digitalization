@@ -132,7 +132,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
         {/* Gallery */}
         <div className="relative bg-gray-900">
             <div className="relative h-96 flex items-center justify-center">
-                <img src={project.gallery[currentImageIndex]} alt={`${project.name} gallery image ${currentImageIndex + 1}`} className="max-w-full max-h-full object-contain"/>
+                <img src={project.gallery[currentImageIndex]} alt={`${project.name} gallery image ${currentImageIndex + 1}`} loading="lazy" className="max-w-full max-h-full object-contain"/>
             </div>
             
             {project.gallery.length > 1 && (
@@ -208,7 +208,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
                             className="aspect-video rounded-lg overflow-hidden shadow-lg relative cursor-pointer group"
                             onClick={() => setPlayVideo(true)}
                         >
-                            <img src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`} alt={`${project.name} Video Thumbnail`} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                            <img src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`} alt={`${project.name} Video Thumbnail`} loading="lazy" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                             <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 group-hover:bg-black/50">
                                 <svg className="h-20 w-20 text-white/80 group-hover:text-white transition-all group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
