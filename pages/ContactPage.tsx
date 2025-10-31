@@ -16,7 +16,7 @@ const ContactPage: React.FC = () => {
     const officeLocations: MapMarker[] = useMemo(() => [
         {
             name: t('HeadOffice'),
-            description: t('TehranAddress'),
+            description: t('TehranOfficeAddress'),
             coordinates: { lat: 35.7646896, lng: 51.4163221 },
             category: 'Head Office',
             imageUrl: 'https://picsum.photos/seed/tehran-office/200/150',
@@ -216,6 +216,10 @@ const ContactPage: React.FC = () => {
                                     <p className="text-sm text-text-light">{loc.description}</p>
                                 </div>
                             ))}
+                             <div className="p-4 rounded-lg bg-gray-50">
+                                <h3 className="font-bold text-text-dark">{t('PhoneLines')}</h3>
+                                <a href={`tel:${t('CompanyPhone').replace(/\s/g, '')}`} className="text-sm text-text-light hover:text-primary">{t('CompanyPhone')}</a>
+                            </div>
                             </div>
                         </div>
                         <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg bg-gray-200">

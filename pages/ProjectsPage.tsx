@@ -1,18 +1,18 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { PROJECTS } from '../constants';
 import { Project, Page, MapMarker } from '../types';
 import ProjectDetailModal from './ProjectDetailModal';
 import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
 import InteractiveMap from '../components/InteractiveMap';
+import { motion } from 'framer-motion';
 
 interface ProjectsPageProps {
     setPage: (page: Page) => void;
 }
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
-    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedProjectForModal, setSelectedProjectForModal] = useState<Project | null>(null);
     const [activeProjectForMap, setActiveProjectForMap] = useState<Project | null>(null);
     const { t } = useLanguage();
     
@@ -29,16 +29,26 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
         }
         return PROJECTS.filter(p => p.tags.includes(activeTag));
     }, [activeTag]);
+
+    useEffect(() => {
+        if (filteredProjects.length > 0) {
+            // If active project is not in the new filtered list, reset it
+            if (!activeProjectForMap || !filteredProjects.some(p => p.name === activeProjectForMap.name)) {
+                setActiveProjectForMap(filteredProjects[0]);
+            }
+        } else {
+            setActiveProjectForMap(null);
+        }
+    }, [filteredProjects, activeProjectForMap]);
     
     const handleViewDetails = (project: Project) => {
-        setSelectedProject(project);
-        setModalOpen(true);
+        setSelectedProjectForModal(project);
     };
 
-    const handleMarkerDetailsClick = useCallback((projectName: string) => {
+    const handleProjectSelect = useCallback((projectName: string) => {
         const projectToShow = PROJECTS.find(p => p.name === projectName);
         if (projectToShow) {
-            handleViewDetails(projectToShow);
+            setActiveProjectForMap(projectToShow);
         }
     }, []);
 
@@ -63,16 +73,55 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
         };
     }, [activeProjectForMap]);
 
+    const getSnippet = (htmlContent: string) => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        const textContent = tempDiv.textContent || tempDiv.innerText || "";
+        return textContent.split(' ').slice(0, 40).join(' ') + '...';
+    };
+
     return (
         <div>
-            {modalOpen && selectedProject && <ProjectDetailModal project={selectedProject} onClose={() => setModalOpen(false)} setPage={setPage} />}
+            {selectedProjectForModal && <ProjectDetailModal project={selectedProjectForModal} onClose={() => setSelectedProjectForModal(null)} setPage={setPage} />}
             <PageHeader title={t(Page.Projects)} subtitle={t('ProjectsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
-                <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Projects List */}
-                    <div className="lg:w-1/3 space-y-4">
-                         <div className="mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    {/* Left Panel: Details View */}
+                    <div className="lg:col-span-5">
+                        <motion.div 
+                            key={activeProjectForMap ? activeProjectForMap.name : 'empty'}
+                            className="sticky top-24"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <h2 className="text-2xl font-display font-bold text-primary mb-4">Project Details</h2>
+                            {activeProjectForMap ? (
+                                <div className="bg-white rounded-lg shadow-lg p-6">
+                                    <img src={activeProjectForMap.image} alt={activeProjectForMap.name} loading="lazy" className="w-full h-56 object-cover rounded-md mb-4" />
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {activeProjectForMap.tags.map(tag => (
+                                            <span key={tag} className="text-xs font-semibold bg-accent-yellow/20 text-accent-yellow/80 px-2 py-1 rounded-full">{tag}</span>
+                                        ))}
+                                    </div>
+                                    <h3 className="text-xl font-display font-bold text-primary">{activeProjectForMap.name}</h3>
+                                    <p className="text-sm text-text-light mt-2 mb-4">{getSnippet(activeProjectForMap.detailedContent)}</p>
+                                    <button onClick={() => handleViewDetails(activeProjectForMap)} className="font-bold text-primary hover:text-accent-yellow">
+                                        {t('ViewCaseStudy')} →
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="bg-white rounded-lg shadow-lg p-6 text-center h-full flex flex-col justify-center items-center">
+                                    <p className="text-text-light">Select a project from the list or map to see details.</p>
+                                </div>
+                            )}
+                        </motion.div>
+                    </div>
+
+                    {/* Right Panel: Controls & Map */}
+                    <div className="lg:col-span-7">
+                        <div className="mb-6">
                             <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurKeyInitiatives')}</h2>
                             <div className="flex flex-wrap gap-2">
                                 {allTags.map(tag => (
@@ -86,35 +135,22 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
                                 ))}
                             </div>
                         </div>
-                        <div className="max-h-[500px] overflow-y-auto pr-2">
+
+                        <div className="max-h-60 overflow-y-auto pr-2 mb-6 border rounded-lg">
                             {filteredProjects.map((project) => (
                                 <button 
                                     key={project.name} 
-                                    className={`w-full text-left p-4 mb-4 rounded-lg border-2 transform transition-all duration-300 ${activeProjectForMap?.name === project.name ? 'border-secondary bg-secondary/10 shadow-md' : 'border-transparent hover:bg-white hover:shadow-xl hover:scale-[1.03]'}`}
+                                    className={`w-full text-left p-3 transition-colors duration-200 border-b last:border-b-0 ${activeProjectForMap?.name === project.name ? 'bg-secondary/20 font-semibold' : 'hover:bg-gray-100'}`}
                                     onClick={() => setActiveProjectForMap(project)}
                                 >
-                                    <div className="flex flex-wrap gap-2 mb-2">
-                                        {project.tags.map(tag => (
-                                            <span key={tag} className="text-xs font-semibold bg-accent-yellow/20 text-accent-yellow/80 px-2 py-1 rounded-full">{tag}</span>
-                                        ))}
-                                    </div>
-                                    <h3 className="text-lg font-display font-bold text-primary">{project.name}</h3>
-                                    <p className="text-sm text-text-light mt-1">{project.description}</p>
-                                    <button onClick={(e) => { e.stopPropagation(); handleViewDetails(project); }} className="mt-3 font-bold text-sm text-primary hover:text-accent-yellow">
-                                        {t('ViewCaseStudy')} →
-                                    </button>
+                                    <h3 className="text-md font-display text-primary">{project.name}</h3>
                                 </button>
                             ))}
                         </div>
-                    </div>
 
-                    {/* Interactive Map */}
-                    <div className="lg:w-2/3">
-                        <div className="sticky top-24">
-                            <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurGlobalFootprint')}</h2>
-                            <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg bg-gray-200">
-                                <InteractiveMap projects={projectMarkers} activeProject={activeMarker} onViewDetails={handleMarkerDetailsClick} />
-                            </div>
+                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurGlobalFootprint')}</h2>
+                        <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg bg-gray-200">
+                            <InteractiveMap projects={projectMarkers} activeProject={activeMarker} onMarkerSelect={handleProjectSelect} />
                         </div>
                     </div>
                 </div>

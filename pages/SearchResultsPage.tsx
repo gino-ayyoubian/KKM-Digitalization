@@ -26,8 +26,8 @@ const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {
             return `<p>${line}</p>`;
         })
         .join('')
-        .replace(/<\/li><p><\/p><li>/g, '</li><li>')
-        .replace(/(<li>.*?<\/li>)/g, '<ul>$1</ul>');
+        .replace(/<\/li><p><\/p><li>/g, '</li><li>') // Clean up empty paragraphs between list items
+        .replace(/((?:<li>.*?<\/li>)+)/g, '<ul>$1</ul>'); // Group consecutive LIs into a UL
 
     return <div className="prose max-w-none text-text-light" dangerouslySetInnerHTML={{ __html: html }} />;
 };

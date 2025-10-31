@@ -70,8 +70,10 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                     </div>
                     <div>
                          <h3 className="font-display font-semibold tracking-wider uppercase">{t('ConnectWithUs')}</h3>
-                        <p className="mt-4 text-gray-300 text-sm">Qeshm Free Zone, Iran</p>
-                        <p className="text-gray-300 text-sm">info@kkm-intl.org</p>
+                        <p className="mt-4 text-gray-300 text-sm font-semibold">{t('HeadOffice')}</p>
+                        <p className="mt-1 text-gray-300 text-sm">{t('TehranOfficeAddress')}</p>
+                        <p className="mt-1 text-gray-300 text-sm">{t('CompanyPhone')}</p>
+                        <p className="mt-2 text-gray-300 text-sm"><a href="mailto:info@kkm-intl.org" className="hover:text-white">info@kkm-intl.org</a></p>
                     </div>
                 </div>
                 <div className="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">

@@ -5,7 +5,6 @@ import { useLanguage } from '../LanguageContext';
 declare global {
     interface Window {
         google: any;
-        handleViewDetailsClick: (projectName: string) => void;
     }
 }
 
@@ -32,10 +31,10 @@ const ICON_PATHS: { [key: string]: string } = {
 interface InteractiveMapProps {
     projects: MapMarker[];
     activeProject: MapMarker | null;
-    onViewDetails?: (projectName: string) => void;
+    onMarkerSelect?: (projectName: string) => void;
 }
 
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject, onViewDetails }) => {
+const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject, onMarkerSelect }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const googleMap = useRef<any | null>(null);
     const markers = useRef<any[]>([]);
@@ -46,36 +45,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     const pulseTimeoutRef = useRef<number | null>(null);
     const { t } = useLanguage();
 
-    const onViewDetailsRef = useRef(onViewDetails);
-    useEffect(() => {
-        onViewDetailsRef.current = onViewDetails;
-    }, [onViewDetails]);
-
-    useEffect(() => {
-        window.handleViewDetailsClick = (projectName: string) => {
-            onViewDetailsRef.current?.(projectName);
-        };
-        return () => {
-            delete window.handleViewDetailsClick;
-        };
-    }, []);
-
     const getInfoWindowContent = (project: MapMarker) => {
-        const escapedProjectName = project.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        
-        const detailsButtonHtml = project.type === 'project' && onViewDetails
-            ? `<button onclick="window.handleViewDetailsClick('${escapedProjectName}')" style="background-color: #FFC107; color: #002D56; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-left: 8px;">${t('ViewCaseStudy')}</button>`
-            : '';
-
         return `
         <div style="font-family: 'Open Sans', sans-serif; color: #002D56; padding: 5px; max-width: 250px;">
-            ${project.imageUrl ? `<img src="${project.imageUrl}" alt="${project.name}" loading="lazy" style="width: 100%; height: auto; max-height: 140px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">` : ''}
             <h3 style="font-weight: 700; font-family: 'Montserrat', sans-serif; margin: 0 0 8px 0; font-size: 16px;">${project.name}</h3>
             <p style="font-size: 14px; margin: 0 0 12px 0; line-height: 1.5;">${project.description}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                <a href="https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}" target="_blank" rel="noopener noreferrer" style="color: #0A92EF; text-decoration: none; font-weight: bold; font-size: 14px; flex-shrink: 0;">${t('GetDirections')} &rarr;</a>
-                ${detailsButtonHtml}
-            </div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${project.coordinates.lat},${project.coordinates.lng}" target="_blank" rel="noopener noreferrer" style="color: #0A92EF; text-decoration: none; font-weight: bold; font-size: 14px; flex-shrink: 0;">${t('GetDirections')} &rarr;</a>
         </div>
         `;
     };
@@ -204,6 +179,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
                 });
 
                 marker.addListener('click', () => {
+                    onMarkerSelect?.(project.name);
                     handleMarkerAnimation(marker);
                     infoWindow.current?.setContent(getInfoWindowContent(project));
                     infoWindow.current?.open({
@@ -228,12 +204,16 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
         };
 
         initMap().catch(console.error);
-    }, [projects, t, handleMarkerAnimation]);
+    }, [projects, t, onMarkerSelect, handleMarkerAnimation]);
     
     useEffect(() => {
         if (googleMap.current && activeProject) {
             googleMap.current.panTo(activeProject.coordinates);
-            googleMap.current.setZoom(10);
+            
+            const zoomLevel = activeProject.type === 'office' ? 12 : 10;
+            if (googleMap.current.getZoom() < zoomLevel - 2) {
+                googleMap.current.setZoom(zoomLevel);
+            }
 
             const activeMarker = markers.current.find(marker => marker.title === activeProject.name);
             if (activeMarker && infoWindow.current) {
