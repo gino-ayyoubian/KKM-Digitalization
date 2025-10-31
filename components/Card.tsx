@@ -12,7 +12,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, description, icon, imageUrl, actionText, onActionClick }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex flex-col group border border-transparent hover:border-secondary">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg hover:shadow-xl dark:shadow-none transform hover:-translate-y-1 transition-all duration-300 flex flex-col group border border-transparent hover:border-secondary dark:border-slate-700 dark:hover:border-primary">
       {imageUrl && (
         <div className="overflow-hidden rounded-t-lg">
           <img src={imageUrl} alt={title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -20,8 +20,8 @@ const Card: React.FC<CardProps> = ({ title, description, icon, imageUrl, actionT
       )}
       <div className="p-6 flex flex-col flex-grow">
         {icon && <div className="text-accent-yellow h-12 w-12 mb-4">{icon}</div>}
-        <h3 className="text-xl font-display font-bold text-primary mb-2">{title}</h3>
-        <p className="text-sm text-text-light mb-4 flex-grow">{description}</p>
+        <h3 className="text-xl font-display font-bold text-primary dark:text-secondary mb-2">{title}</h3>
+        <p className="text-sm text-text-light dark:text-slate-400 mb-4 flex-grow">{description}</p>
         {actionText && onActionClick && (
           <button onClick={onActionClick} className="font-bold text-accent-yellow hover:underline self-start">
             {actionText} →

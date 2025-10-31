@@ -5,6 +5,7 @@ import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
 import Card from '../components/Card';
 import { useLanguage } from '../LanguageContext';
 import NewsCard from '../components/NewsCard';
+import { motion } from 'framer-motion';
 
 interface HomePageProps {
   setPage: (page: Page) => void;
@@ -12,29 +13,64 @@ interface HomePageProps {
 }
 
 const SectionTitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
-    <h2 className="text-3xl md:text-4xl font-display font-extrabold text-primary text-center">{children}</h2>
+    <h2 className="text-3xl md:text-4xl font-display font-extrabold text-primary dark:text-white text-center">{children}</h2>
 );
 
 const SectionSubtitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
-    <p className="mt-4 text-lg text-text-light text-center max-w-3xl mx-auto">{children}</p>
+    <p className="mt-4 text-lg text-text-light dark:text-slate-300 text-center max-w-3xl mx-auto">{children}</p>
 );
 
 const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const { t } = useLanguage();
 
+  const heroContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const heroItemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <div className="space-y-24 pb-24">
       {/* Hero Section */}
       <section className="gradient-hero text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-          <h1 className="text-4xl md:text-6xl font-display font-extrabold !text-white opacity-0 animate-slide-in-up">
+        <motion.div 
+            className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center"
+            variants={heroContainerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+          <motion.h1 
+            className="text-4xl md:text-6xl font-display font-extrabold !text-white"
+            variants={heroItemVariants}
+          >
             {t('HeroTitle')}
-          </h1>
-          <p className="mt-6 text-xl md:text-2xl max-w-3xl mx-auto text-gray-300 opacity-0 animate-slide-in-up animation-delay-200">
+          </motion.h1>
+          <motion.p 
+            className="mt-6 text-xl md:text-2xl max-w-3xl mx-auto text-gray-300"
+            variants={heroItemVariants}
+          >
             {t('HeroSubtitle')}
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 opacity-0 animate-slide-in-up animation-delay-400">
+          </motion.p>
+          <motion.div 
+            className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
+            variants={heroItemVariants}
+          >
             <button
               onClick={() => setPage(Page.CoreTechnologies)}
               className="px-8 py-3 font-bold text-text-dark bg-accent-yellow rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105"
@@ -47,8 +83,8 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
             >
               {t('PartnerWithUs')}
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Core Technologies Teaser */}
@@ -71,7 +107,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
 
       {/* Innovation Hub Spotlight */}
-      <section id="innovation-hub-section" className="bg-white">
+      <section id="innovation-hub-section" className="bg-white dark:bg-slate-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h3 className="text-base text-accent-yellow font-semibold tracking-wider uppercase">{t('InnovationHubTitle')}</h3>
@@ -110,13 +146,13 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
 
       {/* Videos Section */}
-      <section className="bg-gray-50">
+      <section className="bg-gray-50 dark:bg-slate-900">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
               <SectionTitle>{t('VisionInMotionTitle')}</SectionTitle>
               <SectionSubtitle>{t('VisionInMotionSubtitle')}</SectionSubtitle>
               <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {VIDEOS.map(video => (
-                      <div key={video.youtubeId} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col group transform hover:-translate-y-1 transition-all duration-300">
+                      <div key={video.youtubeId} className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden flex flex-col group transform hover:-translate-y-1 transition-all duration-300">
                           {playingVideoId === video.youtubeId ? (
                               <div className="aspect-video">
                                   <iframe
@@ -140,8 +176,8 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
                                     </div>
                                   </div>
                                   <div className="p-6 flex flex-col flex-grow">
-                                      <h3 className="text-lg font-bold text-primary">{video.title}</h3>
-                                      <p className="mt-2 text-sm text-text-light flex-grow">{video.description}</p>
+                                      <h3 className="text-lg font-bold text-primary dark:text-secondary">{video.title}</h3>
+                                      <p className="mt-2 text-sm text-text-light dark:text-slate-400 flex-grow">{video.description}</p>
                                   </div>
                               </div>
                           )}
@@ -152,7 +188,7 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
       </section>
       
       {/* News & Insights */}
-      <section id="news-insights-section" className="bg-white">
+      <section id="news-insights-section" className="bg-white dark:bg-slate-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
               <SectionTitle>{t('NewsInsightsTitle')}</SectionTitle>
               <SectionSubtitle>{t('NewsInsightsSubtitle')}</SectionSubtitle>

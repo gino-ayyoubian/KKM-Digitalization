@@ -36,11 +36,14 @@ const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {
 const SearchResultsPage: React.FC<SearchResultsPageProps> = ({ result, query }) => {
   const { t } = useLanguage();
 
-  const LoadingSkeleton = () => (
-    <div className="bg-white p-6 rounded-lg shadow-md animate-pulse">
-        <div className="h-6 w-3/4 bg-gray-200 rounded mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded mb-2"></div>
-        <div className="h-4 w-5/6 bg-gray-200 rounded"></div>
+  const LoadingIndicator = () => (
+    <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center justify-center text-center min-h-[200px]">
+        <svg className="animate-spin h-10 w-10 text-primary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <h2 className="text-xl font-display font-semibold text-primary">Searching...</h2>
+        <p className="text-text-light mt-2">Please wait while we gather the latest information for you.</p>
     </div>
   );
   
@@ -63,7 +66,7 @@ const SearchResultsPage: React.FC<SearchResultsPageProps> = ({ result, query }) 
 
       <div className="mt-12 space-y-6">
         {!result ? (
-            <LoadingSkeleton />
+            <LoadingIndicator />
         ) : (
           <div className="bg-white p-6 rounded-lg shadow-md">
               <SimpleMarkdown text={result.summary} />

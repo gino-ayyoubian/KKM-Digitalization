@@ -17,6 +17,7 @@ import SearchResultsPage from './pages/SearchResultsPage';
 import FuturesPage from './pages/FuturesPage';
 import { useLanguage } from './LanguageContext';
 import { GoogleGenAI } from '@google/genai';
+import BackToTopButton from './components/BackToTopButton';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
@@ -148,7 +149,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-background min-h-screen flex flex-col font-sans text-text-dark">
+    <div className="bg-background dark:bg-slate-900 min-h-screen flex flex-col font-sans text-text-dark dark:text-slate-200">
       <Header currentPage={currentPage} setPage={setCurrentPage} onSearch={handleSearch} />
       <main className="flex-grow">
         <AnimatePresence mode="wait">
@@ -156,6 +157,7 @@ const App: React.FC = () => {
         </AnimatePresence>
       </main>
       <Footer setPage={setCurrentPage} />
+      <BackToTopButton />
     </div>
   );
 };

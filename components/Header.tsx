@@ -3,6 +3,7 @@ import { Page } from '../types';
 import { NAV_LINKS } from '../constants';
 import { useLanguage, Language } from '../LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../ThemeContext';
 
 interface HeaderProps {
   currentPage: Page;
@@ -70,6 +71,36 @@ const KkmLogoWhite: React.FC = () => (
     </svg>
 );
 
+const ThemeToggle: React.FC = () => {
+    const { theme, toggleTheme } = useTheme();
+    const isDark = theme === 'dark';
+    
+    return (
+        <button 
+            onClick={toggleTheme} 
+            className="p-2 rounded-full text-primary dark:text-secondary hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors duration-200" 
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        >
+            <AnimatePresence mode="wait" initial={false}>
+                <motion.svg
+                    key={isDark ? 'moon' : 'sun'}
+                    initial={{ y: -20, opacity: 0, rotate: -90 }}
+                    animate={{ y: 0, opacity: 1, rotate: 0 }}
+                    exit={{ y: 20, opacity: 0, rotate: 90 }}
+                    transition={{ duration: 0.2 }}
+                    xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                >
+                    {isDark ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.34 19.66l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M6.34 4.34l-.707-.707" />
+                    )}
+                </motion.svg>
+            </AnimatePresence>
+        </button>
+    );
+};
+
 const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,6 +108,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const { language, setLanguage, t } = useLanguage();
+  const { theme } = useTheme();
 
   const isHomePage = currentPage === Page.Home;
   const isTransparent = isHomePage && !isScrolled;
@@ -135,15 +167,16 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const selectedLangName = languages.find(l => l.key === language)?.name || 'English';
   
   const headerBaseClasses = "sticky top-0 z-50 transition-all duration-300";
-  const headerBgClass = isTransparent ? "bg-transparent" : "bg-white";
-  const headerShadowClass = !isTransparent && isScrolled ? "shadow-lg" : "";
+  const headerBgClass = isTransparent ? "bg-transparent" : "bg-white dark:bg-slate-900";
+  const headerShadowClass = !isTransparent && isScrolled ? "shadow-lg dark:shadow-slate-800/50" : "";
+  const showWhiteLogo = isTransparent || (!isTransparent && theme === 'dark');
 
   return (
     <header className={`${headerBaseClasses} ${headerBgClass} ${headerShadowClass}`}>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <button onClick={() => setPage(Page.Home)} className="flex items-center text-primary" aria-label="Go to Home page">
-            {isTransparent ? <KkmLogoWhite /> : <KkmLogo />}
+            {showWhiteLogo ? <KkmLogoWhite /> : <KkmLogo />}
           </button>
 
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
@@ -154,7 +187,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 className={`px-3 py-2 lg:px-4 font-display font-semibold text-sm rounded-md transition-colors duration-200 ${
                     isTransparent 
                         ? (currentPage === link.name ? 'text-white border-b-2 border-white' : 'text-white hover:text-gray-200')
-                        : (currentPage === link.name ? 'text-white bg-text-dark' : 'text-text-dark hover:text-accent-yellow')
+                        : (currentPage === link.name ? 'text-white bg-text-dark' : 'text-text-dark dark:text-white hover:text-accent-yellow dark:hover:text-accent-yellow')
                 }`}
               >
                 {t(link.name)}
@@ -166,7 +199,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
              <div className="relative" ref={langMenuRef}>
                 <button 
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} 
-                  className={`flex items-center space-x-1 px-3 py-2 text-sm font-semibold ${isTransparent ? 'text-white hover:bg-white/10' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}
+                  className={`flex items-center space-x-1 px-3 py-2 text-sm font-semibold ${isTransparent ? 'text-white hover:bg-white/10' : 'text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700'} rounded-md transition-colors`}
                   aria-haspopup="true"
                   aria-expanded={isLangMenuOpen}
                 >
@@ -184,7 +217,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full end-0 mt-2 w-36 bg-white rounded-md shadow-lg z-20 border"
+                        className="absolute top-full end-0 mt-2 w-36 bg-white dark:bg-slate-800 rounded-md shadow-lg z-20 border dark:border-slate-700"
                         role="menu"
                     >
                         <ul className="py-1">
@@ -196,7 +229,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                                     setLanguage(lang.key);
                                     setIsLangMenuOpen(false);
                                 }}
-                                className="w-full text-start px-4 py-2 text-sm text-text-dark hover:bg-gray-100"
+                                className="w-full text-start px-4 py-2 text-sm text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700"
                                 >
                                 {lang.name}
                                 </button>
@@ -207,7 +240,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                 )}
                 </AnimatePresence>
             </div>
-             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`p-2 ${isTransparent ? 'text-white hover:text-white' : 'text-primary hover:text-accent-yellow'} transition-colors duration-200`} aria-label="Open search">
+             <ThemeToggle />
+             <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`p-2 ${isTransparent ? 'text-white hover:text-white' : 'text-primary dark:text-secondary hover:text-accent-yellow'} transition-colors duration-200`} aria-label="Open search">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -218,7 +252,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           </div>
 
           <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isTransparent ? 'text-white' : 'text-primary'} aria-label="Open menu" aria-expanded={isMenuOpen} aria-controls="mobile-menu">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={isTransparent ? 'text-white' : 'text-primary dark:text-white'} aria-label="Open menu" aria-expanded={isMenuOpen} aria-controls="mobile-menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
               </svg>
@@ -233,7 +267,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className={`md:hidden overflow-hidden ${isTransparent ? 'bg-text-dark/95 backdrop-blur-sm' : ''}`}
+            className={`md:hidden overflow-hidden ${isTransparent ? 'bg-text-dark/95 backdrop-blur-sm' : 'dark:bg-slate-900'}`}
           >
             <div className="flex flex-col space-y-2 p-4">
               {NAV_LINKS.map((link, index) => (
@@ -244,10 +278,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
                   onClick={() => handleNavClick(link.name)}
                   className={`block px-4 py-2 text-start font-display font-semibold rounded-md transition-colors duration-200 ${
                     currentPage === link.name 
-                        ? 'bg-secondary/20 text-primary font-bold' 
+                        ? 'bg-secondary/20 text-primary dark:bg-secondary/30 dark:text-secondary font-bold' 
                         : (isTransparent 
                             ? 'text-white hover:bg-white/10' 
-                            : 'text-text-dark hover:bg-gray-100')
+                            : 'text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800')
                   }`}
                 >
                   {t(link.name)}
@@ -272,11 +306,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white shadow-lg"
+            className="absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg dark:border-b dark:border-slate-700"
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
-                    <input type="search" name="search" placeholder={t('SearchPlaceholder')} autoFocus className="w-full px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary" />
+                    <input type="search" name="search" placeholder={t('SearchPlaceholder')} autoFocus className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-full shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary dark:text-white" />
                     <button type="submit" className="px-5 py-2.5 text-base font-medium text-center text-white bg-primary rounded-full hover:bg-secondary focus:ring-4 focus:ring-blue-300 transition-colors duration-300">{t('Search')}</button>
                 </form>
             </div>
