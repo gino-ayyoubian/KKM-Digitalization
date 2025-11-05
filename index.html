@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KKM International Group</title>
-    <link rel="icon" href="data:image/svg+xml,<svg viewBox='10 0 100 115' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='flogoBlueGradientOuter' x1='50%' y1='0%' x2='50%' y2='100%'><stop offset='0%' stop-color='%230A92EF'/><stop offset='100%' stop-color='%23002D56'/></linearGradient><linearGradient id='flogoBlueGradientInner' x1='50%' y1='0%' x2='50%' y2='100%'><stop offset='0%' stop-color='%2389CFF0'/><stop offset='100%' stop-color='%230A92EF'/></linearGradient><radialGradient id='flogoSphereGradient' cx='50%' cy='50%' r='50%' fx='30%' fy='30%'><stop offset='0%' stop-color='%23FFD700'/><stop offset='100%' stop-color='%23FFC107'/></radialGradient></defs><g transform='translate(10, 0)'><path d='M53.1,108.3C55.6,83.8,42.5,63.4,29.7,51.7C15.2,38.5,6.5,23.3,13.2,9.3c2.4-5,7.9-8.1,13.7-7.2c16,2.5,26.4,16.5,31.3,29.2c10.3,26.8,3.2,59.2-7.2,84.1C50.2,107,49.6,107.8,48.9,108.3H53.1z' fill='url(%23flogoBlueGradientOuter)'/><path d='M66.5,108.3c15.8-15.1,23.6-36.4,22.8-57c-1-25.5-18.4-48.4-40.1-55.5c-4.9-1.6-10.1-1.9-15.1-1.3c-4.1,0.5-7.1,2.8-6.9,6.2c0.2,3.8,3.4,6.1,7.2,7.1c17.5,4.5,31.2,19.8,32.7,37.9c2,22.1-7.2,43.5-22.6,58.7c2.1,0.6,4,1,6,1C56.1,109.5,61.4,109.2,66.5,108.3z' fill='url(%23flogoBlueGradientInner)'/><circle cx='66.5' cy='74' r='22' fill='url(%23flogoSphereGradient)'/></g></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg viewBox='0 0 170 145' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='flogoSwooshDark' x1='50%25' y1='0%25' x2='50%25' y2='100%25'><stop offset='0%25' stop-color='%2300529B'/><stop offset='100%25' stop-color='%23002D56'/></linearGradient><linearGradient id='flogoSwooshLight' x1='50%25' y1='0%25' x2='50%25' y2='100%25'><stop offset='0%25' stop-color='%2389CFF0'/><stop offset='100%25' stop-color='%230A92EF'/></linearGradient><radialGradient id='flogoSphereGradient' cx='50%25' cy='50%25' r='50%25' fx='30%25' fy='30%25'><stop offset='0%25' stop-color='%23FFD700'/><stop offset='100%25' stop-color='%23FFC107'/></radialGradient></defs><g><path d='M82.8,141.8C55.3,141.8,32.4,127.2,19.3,103.1C-3,60.8,13.2,7.7,55.5,17.1c9.3-11.4,24.4-18.4,41-17 c31.1,2.6,53.2,29.9,50.6,61c-2,24-19.8,44.7-42.6,50.8C96.7,115.1,89.5,127.9,82.8,141.8z' fill='url(%23flogoSwooshDark)'/><path d='M146.4,61.1c2.6-31.1-19.5-58.4-50.6-61c10.1,1.1,19.5,5.6,26.8,12.9c32.7,32.7,21.5,88.9-24.9,103.7 c-9.9,3.1-20.2,3.1-30,0.1c-0.2-1.9-0.4-3.8-0.5-5.7C90.3,101,114.6,83.9,122,58.8C126.1,45,123.8,30.3,115.7,19.3 c10.3,4.6,18.5,13.2,22.7,24.3C142.1,52.9,144.9,57.1,146.4,61.1z' fill='url(%23flogoSwooshLight)'/><circle cx='100' cy='98' r='32' fill='url(%23flogoSphereGradient)'/></g></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,16 +69,22 @@
       }
       @keyframes marker-pulse {
         0%, 100% {
-            transform: scale(1.2);
+            transform: scale(1);
             opacity: 1;
         }
         50% {
-            transform: scale(1.5);
+            transform: scale(1.2);
             opacity: 0.7;
         }
       }
       .animate-marker-pulse {
           animation: marker-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      .logo-container svg {
+        transition: filter 0.3s ease-in-out;
+      }
+      .logo-container:hover svg {
+        filter: drop-shadow(0 0 6px #0A92EF);
       }
     </style>
   <script type="importmap">
@@ -88,8 +94,6 @@
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.18",
-    "recharts": "https://aistudiocdn.com/recharts@^2.12.7",
-    "prop-types": "https://aistudiocdn.com/prop-types@^15.8.1",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0"
   }
 }

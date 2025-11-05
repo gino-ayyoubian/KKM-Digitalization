@@ -84,8 +84,6 @@ const App: React.FC = () => {
     out: { opacity: 0, y: -20 }
   };
 
-  // FIX: Added `as const` to ensure TypeScript infers literal types for `type` and `ease`,
-  // which is required by framer-motion's `Transition` type.
   const pageTransition = {
     type: 'tween',
     ease: 'easeInOut',

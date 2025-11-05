@@ -63,7 +63,6 @@ export interface Video {
 
 export interface GroundingChunk {
   web?: {
-    // FIX: made uri and title optional to match @google/genai type
     uri?: string;
     title?: string;
   };

@@ -29,7 +29,6 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
         items.sort((a, b) => {
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
-            // FIX: Corrected a typo in the sort logic. The comparison was `dateA - b` instead of `dateA - dateB`.
             return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
         });
 
