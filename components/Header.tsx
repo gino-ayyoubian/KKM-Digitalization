@@ -12,7 +12,8 @@ interface HeaderProps {
 }
 
 const KkmLogo: React.FC = () => (
-    <svg width="100" height="120" viewBox="0 0 170 205" className="h-14 md:h-16 w-auto">
+    <svg width="100" height="120" viewBox="0 0 170 215" className="h-14 md:h-16 w-auto" aria-labelledby="kkm-logo-title-header">
+        <title id="kkm-logo-title-header">KKM International Group Logo</title>
         <defs>
             <linearGradient id="logoSwooshDark" x1="50%" y1="0%" x2="50%" y2="100%">
                 <stop offset="0%" stopColor="#00529B" />
@@ -27,15 +28,14 @@ const KkmLogo: React.FC = () => (
                 <stop offset="100%" stopColor="#FFC107" />
             </radialGradient>
         </defs>
-        <g>
-            {/* The main graphic part of the logo */}
-            <path d="M82.8,141.8C55.3,141.8,32.4,127.2,19.3,103.1C-3,60.8,13.2,7.7,55.5,17.1c9.3-11.4,24.4-18.4,41-17 c31.1,2.6,53.2,29.9,50.6,61c-2,24-19.8,44.7-42.6,50.8C96.7,115.1,89.5,127.9,82.8,141.8z" fill="url(#logoSwooshDark)" />
-            <path d="M146.4,61.1c2.6-31.1-19.5-58.4-50.6-61c10.1,1.1,19.5,5.6,26.8,12.9c32.7,32.7,21.5,88.9-24.9,103.7 c-9.9,3.1-20.2,3.1-30,0.1c-0.2-1.9-0.4-3.8-0.5-5.7C90.3,101,114.6,83.9,122,58.8C126.1,45,123.8,30.3,115.7,19.3 c10.3,4.6,18.5,13.2,22.7,24.3C142.1,52.9,144.9,57.1,146.4,61.1z" fill="url(#logoSwooshLight)" />
-            <circle cx="100" cy="98" r="32" fill="url(#logoSphereGradient)" />
+        <g transform="translate(0, 10)">
+            <path d="M76.3 150.3C34.2 147.1 3.5 113.8 9.2 72.3C14.8 30.8 52.8 0.1 94.9 3.3C137 6.4 167.7 39.7 162.1 81.2C158.4 107.9 141.2 131.5 117.8 141.6C103.6 147.9 88.6 151.3 76.3 150.3Z" fill="url(#logoSwooshDark)"/>
+            <path d="M152.5 73.1C152.5 53.6 143.1 35.8 127.8 24.8C110.1 12.1 87.1 8.8 66.8 15.6C41.7 23.9 24.8 45.4 22.1 71.9C21.3 80.2 22.8 88.5 26.2 96C40.1 66.7 72.8 53.8 102.1 67.7C124.7 78.4 138.8 100.7 138.8 125.6C148.1 110.8 152.5 92.6 152.5 73.1Z" fill="url(#logoSwooshLight)"/>
+            <circle cx="115" cy="98" r="33" fill="url(#logoSphereGradient)"/>
         </g>
         <text
             x="85"
-            y="170"
+            y="180"
             className="fill-text-dark dark:fill-white"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '800', fontSize: '38px', textAnchor: 'middle' }}
         >
@@ -43,7 +43,7 @@ const KkmLogo: React.FC = () => (
         </text>
         <text
             x="85"
-            y="195"
+            y="205"
             className="fill-text-dark dark:fill-white"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '700', fontSize: '20px', textAnchor: 'middle', letterSpacing: '0.5px' }}
         >
