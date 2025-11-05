@@ -56,10 +56,12 @@ const KkmLogo: React.FC = () => (
 const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -82,6 +84,18 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           searchInputRef.current?.focus();
       }
   }, [isSearchOpen]);
+  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+        if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+            setIsLangMenuOpen(false);
+        }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [langMenuRef]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,18 +154,40 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
               )}
             </button>
             
-            <div className="relative group">
-                <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-1">
+            <div className="relative" ref={langMenuRef}>
+                <button 
+                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-1"
+                    aria-haspopup="true"
+                    aria-expanded={isLangMenuOpen}
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-text-dark dark:text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m4 13-4-4-4 4M19 17v.01" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span className="hidden sm:inline text-sm font-medium text-text-dark dark:text-slate-200">{language}</span>
                 </button>
-                <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
-                    {(['EN', 'FA', 'KU', 'AR'] as Language[]).map(lang => (
-                        <button key={lang} onClick={() => setLanguage(lang)} className="block px-4 py-2 text-sm text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 w-full text-left">
-                            {lang}
-                        </button>
-                    ))}
-                </div>
+                <AnimatePresence>
+                    {isLangMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                            className="absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 dark:ring-slate-700"
+                        >
+                            {(['EN', 'FA', 'KU', 'AR'] as Language[]).map(lang => (
+                                <button 
+                                    key={lang} 
+                                    onClick={() => {
+                                        setLanguage(lang);
+                                        setIsLangMenuOpen(false);
+                                    }} 
+                                    className="block px-4 py-2 text-sm text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 w-full text-left"
+                                >
+                                    {lang}
+                                </button>
+                            ))}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
             <div className="lg:hidden">

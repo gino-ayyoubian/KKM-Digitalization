@@ -6,6 +6,8 @@ import Card from '../components/Card';
 import { useLanguage } from '../LanguageContext';
 import NewsCard from '../components/NewsCard';
 import { motion } from 'framer-motion';
+import CEOBriefingWidget from '../components/CEOBriefingWidget';
+import AnimatedStats from '../components/AnimatedStats';
 
 interface HomePageProps {
   setPage: (page: Page) => void;
@@ -87,6 +89,9 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
         </motion.div>
       </section>
 
+      {/* Animated Stats */}
+      <AnimatedStats />
+
       {/* Core Technologies Teaser */}
       <section id="core-technologies-section" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle>{t('GmelEcosystem')}</SectionTitle>
@@ -142,6 +147,17 @@ const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
               onActionClick={() => setPage(Page.Projects)}
             />
           ))}
+        </div>
+      </section>
+
+      {/* CEO Briefing Section */}
+      <section id="ceo-briefing-section" className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle>{t('CEOBriefingTitle')}</SectionTitle>
+        <SectionSubtitle>
+            {t('CEOBriefingSubtitle')}
+        </SectionSubtitle>
+        <div className="mt-12">
+            <CEOBriefingWidget />
         </div>
       </section>
 

@@ -320,6 +320,18 @@ const en = {
     'AwardBody3': 'Sustainable Development Forum',
     'CertificationName1': 'ISO 9001:2015 Certification',
     'CertificationBody1': 'Quality Management Systems',
+
+    'CEOBriefingTitle': 'Strategic Insights',
+    'CEOBriefingSubtitle': 'A weekly briefing from our CEO on the market trends, technological breakthroughs, and strategic shifts shaping our industry and our future.',
+    'RefreshBriefing': 'Refresh Briefing',
+    'BriefingError': "We couldn't retrieve the latest briefing at this moment. Please try again later.",
+    'Sources': 'Sources:',
+    'BriefingErrorTitle': 'An Error Occurred',
+
+    'ProjectsCompleted': 'Projects Completed',
+    'TechnologiesDeveloped': 'Technologies Developed',
+    'GlobalReachCountries': 'Global Reach (Countries)',
+    'ProjectDetails': 'Project Details',
 };
 
 const fa = {
@@ -634,6 +646,18 @@ const fa = {
     'AwardBody3': 'مجمع توسعه پایدار',
     'CertificationName1': 'گواهینامه ISO 9001:2015',
     'CertificationBody1': 'سیستم‌های مدیریت کیفیت',
+
+    'CEOBriefingTitle': 'بینش‌های استراتژیک',
+    'CEOBriefingSubtitle': 'گزارش هفتگی مدیرعامل ما در مورد روندهای بازار، پیشرفت‌های فناورانه و تغییرات استراتژیک که صنعت و آینده ما را شکل می‌دهد.',
+    'RefreshBriefing': 'به‌روزرسانی گزارش',
+    'BriefingError': 'در حال حاضر قادر به دریافت آخرین گزارش نیستیم. لطفاً بعداً دوباره تلاش کنید.',
+    'Sources': 'منابع:',
+    'BriefingErrorTitle': 'خطایی روی داد',
+
+    'ProjectsCompleted': 'پروژه‌های تکمیل شده',
+    'TechnologiesDeveloped': 'فناوری‌های توسعه یافته',
+    'GlobalReachCountries': 'حضور جهانی (کشورها)',
+    'ProjectDetails': 'جزئیات پروژه',
 };
 
 const ku = {
@@ -735,7 +759,7 @@ const ku = {
     'MedicalEngineeringTitle': 'ئەندازیاری پزیشکی و داهێنانی بایۆتەکنەلۆژیا',
     'MedicalEngineeringDesc1': 'چارەسەری خانە قەدییەکان، گەیاندنی دەرمان لەسەر بنەمای ئێگزۆسۆم و پێکهاتەی نوێبوونەوە.',
     'MedicalEngineeringDesc2': 'لێکۆڵینەوە لەسەر گلیۆبلاستۆما، نانۆلیکۆپین و ماددە زیندەییەکان.',
-    'MedicalEngineeringDesc3': 'تێکەڵکردنی زیرەکی دەستکرد لە دەستنیشانکردن و مۆدێلکردنی چارەسەردا.',
+    'MedicalEngineeringDesc3': 'تێکەڵکردنی زیرەکی دەستکرد لە دەستنیشانکردن و mۆدێلکردنی چارەسەردا.',
     'IndustrialDesignTitle': 'دیزاینی پیشەسازی و ژێرخانی زیرەک',
     'IndustrialDesignDesc1': 'سیستەمی چالاککراوی IoT بۆ چاککردنەوەی پێشبینیکراو و بڕیاردان لەسەر بنەمای داتا.',
     'IndustrialDesignDesc2': 'دروستکردنی مۆدیۆلار و تاقیکردنەوەی دووانەی دیجیتاڵی.',
@@ -916,7 +940,7 @@ const ku = {
     'TechnologyPartners': 'هاوبەشە تەکنەلۆژییەکان',
     'TechnologyPartnersText': 'بە تێکەڵکردنی باشترین تەکنەلۆژیاکان لە سەرکردەکانی جیهانەوە، ئێمە دەرەنجامی پڕۆژەکانمان باشتر دەکەین، دڵنیایی لە کارایی، سەلامەتی و ئەدا دەکەین.',
     'ResearchFirms': 'کۆمپانیاکانی توێژینەوە',
-    'ResearchFirmsText': 'هاوکاریمان لەگەڵ کۆمپانیاکانی توێژینەوەی پسپۆڕ ڕێگەمان پێدەدات لە پێشەنگی داهێناندا بمێنینەوە، لە زانستی ماددە پێشکەوتووەکانەوە تا مۆدێلکردنی ئاڵۆزی کۆگا.',
+    'ResearchFirmsText': 'هاوکاریمان لەگەڵ کۆمپانیاکانی توێژینەوەی پسپۆڕ ڕێگەمان پێدەدات لە پێشەنگی داهێnanدا بمێنینەوە، لە زانستی ماددە پێشکەوتووەکانەوە تا مۆدێلکردنی ئاڵۆزی کۆگا.',
     'SustainabilityIntro': 'پابەندبوونمان بە داهاتوویەکی بەردەوام لە ستراتیژی کۆمپانیا و کارە ڕۆژانەکانماندا جێگیر کراوە. ئێمە تەرکیز دەکەینە سەر دروستکردنی بەهای درێژخایەن بە هاوسەنگکردنی پاراستنی ژینگە، بەرپرسیارێتی کۆمەڵایەتی و حوکمڕانی ئەخلاقی.',
     'EnvironmentalStewardship': 'پاراستنی ژینگە',
     'EnvironmentalPoint1': 'تێکەڵکردنی سەرچاوەکانی وزەی نوێبووەوە، وەک تەکنەلۆژیای زەوی-گەرمی تایبەتی خۆمان، لە هەموو پڕۆژە گونجاوەکاندا.',
@@ -939,7 +963,7 @@ const ku = {
     'TestimonialQuote3': 'کارکردن لەگەڵ ناوەندی داهێنانی KKM گۆڕانکارییەکی گەورە بوو بۆ ستارتئەپەکەمان. ڕاوێژکاری و سەرچاوەکانیان زۆر بەنرخ بوون.',
     'TestimonialName3': 'دکتۆر ئارش فەرهادی',
     'TestimonialCompany3': 'بەڕێوەبەری جێبەجێکار، Aqua-Pure Tech',
-    'AwardsIntro': 'ئێمە شانازی دەکەین کە لەلایەن هاوپیشەکانمان و دەستە پیشەسازییە پێشەنگەکانەوە ڕێزمان لێدەگیرێت بۆ پابەندبوونمان بە نایابی ئەندازیاری، داهێنان و سەلامەتی.',
+    'AwardsIntro': 'ئێمە شانازی دەکەین کە لەلایەن هاوپیشەکانمان و دەستە پیشەسازییە پێشەنگەکانەوە ڕێزمان لێدەگیرێت بۆ پابەندبوونمان بە نایابی ئەندازیاری، داهێnan و سەلامەتی.',
     'AwardName1': 'نایابی لە داهێنانی وزە',
     'AwardBody1': 'ئەنجومەنی وزەی جیهانی',
     'AwardName2': 'کۆمپانیای ساڵ لە بەڕێوەبردنی پڕۆژە',
@@ -948,6 +972,18 @@ const ku = {
     'AwardBody3': 'کۆڕبەندی گەشەپێدانی بەردەوام',
     'CertificationName1': 'بڕوانامەی ISO 9001:2015',
     'CertificationBody1': 'سیستەمەکانی بەڕێوەبردنی کوالیتی',
+
+    'CEOBriefingTitle': 'بۆچوونە ستراتیژییەکان',
+    'CEOBriefingSubtitle': 'کورتەیەکی هەفتانە لە بەڕێوەبەری جێبەجێکارمانەوە دەربارەی ئاراستەکانی بازاڕ، پێشکەوتنە تەکنەلۆژییەکان و گۆڕانکارییە ستراتیژییەکان کە پیشەسازی و داهاتوومان دادەڕێژن.',
+    'RefreshBriefing': 'نوێکردنەوەی کورتە',
+    'BriefingError': 'نەمانتوانی نوێترین کورتە لەم کاتەدا وەربگرین. تکایە دواتر هەوڵبدەرەوە.',
+    'Sources': 'سەرچاوەکان:',
+    'BriefingErrorTitle': 'هەڵەیەک ڕوویدا',
+
+    'ProjectsCompleted': 'پڕۆژە تەواوکراوەکان',
+    'TechnologiesDeveloped': 'تەکنەلۆژیا پەرەپێدراوەکان',
+    'GlobalReachCountries': 'پانتایی جیهانی (وڵاتان)',
+    'ProjectDetails': 'وررکارییەکانی پڕۆژە',
 };
 
 const ar = {
@@ -1262,6 +1298,18 @@ const ar = {
     'AwardBody3': 'منتدى التنمية المستدامة',
     'CertificationName1': 'شهادة ISO 9001:2015',
     'CertificationBody1': 'أنظمة إدارة الجودة',
+    
+    'CEOBriefingTitle': 'رؤى استراتيجية',
+    'CEOBriefingSubtitle': 'إحاطة أسبوعية من رئيسنا التنفيذي حول اتجاهات السوق، والإنجازات التكنولوجية، والتحولات الاستراتيجية التي تشكل صناعتنا ومستقبلنا.',
+    'RefreshBriefing': 'تحديث الإحاطة',
+    'BriefingError': 'لم نتمكن من استرداد آخر إحاطة في الوقت الحالي. يرجى المحاولة مرة أخرى لاحقًا.',
+    'Sources': 'المصادر:',
+    'BriefingErrorTitle': 'حدث خطأ',
+
+    'ProjectsCompleted': 'المشاريع المنجزة',
+    'TechnologiesDeveloped': 'التقنيات المطورة',
+    'GlobalReachCountries': 'التواجد العالمي (الدول)',
+    'ProjectDetails': 'تفاصيل المشروع',
 };
 
 type Translations = { [key in 'EN' | 'FA' | 'KU' | 'AR']: typeof en };
