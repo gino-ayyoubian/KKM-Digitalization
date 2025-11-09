@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { NEWS_ITEMS } from '../constants';
-import { NewsItem, Page } from '../types';
+import type { NewsItem } from '../types';
+import { Page } from '../types';
 import PageHeader from '../components/PageHeader';
 import { useLanguage } from '../LanguageContext';
 import NewsCard from '../components/NewsCard';

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Page, NewsItem, GeminiSearchResult } from './types';
+import { Page } from './types';
+import type { NewsItem, GeminiSearchResult } from './types';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';

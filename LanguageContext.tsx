@@ -1,5 +1,7 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { translations, TranslationKey } from './translations';
+import React, { createContext, useState, useContext } from 'react';
+import type { ReactNode } from 'react';
+import { translations } from './translations';
+import type { TranslationKey } from './translations';
 
 export type Language = 'EN' | 'FA' | 'KU' | 'AR';
 type Direction = 'ltr' | 'rtl';

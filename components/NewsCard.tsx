@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewsItem } from '../types';
+import type { NewsItem } from '../types';
 import { useLanguage } from '../LanguageContext';
 
 interface NewsCardProps {

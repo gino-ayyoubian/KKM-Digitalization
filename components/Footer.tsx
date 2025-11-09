@@ -1,6 +1,8 @@
 import React from 'react';
+import type { ReactNode } from 'react';
 import { Page } from '../types';
 import { useLanguage } from '../LanguageContext';
+import type { TranslationKey } from '../translations';
 
 interface FooterProps {
     setPage: (page: Page) => void;
@@ -17,38 +19,51 @@ const KkmLogoWhite: React.FC = () => (
         </defs>
         <g transform="translate(0, 10)">
             <path d="M76.3 150.3C34.2 147.1 3.5 113.8 9.2 72.3C14.8 30.8 52.8 0.1 94.9 3.3C137 6.4 167.7 39.7 162.1 81.2C158.4 107.9 141.2 131.5 117.8 141.6C103.6 147.9 88.6 151.3 76.3 150.3Z" fill="white"/>
-            <path d="M152.5 73.1C152.5 53.6 143.1 35.8 127.8 24.8C110.1 12.1 87.1 8.8 66.8 15.6C41.7 23.9 24.8 45.4 22.1 71.9C21.3 80.2 22.8 88.5 26.2 96C40.1 66.7 72.8 53.8 102.1 67.7C124.7 78.4 138.8 100.7 138.8 125.6C148.1 110.8 152.5 92.6 152.5 73.1Z" fill="white" style={{opacity: 0.8}}/>
+            <path d="M152.5 73.1C152.5 53.6 143.1 35.8 127.8 24.8C110.1 12.1 87.1 8.8 66.8 15.6C41.7 23.9 24.8 45.4 22.1 71.9C21.3 80.2 22.8 88.5 26.2 96C40.1 66.7 72.8 53.8 102.1 67.7C124.7 78.4 138.8 100.7 138.8 125.6C148.1 110.8 152.5 92.6 152.5 73.1Z" fill="white" opacity="0.8"/>
             <circle cx="115" cy="98" r="33" fill="url(#logoSphereGradientFooter)"/>
         </g>
         <text
             x="85"
             y="180"
-            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '800', fontSize: '38px', textAnchor: 'middle', fill: 'white' }}
+            textAnchor="middle"
+            fontSize="38"
+            fontFamily="Montserrat, sans-serif"
+            fontWeight="800"
+            fill="white"
         >
             K.K.M.
         </text>
         <text
             x="85"
             y="205"
-            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '700', fontSize: '20px', textAnchor: 'middle', letterSpacing: '0.5px', fill: 'white' }}
+            textAnchor="middle"
+            fontSize="20"
+            fontFamily="Montserrat, sans-serif"
+            fontWeight="700"
+            fill="white"
         >
             INTERNATIONAL
         </text>
     </svg>
 );
 
+const FooterLink: React.FC<{
+    page: Page;
+    setPage: (page: Page) => void;
+    t: (key: TranslationKey, options?: { [key: string]: string | number }) => string;
+    children?: ReactNode;
+}> = ({ page, setPage, t, children }) => (
+    <li>
+        <button onClick={() => setPage(page)} className="text-gray-200 hover:text-white transition-colors duration-200">
+            {children || t(page as TranslationKey)}
+        </button>
+    </li>
+);
+
 const Footer: React.FC<FooterProps> = ({ setPage }) => {
     const { t } = useLanguage();
     const quickLinks = [Page.Home, Page.AboutUs, Page.CoreTechnologies, Page.Futures, Page.Projects];
     const engagementLinks = [Page.Careers, Page.InnovationHub, Page.News, Page.Contact, Page.InternalPortal];
-
-    const FooterLink: React.FC<{page: Page; children?: React.ReactNode}> = ({ page, children }) => (
-        <li>
-            <button onClick={() => setPage(page)} className="text-gray-200 hover:text-white transition-colors duration-200">
-                {children || t(page)}
-            </button>
-        </li>
-    );
 
     return (
         <footer className="bg-text-dark text-white">
@@ -63,13 +78,13 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
                     <div>
                         <h3 className="font-display font-semibold tracking-wider uppercase">{t('QuickLinks')}</h3>
                         <ul className="mt-4 space-y-2">
-                           {quickLinks.map(page => <FooterLink key={page} page={page}/>)}
+                           {quickLinks.map(page => <FooterLink key={page} page={page} setPage={setPage} t={t} />)}
                         </ul>
                     </div>
                     <div>
                         <h3 className="font-display font-semibold tracking-wider uppercase">{t('Engagement')}</h3>
                         <ul className="mt-4 space-y-2">
-                           {engagementLinks.map(page => <FooterLink key={page} page={page}/>)}
+                           {engagementLinks.map(page => <FooterLink key={page} page={page} setPage={setPage} t={t} />)}
                         </ul>
                     </div>
                     <div>

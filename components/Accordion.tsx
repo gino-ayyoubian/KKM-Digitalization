@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface AccordionProps {
     title: string;
-    children: React.ReactNode;
+    children: ReactNode;
     defaultOpen?: boolean;
 }
 
@@ -11,10 +12,10 @@ const Accordion: React.FC<AccordionProps> = ({ title, children, defaultOpen = fa
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
     return (
-        <div className="border-t">
+        <div className="border-t dark:border-slate-700">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex justify-between items-center py-4 text-left font-display font-bold text-primary text-xl"
+                className="w-full flex justify-between items-center py-4 text-left font-display font-bold text-primary dark:text-secondary text-xl"
                 aria-expanded={isOpen}
             >
                 <span>{title}</span>

@@ -3,7 +3,7 @@ import PageHeader from '../components/PageHeader';
 import Section from '../components/Section';
 import { useLanguage } from '../LanguageContext';
 import { Page } from '../types';
-import { TranslationKey } from '../translations';
+import type { TranslationKey } from '../translations';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Define the type for a leadership member
@@ -76,15 +76,15 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
             <p>{t('CompanyOverviewText')}</p>
         </Section>
 
-        <Section title="" id="mission-vision">
+        <Section title="" id="mission-vision" className="bg-white dark:bg-slate-800">
             <div className="grid md:grid-cols-2 gap-12">
                 <div>
-                    <h3 className="text-2xl font-display font-bold text-primary mb-4">{t('OurMission')}</h3>
-                    <p className="text-text-light">{t('MissionText')}</p>
+                    <h3 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('OurMission')}</h3>
+                    <p>{t('MissionText')}</p>
                 </div>
                 <div>
-                    <h3 className="text-2xl font-display font-bold text-primary mb-4">{t('OurVision')}</h3>
-                    <p className="text-text-light">{t('VisionText')}</p>
+                    <h3 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('OurVision')}</h3>
+                    <p>{t('VisionText')}</p>
                 </div>
             </div>
         </Section>
@@ -107,7 +107,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                 ))}
             </div>
 
-            <div className="text-center border-t pt-8">
+            <div className="text-center border-t dark:border-slate-700 pt-8">
                 <button
                     onClick={() => setIsSeniorManagementVisible(!isSeniorManagementVisible)}
                     className="px-6 py-3 font-bold text-primary dark:text-white bg-gray-100 dark:bg-slate-700 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors duration-300 flex items-center mx-auto gap-2"
@@ -150,7 +150,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
             </div>
         </Section>
         
-        <Section title={t('StrategicRoles')} id="roles">
+        <Section title={t('StrategicRoles')} id="roles" className="bg-white dark:bg-slate-800">
             <div className="space-y-8">
                 <div>
                     <h3 className="text-xl font-display font-semibold text-secondary mb-2">{t('RegionalEngagements')}</h3>
@@ -159,7 +159,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                 <div>
                     <h3 className="text-xl font-display font-semibold text-secondary mb-2">{t('PartnershipsCollaborations')}</h3>
                     <p>{t('PartnershipsCollaborationsIntro')}</p>
-                    <ul className="list-disc list-inside space-y-2 mt-4 text-text-light">
+                    <ul className="list-disc list-inside space-y-2 mt-4 text-text-light dark:text-slate-300">
                         <li><strong>{t('AcademicInstitutions')}:</strong> {t('AcademicInstitutionsText')}</li>
                         <li><strong>{t('TechnologyPartners')}:</strong> {t('TechnologyPartnersText')}</li>
                         <li><strong>{t('ResearchFirms')}:</strong> {t('ResearchFirmsText')}</li>
@@ -172,24 +172,24 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
             <p className="mb-8">{t('SustainabilityIntro')}</p>
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="bg-primary/5 dark:bg-slate-700/50 p-6 rounded-lg">
-                    <h3 className="font-display font-bold text-xl text-primary mb-2">{t('EnvironmentalStewardship')}</h3>
-                    <ul className="list-disc list-inside space-y-2 text-text-light">
+                    <h3 className="font-display font-bold text-xl text-primary dark:text-secondary mb-2">{t('EnvironmentalStewardship')}</h3>
+                    <ul className="list-disc list-inside space-y-2 text-text-light dark:text-slate-300">
                         <li>{t('EnvironmentalPoint1')}</li>
                         <li>{t('EnvironmentalPoint2')}</li>
                         <li>{t('EnvironmentalPoint3')}</li>
                     </ul>
                 </div>
                 <div className="bg-primary/5 dark:bg-slate-700/50 p-6 rounded-lg">
-                    <h3 className="font-display font-bold text-xl text-primary mb-2">{t('SocialResponsibility')}</h3>
-                    <ul className="list-disc list-inside space-y-2 text-text-light">
+                    <h3 className="font-display font-bold text-xl text-primary dark:text-secondary mb-2">{t('SocialResponsibility')}</h3>
+                    <ul className="list-disc list-inside space-y-2 text-text-light dark:text-slate-300">
                         <li>{t('SocialPoint1')}</li>
                         <li>{t('SocialPoint2')}</li>
                         <li>{t('SocialPoint3')}</li>
                     </ul>
                 </div>
                 <div className="bg-primary/5 dark:bg-slate-700/50 p-6 rounded-lg">
-                    <h3 className="font-display font-bold text-xl text-primary mb-2">{t('GovernanceEthics')}</h3>
-                    <ul className="list-disc list-inside space-y-2 text-text-light">
+                    <h3 className="font-display font-bold text-xl text-primary dark:text-secondary mb-2">{t('GovernanceEthics')}</h3>
+                    <ul className="list-disc list-inside space-y-2 text-text-light dark:text-slate-300">
                         <li>{t('GovernancePoint1')}</li>
                         <li>{t('GovernancePoint2')}</li>
                         <li>{t('GovernancePoint3')}</li>
@@ -198,7 +198,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
             </div>
         </Section>
         
-        <Section title={t('ClientTestimonials')} id="testimonials">
+        <Section title={t('ClientTestimonials')} id="testimonials" className="bg-white dark:bg-slate-800">
             <div className="relative bg-primary/5 dark:bg-slate-900/50 p-8 md:p-12 rounded-lg min-h-[300px] flex items-center justify-center overflow-hidden">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -230,15 +230,15 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {awards.map((award, index) => (
                     <div key={index} className="border-l-4 border-accent-yellow pl-4">
-                        <p className="font-display font-bold text-lg text-primary">{t(award.name as TranslationKey)}</p>
-                        <p className="text-sm text-text-light">{t(award.body as TranslationKey)}, {award.year}</p>
+                        <p className="font-display font-bold text-lg text-primary dark:text-secondary">{t(award.name as TranslationKey)}</p>
+                        <p className="text-sm text-text-light dark:text-slate-300">{t(award.body as TranslationKey)}, {award.year}</p>
                     </div>
                 ))}
             </div>
         </Section>
 
 
-        <Section title={t('AboutKKM')} id="about-kkm">
+        <Section title={t('AboutKKM')} id="about-kkm" className="bg-white dark:bg-slate-800">
             <p>{t('AboutKKMText')}</p>
             <div className="mt-8 text-center">
                 <button

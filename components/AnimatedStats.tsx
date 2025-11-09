@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { useInView, useMotionValue, useSpring, animate, motion } from 'framer-motion';
+import { useInView, useMotionValue, useSpring, animate, motion, useTransform } from 'framer-motion';
 import { useLanguage } from '../LanguageContext';
-import { TranslationKey } from '../translations';
+import type { TranslationKey } from '../translations';
 
 interface CounterProps {
     from?: number;
@@ -12,7 +12,16 @@ interface CounterProps {
 const Counter: React.FC<CounterProps> = ({ from = 0, to, suffix = '' }) => {
     const nodeRef = useRef<HTMLSpanElement>(null);
     const motionValue = useMotionValue(from);
-    const springValue = useSpring(motionValue, { damping: 50, stiffness: 200 });
+    
+    const springValue = useSpring(motionValue, {
+        damping: 50,
+        stiffness: 200,
+    });
+    
+    const transformedValue = useTransform(springValue, (latest) => {
+        return Math.round(latest).toLocaleString() + suffix;
+    });
+
     const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
 
     useEffect(() => {
@@ -21,20 +30,8 @@ const Counter: React.FC<CounterProps> = ({ from = 0, to, suffix = '' }) => {
         }
     }, [motionValue, isInView, to]);
 
-    useEffect(() => {
-        const unsubscribe = springValue.on("change", (latest) => {
-            if (nodeRef.current) {
-                nodeRef.current.textContent = Math.round(latest).toLocaleString() + suffix;
-            }
-        });
-        return () => {
-            unsubscribe();
-        };
-    }, [springValue, suffix]);
-
-    return <span ref={nodeRef} />;
+    return <motion.span ref={nodeRef}>{transformedValue}</motion.span>;
 };
-
 
 const AnimatedStats: React.FC = () => {
     const { t } = useLanguage();

@@ -332,6 +332,8 @@ const en = {
     'TechnologiesDeveloped': 'Technologies Developed',
     'GlobalReachCountries': 'Global Reach (Countries)',
     'ProjectDetails': 'Project Details',
+    'ComingSoonText1': 'This page is currently under construction.',
+    'ComingSoonText2': 'We are working hard to bring you new and exciting content. Please check back soon!',
 };
 
 const fa = {
@@ -658,10 +660,12 @@ const fa = {
     'TechnologiesDeveloped': 'فناوری‌های توسعه یافته',
     'GlobalReachCountries': 'حضور جهانی (کشورها)',
     'ProjectDetails': 'جزئیات پروژه',
+    'ComingSoonText1': 'این صفحه در حال حاضر در دست ساخت است.',
+    'ComingSoonText2': 'ما سخت در تلاشیم تا محتوای جدید و هیجان‌انگیزی را برای شما به ارمغان بیاوریم. لطفاً به زودی دوباره سر بزنید!',
 };
 
 const ku = {
-    ...fa,
+    ...en,
     [Page.Home]: 'ماڵەوە',
     [Page.AboutUs]: 'دەربارەی ئێمە',
     [Page.CoreTechnologies]: 'تەکنەلۆژیا سەرەکییەکان',
@@ -940,7 +944,7 @@ const ku = {
     'TechnologyPartners': 'هاوبەشە تەکنەلۆژییەکان',
     'TechnologyPartnersText': 'بە تێکەڵکردنی باشترین تەکنەلۆژیاکان لە سەرکردەکانی جیهانەوە، ئێمە دەرەنجامی پڕۆژەکانمان باشتر دەکەین، دڵنیایی لە کارایی، سەلامەتی و ئەدا دەکەین.',
     'ResearchFirms': 'کۆمپانیاکانی توێژینەوە',
-    'ResearchFirmsText': 'هاوکاریمان لەگەڵ کۆمپانیاکانی توێژینەوەی پسپۆڕ ڕێگەمان پێدەدات لە پێشەنگی داهێnanدا بمێنینەوە، لە زانستی ماددە پێشکەوتووەکانەوە تا مۆدێلکردنی ئاڵۆزی کۆگا.',
+    'ResearchFirmsText': 'هاوکاریمان لەگەڵ کۆمپانیاکانی توێژینەوەی پسپۆڕ ڕێگەمان پێدەدات لە پێشەنگی داهێnanda بمێنینەوە، لە زانستی ماددە پێشکەوتووەکانەوە تا مۆدێلکردنی ئاڵۆزی کۆگا.',
     'SustainabilityIntro': 'پابەندبوونمان بە داهاتوویەکی بەردەوام لە ستراتیژی کۆمپانیا و کارە ڕۆژانەکانماندا جێگیر کراوە. ئێمە تەرکیز دەکەینە سەر دروستکردنی بەهای درێژخایەن بە هاوسەنگکردنی پاراستنی ژینگە، بەرپرسیارێتی کۆمەڵایەتی و حوکمڕانی ئەخلاقی.',
     'EnvironmentalStewardship': 'پاراستنی ژینگە',
     'EnvironmentalPoint1': 'تێکەڵکردنی سەرچاوەکانی وزەی نوێبووەوە، وەک تەکنەلۆژیای زەوی-گەرمی تایبەتی خۆمان، لە هەموو پڕۆژە گونجاوەکاندا.',
@@ -984,10 +988,12 @@ const ku = {
     'TechnologiesDeveloped': 'تەکنەلۆژیا پەرەپێدراوەکان',
     'GlobalReachCountries': 'پانتایی جیهانی (وڵاتان)',
     'ProjectDetails': 'وررکارییەکانی پڕۆژە',
+    'ComingSoonText1': 'ئەم لاپەڕەیە لە ئێستادا لەژێر دروستکردندایە.',
+    'ComingSoonText2': 'ئێمە بە سەختی کار دەکەین بۆ ئەوەی ناوەڕۆکی نوێ و سەرنجڕاکێشتان بۆ بهێنین. تکایە بەم زووانە سەردان بکەنەوە!',
 };
 
 const ar = {
-    ...fa,
+    ...en,
     [Page.Home]: 'الرئيسية',
     [Page.AboutUs]: 'من نحن',
     [Page.CoreTechnologies]: 'التقنيات الأساسية',
@@ -1310,6 +1316,8 @@ const ar = {
     'TechnologiesDeveloped': 'التقنيات المطورة',
     'GlobalReachCountries': 'التواجد العالمي (الدول)',
     'ProjectDetails': 'تفاصيل المشروع',
+    'ComingSoonText1': 'هذه الصفحة قيد الإنشاء حاليًا.',
+    'ComingSoonText2': 'نحن نعمل بجد لنقدم لكم محتوى جديدًا ومثيرًا. يرجى التحقق مرة أخرى قريبًا!',
 };
 
 type Translations = { [key in 'EN' | 'FA' | 'KU' | 'AR']: typeof en };

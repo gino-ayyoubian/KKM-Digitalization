@@ -1,17 +1,40 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GoogleGenAI } from '@google/genai';
-import { GeminiSearchResult } from '../types';
+import type { GeminiSearchResult } from '../types';
 import { useLanguage } from '../LanguageContext';
 import SimpleMarkdown from './SimpleMarkdown';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const getHostname = (url: string) => {
+  try { return new URL(url).hostname; } catch (e) { return ''; }
+};
+
+const LoadingSkeleton = () => (
+    <div className="animate-pulse">
+        <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-3/4 mb-4"></div>
+        <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-full mb-2"></div>
+        <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-full mb-2"></div>
+        <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-5/6 mb-6"></div>
+        <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-1/2"></div>
+    </div>
+);
 
 const CEOBriefingWidget: React.FC = () => {
     const [briefing, setBriefing] = useState<GeminiSearchResult | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { t } = useLanguage();
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        isMounted.current = true;
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
 
     const fetchBriefing = useCallback(async () => {
+        if (!isMounted.current) return;
         setIsLoading(true);
         setError(null);
         setBriefing(null);
@@ -28,15 +51,19 @@ const CEOBriefingWidget: React.FC = () => {
                 },
             });
 
-            const summary = response.text;
+            if (!isMounted.current) return;
+
+            const summary = response.text || '';
             const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
 
             setBriefing({ summary, sources });
+            setIsLoading(false);
         } catch (err) {
             console.error("Error fetching CEO briefing:", err);
-            setError(t('BriefingError'));
-        } finally {
-            setIsLoading(false);
+            if (isMounted.current) {
+                setError(t('BriefingError'));
+                setIsLoading(false);
+            }
         }
     }, [t]);
 
@@ -44,20 +71,6 @@ const CEOBriefingWidget: React.FC = () => {
         fetchBriefing();
     }, [fetchBriefing]);
     
-    const getHostname = (url: string) => {
-      try { return new URL(url).hostname; } catch (e) { return ''; }
-    }
-
-    const LoadingSkeleton = () => (
-        <div className="animate-pulse">
-            <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-5/6 mb-6"></div>
-            <div className="h-4 bg-gray-300 dark:bg-slate-700 rounded w-1/2"></div>
-        </div>
-    );
-
     return (
         <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 flex flex-col md:flex-row gap-8">
             <div className="text-center md:text-left md:w-1/4 flex-shrink-0">

@@ -1,4 +1,5 @@
-import { Page, Project, NavLink, NewsItem, Video } from './types';
+import { Page } from './types';
+import type { Project, NavLink, NewsItem, Video } from './types';
 
 export const NAV_LINKS: NavLink[] = [
   { name: Page.Home },
@@ -80,176 +81,64 @@ export const PROJECTS: Project[] = [
                 <li><strong>Wellhead Optimization:</strong> We conducted rigorous QA/QC inspections and performance management for multiple wellhead facilities (23, 50, 52, 53, 54, 56), ensuring they operate at peak safety and efficiency.</li>
                 <li><strong>Infrastructure Development:</strong> The construction of a strategic pipeline from Line #23 to Manifold 18-3 created a more streamlined and efficient pathway for resource transportation, reducing bottlenecks.</li>
                 <li><strong>International Project Execution:</strong> Our leadership in managing the cross-border D1-D2 project demonstrated our robust capabilities in navigating international standards, logistics, and stakeholder relations.</li>
-                <li><strong>Enhanced Gas Recovery:</strong> We implemented advanced solutions for Condensate Gas Compressors (CGC) 52 & 53, leading to a measurable increase in gas recovery rates and a significant boost to overall field productivity.</li>
+                <li><strong>Enhanced Gas Recovery:</strong> We implemented advanced solutions for Condensate Gas Compressors (CGC) 52 & 53, leading to a measurable increase in gas recovery rates and a significant boost to asset productivity.</li>
             </ul>
-            <p>Through this partnership, we not only improved immediate operational outcomes but also contributed to the long-term strategic goals of ICOFC, solidifying our reputation for excellence in upstream field development.</p>
         `,
-        metrics: {
-            budget: {
-                total: 75, currency: "M USD",
-                allocation: [
-                    { name: "QA/QC", value: 15, fill: "#0A92EF" },
-                    { name: "Construction", value: 30, fill: "#002D56" },
-                    { name: "Management", value: 22.5, fill: "#89CFF0" },
-                    { name: "Gas Recovery", value: 7.5, fill: "#FFC107" },
-                ]
-            },
-            timeline: { start: "2020-01-15", end: "2022-06-10", progress: 100 }
-        }
-    },
-    { 
-        name: "Combined Cycle Power Plant EPCI",
-        description: "Delivering turnkey EPCI solutions for high-efficiency Combined Cycle Power Plants, powering national development by managing the entire project lifecycle from global procurement to successful commissioning.",
-        image: "https://picsum.photos/seed/power-plant/600/400",
-        tags: ["Power Generation", "EPCI", "Energy"],
-        coordinates: { lat: 35.689, lng: 51.389 },
-        gallery: ["https://picsum.photos/seed/power-gallery1/800/600", "https://picsum.photos/seed/power-gallery2/800/600"],
-        detailedContent: `
-            <p>KKM International is at the forefront of developing critical power generation infrastructure, delivering end-to-end EPCI services for advanced Combined Cycle Power Plants. These projects are vital to meeting the growing energy demands of nations and supporting widespread industrial growth.</p>
-            <p>Our turnkey approach ensures seamless execution from concept to commissioning, providing our clients with reliable, efficient, and sustainable energy sources. Our comprehensive scope includes:</p>
-            <ul>
-                <li><strong>Global Strategic Procurement:</strong> We manage the complex international procurement of all critical components, including turbines, generators, heat recovery steam generators (HRSGs), and balance of plant equipment, leveraging our global network of world-class manufacturers.</li>
-                <li><strong>Integrated Construction Management:</strong> Our on-site teams oversee all civil, mechanical, and electrical construction, enforcing the highest standards of safety, quality, and schedule adherence to mitigate risks and ensure timely delivery.</li>
-                <li><strong>Rigorous Commissioning & Handover:</strong> We lead the final installation and commissioning phases, conducting exhaustive tests to guarantee the plant meets all performance specifications and is ready for reliable, long-term operation.</li>
-            </ul>
-            <p>This project demonstrates our capacity to deliver on the promise of large-scale, technologically complex energy solutions that form the backbone of modern economies.</p>
-        `,
-        metrics: {
-            budget: {
-                total: 450, currency: "M USD",
-                allocation: [
-                    { name: "Procurement", value: 270, fill: "#002D56" },
-                    { name: "Construction", value: 135, fill: "#0A92EF" },
-                    { name: "Engineering", value: 45, fill: "#89CFF0" },
-                ]
-            },
-            timeline: { start: "2022-02-01", end: "2025-08-01", progress: 65 }
-        }
-    },
-    { 
-        name: "Advanced Drilling & Coring Services Expansion",
-        description: "Spearheaded a strategic business transformation for MIS International by integrating advanced coring and drilling technologies, resulting in significant cost savings for clients and enhanced market competitiveness.",
-        image: "https://picsum.photos/seed/drilling-services/600/400",
-        tags: ["Upstream Services", "Technology", "Drilling"],
-        coordinates: { lat: 25.2048, lng: 55.2708 },
-        gallery: ["https://picsum.photos/seed/drilling-gallery1/800/600", "https://picsum.photos/seed/drilling-gallery2/800/600"],
-        detailedContent: `
-            <p>KKM leadership drove a pivotal strategic initiative at MIS International to revolutionize its upstream service offerings. The objective was to create a distinct competitive advantage by introducing next-generation technologies that deliver superior reservoir data and drilling efficiency.</p>
-            <strong>This transformation was built on three core pillars:</strong>
-            <ul>
-                <li><strong>Value-Added Service Expansion:</strong> We successfully launched a specialized Coring Services division, moving beyond traditional drilling to provide clients with high-quality geological data crucial for reservoir characterization and maximizing recovery. This service was engineered to deliver better data at a lower cost.</li>
-                <li><strong>Technology-Driven Efficiency:</strong> We integrated a suite of innovative drilling technologies designed to optimize performance, dramatically reduce non-productive time (NPT), and increase the overall rate of penetration (ROP).</li>
-                <li><strong>Operational Excellence as Standard:</strong> This initiative was underpinned by a renewed commitment to the highest standards of safety and efficiency, ensuring that technological advancements were matched by reliable, best-in-class execution in the field.</li>
-            </ul>
-            <p>This project showcases our ability to not only provide services but to act as a strategic partner, driving business model innovation and creating sustainable growth in a competitive global market.</p>
-        `,
-        metrics: {
-            budget: {
-                total: 30, currency: "M USD",
-                allocation: [
-                    { name: "R&D", value: 6, fill: "#FFC107" },
-                    { name: "Technology Acquisition", value: 15, fill: "#002D56" },
-                    { name: "Training", value: 4.5, fill: "#0A92EF" },
-                    { name: "Marketing", value: 4.5, fill: "#89CFF0" },
-                ]
-            },
-            timeline: { start: "2019-06-01", end: "2020-12-31", progress: 100 }
-        }
-    },
-    {
-        name: "Industrial Water Treatment Solutions",
-        description: "Engineered bespoke industrial water treatment solutions for critical infrastructure, protecting high-value assets in power and petrochemical sectors while ensuring optimal performance and environmental compliance.",
-        image: "https://picsum.photos/seed/water-treatment/600/400",
-        tags: ["Industrial Solutions", "Water Management", "Petrochemical"],
-        coordinates: { lat: 28.802, lng: -81.366 },
-        gallery: ["https://picsum.photos/seed/water-gallery1/800/600", "https://picsum.photos/seed/water-gallery2/800/600"],
-        detailedContent: `
-            <p>Through a strategic partnership with World Chem, KKM leadership was instrumental in developing and deploying highly specialized water treatment programs for some of the most demanding industrial environments. Our focus was on creating customized, data-driven solutions to enhance the efficiency, longevity, and environmental performance of critical assets in power plants, oil refineries, and petrochemical facilities.</p>
-            <strong>Our key capabilities in this domain include:</strong>
-            <ul>
-                <li><strong>Custom Chemical Program Design:</strong> We engineered bespoke water treatment formulations tailored to the specific water chemistry and operational parameters of each facility, effectively preventing corrosion, scaling, and biofouling in high-value systems like cooling towers and boilers.</li>
-                <li><strong>Expert On-Site Support:</strong> Our teams provided hands-on, expert support and troubleshooting directly at client sites, diagnosing complex issues and implementing effective solutions to maintain operational continuity and performance.</li>
-                <li><strong>Holistic System Optimization:</strong> We addressed the full water cycle within these facilities, from treating boiler feed water to managing wastewater, ensuring that our clients' operations were not only efficient but also compliant with stringent environmental regulations.</li>
-            </ul>
-            <p>This work demonstrates our deep domain expertise in industrial chemistry and process engineering, showcasing our ability to deliver solutions that directly impact our clients' bottom line and sustainability goals.</p>
-        `,
-         metrics: {
-            budget: {
-                total: 50, currency: "M USD (Annual Contracts)",
-                allocation: [
-                    { name: "Chemical Supply", value: 25, fill: "#002D56" },
-                    { name: "On-site Support", value: 15, fill: "#0A92EF" },
-                    { name: "R&D", value: 10, fill: "#FFC107" },
-                ]
-            },
-            timeline: { start: "Ongoing", end: "Ongoing", progress: 100 }
-        }
     }
 ];
 
 export const NEWS_ITEMS: NewsItem[] = [
-    { 
-        title: "KKM International Launches GMEL-GeoCredit Platform", 
-        date: "2023-10-26", 
-        category: "Technology",
-        excerpt: "A new era for transparent and verifiable carbon credit trading begins with the launch of our blockchain-based platform...", 
+    {
+        title: "KKM Unveils Groundbreaking GMEL-CLG Geothermal Technology",
+        date: "2023-10-26",
+        excerpt: "Our new Closed-Loop Geothermal system promises to revolutionize clean energy production with zero emissions and a minimal footprint.",
         image: "https://picsum.photos/seed/news1/600/400",
-        content: `
-<p>In a significant step towards a more sustainable and accountable future, KKM International Group has officially launched the GMEL-GeoCredit Platform. This innovative, blockchain-powered system is designed to revolutionize the carbon credit market by providing unprecedented transparency, traceability, and security for trading carbon credits generated from geothermal and other renewable energy projects.</p>
-<p>The platform addresses key challenges in the current carbon market, including issues of double-counting and a lack of transparency. By leveraging distributed ledger technology, GMEL-GeoCredit ensures that each carbon credit is unique, verifiable, and permanently recorded. This fosters greater trust among investors, corporations, and governments, encouraging more significant investment in projects that actively reduce greenhouse gas emissions.</p>
-<p>Our CEO stated, "The GMEL-GeoCredit Platform is not just a technology; it's a commitment to a cleaner planet. We are providing the tools necessary to build a truly global, transparent, and effective carbon market that can accelerate our transition to a zero-carbon economy." The platform is now open for pilot partners and early adopters.</p>
-        `
+        content: "<p>In a major leap forward for renewable energy, KKM International has officially launched its proprietary GMEL-CLG (Closed-loop Geothermal) technology. This system represents a paradigm shift in how we harness geothermal energy, eliminating the need for fracking and reducing water usage to near zero. The closed-loop design ensures no greenhouse gases are released, making it one of the cleanest energy sources available today.</p><p>\"Our team has worked tirelessly to perfect this technology,\" said CEO Gino Ayyoubian. \"GMEL-CLG is not just an incremental improvement; it's a fundamental change that makes geothermal power accessible, scalable, and truly sustainable.\"</p>",
+        category: 'Technology'
     },
-    { 
-        title: "Qeshm Energy Village Pilot Project Breaks Ground", 
-        date: "2023-09-15", 
-        category: "Projects",
-        excerpt: "Construction has begun on the first sustainable energy-centric village, a landmark project for our GMEL-EcoCluster concept...", 
+    {
+        title: "Qeshm Island Project Reaches Key Milestone Ahead of Schedule",
+        date: "2023-09-15",
+        excerpt: "The EPCI project on Qeshm Island has successfully completed its first phase, enhancing crude oil transport and storage capabilities.",
         image: "https://picsum.photos/seed/news2/600/400",
-        content: `
-<p>KKM International Group is proud to announce that construction has officially commenced on the Qeshm Energy Village, the first pilot project of our visionary GMEL-EcoCluster concept. Located in the Qeshm Free Zone, this project will serve as a living laboratory for sustainable community development, powered entirely by integrated renewable energy sources, primarily geothermal.</p>
-<p>The village is designed to be a self-sustaining ecosystem, integrating our proprietary technologies like GMEL-CLG for power, GMEL-Desal for fresh water, and GMEL-AgriCell for food production. The project aims to create a circular economy where waste is minimized, and resources are utilized with maximum efficiency.</p>
-<p>This groundbreaking initiative will not only provide a high quality of life for its residents but also serve as a scalable model for sustainable development in other regions around the world. The first phase of construction is expected to be completed by Q4 2024.</p>
-        ` 
+        content: "<p>The comprehensive infrastructure overhaul on Qeshm Island, managed by KKM International, has reached a significant milestone. The new 16-inch underwater pipeline is now fully operational, and the upgraded pump station is performing above expectations. This achievement puts the project on track for completion well ahead of the projected timeline.</p><p>Project Manager Heidar Yarveicy commented, \"This success is a testament to the dedication and expertise of our entire team. We've set a new benchmark for efficiency and safety in midstream operations.\"</p>",
+        category: 'Projects'
     },
-    { 
-        title: "Innovation Hub Announces First Cohort of Startups", 
-        date: "2023-08-01", 
-        category: "Corporate",
-        excerpt: "Five promising startups have been selected for our accelerator program, set to tackle challenges in energy efficiency, water purification, and agritech...", 
+    {
+        title: "KKM International Partners with Top Universities for Innovation Hub",
+        date: "2023-08-01",
+        excerpt: "Our Innovation & Ideation Hub is launching a new accelerator program in collaboration with leading academic institutions to foster the next generation of tech talent.",
         image: "https://picsum.photos/seed/news3/600/400",
-        content: `
-<p>The Innovation & Ideation Hub at KKM International is thrilled to welcome the first cohort of startups into its accelerator program. After a rigorous selection process, five visionary companies have been chosen for their potential to create disruptive solutions in critical sectors.</p>
-<p>The selected startups are:</p>
-<ul>
-    <li><strong>Aqua-Pure:</strong> Developing a novel membrane technology for low-energy water desalination.</li>
-    <li><strong>Sensor-Grid:</strong> Creating AI-powered sensors for predictive maintenance in renewable energy grids.</li>
-    <li><strong>Yield-Up:</strong> A precision agriculture platform that uses geothermal data to optimize crop yields.</li>
-    <li><strong>Carbon-Capture Catalyst:</strong> Innovating a new catalyst for more efficient direct-air carbon capture.</li>
-    <li><strong>Bio-Struct:</strong> Engineering sustainable building materials from agricultural waste.</li>
-</ul>
-<p>Over the next six months, these startups will receive intensive mentorship from KKM's leading experts, access to our state-of-the-art labs, and seed funding to accelerate their growth. We look forward to seeing them transform their brilliant ideas into impactful realities.</p>
-        `
+        content: "<p>KKM International is proud to announce strategic partnerships with three leading universities to bolster its Innovation & Ideation Hub. The collaboration will focus on creating a new accelerator program aimed at startups in the clean energy, biomedical, and sustainable development sectors. The program will provide mentorship, funding, and access to KKM's extensive network of experts and resources.</p><p>\"Innovation is at the core of our DNA,\" stated Dr. Reza Asakereh, CTO. \"By bridging the gap between academia and industry, we can accelerate the development of solutions that will shape a better future for all.\"</p>",
+        category: 'Corporate'
     },
+    {
+        title: "New Advancements in Lithium Extraction Technology Announced",
+        date: "2023-07-20",
+        excerpt: "Our GMEL-LithiumLoop technology demonstrates over 90% efficiency in eco-friendly lithium extraction from geothermal brines, a major step for sustainable battery production.",
+        image: "https://picsum.photos/seed/news4/600/400",
+        content: "<p>KKM's R&D department has published promising results from the pilot phase of its GMEL-LithiumLoop project. The technology uses a proprietary ion-exchange resin to selectively extract lithium from geothermal brines with unprecedented efficiency and minimal environmental impact. This breakthrough could significantly reduce the carbon footprint and water usage associated with traditional lithium mining, paving the way for a more sustainable supply chain for electric vehicles and battery storage.</p>",
+        category: 'Technology'
+    }
 ];
 
 export const VIDEOS: Video[] = [
     {
-        title: "The Future of Geothermal Energy",
-        description: "Discover how our GMEL-CLG technology is revolutionizing clean energy production.",
-        thumbnail: "https://picsum.photos/seed/video1/600/400",
+        title: "The Future of Energy: Inside GMEL-CLG",
+        description: "A deep dive into our revolutionary closed-loop geothermal technology.",
+        thumbnail: "https://i.ytimg.com/vi/GLK6DErFBPA/hqdefault.jpg",
         youtubeId: "GLK6DErFBPA"
     },
     {
-        title: "GMEL-EcoCluster: Sustainable Living",
-        description: "A look inside the Qeshm Energy Village pilot project and our vision for future communities.",
-        thumbnail: "https://picsum.photos/seed/video2/600/400",
-        youtubeId: "m_p Kuz_MM4"
+        title: "Project Spotlight: Qeshm Island Transformation",
+        description: "Witness the scale and impact of our landmark EPCI project.",
+        thumbnail: "https://i.ytimg.com/vi/m_1119yJv-o/hqdefault.jpg",
+        youtubeId: "m_1119yJv-o"
     },
     {
-        title: "Innovating for Impact",
-        description: "Meet the minds behind our Innovation & Ideation Hub and the startups changing the world.",
-        thumbnail: "https://picsum.photos/seed/video3/600/400",
-        youtubeId: "uD4izuDMUQA"
+        title: "Innovation in Action: The KKM Hub",
+        description: "Meet the innovators and see the ideas shaping tomorrow.",
+        thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+        youtubeId: "dQw4w9WgXcQ"
     }
 ];

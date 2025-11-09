@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 import { useLanguage } from '../LanguageContext';
-import { TranslationKey } from '../translations';
+import type { TranslationKey } from '../translations';
 import PageHeader from '../components/PageHeader';
 
-const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
-    const { t } = useLanguage();
+const NotifyModal: React.FC<{onClose: () => void; t: (key: TranslationKey) => string;}> = ({ onClose, t }) => {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
@@ -23,13 +23,13 @@ const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
             onClick={onClose}
         >
             <div 
-                className="bg-white rounded-lg shadow-2xl max-w-md w-full p-8 text-center"
+                className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-md w-full p-8 text-center"
                 onClick={(e) => e.stopPropagation()}
             >
                 {submitted ? (
                     <>
-                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('NotifyModalSuccessTitle')}</h2>
-                        <p className="text-text-light mb-6">{t('NotifyModalSuccessText')}</p>
+                        <h2 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('NotifyModalSuccessTitle')}</h2>
+                        <p className="text-text-light dark:text-slate-300 mb-6">{t('NotifyModalSuccessText')}</p>
                         <button 
                             onClick={onClose} 
                             className="px-6 py-2 font-bold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300"
@@ -39,8 +39,8 @@ const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
                     </>
                 ) : (
                     <>
-                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('NotifyModalTitle')}</h2>
-                        <p className="text-text-light mb-6">{t('NotifyModalText')}</p>
+                        <h2 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('NotifyModalTitle')}</h2>
+                        <p className="text-text-light dark:text-slate-300 mb-6">{t('NotifyModalText')}</p>
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                             <input 
                                 type="email"
@@ -48,7 +48,7 @@ const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
+                                className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-full shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                             />
                             <button 
                                 type="submit" 
@@ -57,7 +57,7 @@ const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
                                 {t('NotifyMe')}
                             </button>
                         </form>
-                        <button onClick={onClose} className="mt-4 text-sm text-gray-500 hover:underline">
+                        <button onClick={onClose} className="mt-4 text-sm text-gray-500 dark:text-slate-400 hover:underline">
                             {t('NotifyModalNoThanks')}
                         </button>
                     </>
@@ -67,13 +67,13 @@ const NotifyModal: React.FC<{onClose: () => void}> = ({ onClose }) => {
     );
 };
 
-const FuturesSection: React.FC<{title: string; icon: React.ReactNode; children: React.ReactNode}> = ({ title, icon, children }) => (
-    <div className="bg-white p-8 rounded-lg shadow-lg h-full">
+const FuturesSection: React.FC<{title: string; icon: ReactNode; children: ReactNode}> = ({ title, icon, children }) => (
+    <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg h-full">
         <div className="flex items-center mb-4">
             <div className="text-accent-yellow mr-4">{icon}</div>
-            <h3 className="text-2xl font-display font-bold text-primary">{title}</h3>
+            <h3 className="text-2xl font-display font-bold text-primary dark:text-secondary">{title}</h3>
         </div>
-        <ul className="space-y-3 list-disc list-inside text-text-light">
+        <ul className="space-y-3 list-disc list-inside text-text-light dark:text-slate-300">
             {children}
         </ul>
     </div>
@@ -86,29 +86,33 @@ type OrgMember = {
     rbac: TranslationKey;
 }
 
-const OrgTable: React.FC<{title: TranslationKey, members: OrgMember[], descHeader: TranslationKey}> = ({ title, members, descHeader }) => {
-    const { t } = useLanguage();
+const OrgTable: React.FC<{
+    title: TranslationKey,
+    members: OrgMember[],
+    descHeader: TranslationKey,
+    t: (key: TranslationKey) => string;
+}> = ({ title, members, descHeader, t }) => {
     return (
         <div>
             <h3 className="font-display font-bold text-2xl text-secondary mb-4 mt-6">{t(title)}</h3>
              <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                    <thead className="border-b bg-gray-50">
+                    <thead className="border-b dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
                         <tr>
-                            <th className="font-semibold p-3 text-text-dark">{t('Name')}</th>
-                            <th className="font-semibold p-3 text-text-dark">{t('Role')}</th>
-                            <th className="font-semibold p-3 text-text-dark">{t(descHeader)}</th>
-                            <th className="font-semibold p-3 text-text-dark">{t('RBAC')}</th>
+                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('Name')}</th>
+                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('Role')}</th>
+                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t(descHeader)}</th>
+                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('RBAC')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {members.map(member => (
-                            <tr key={member.name} className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
-                                <td className="p-3 font-semibold text-text-dark">{t(member.name)}</td>
-                                <td className="p-3 text-text-light">{t(member.role)}</td>
-                                <td className="p-3 text-text-light">{t(member.desc)}</td>
-                                <td className="p-3 text-text-light">
-                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${t(member.rbac) === 'Admin' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
+                            <tr key={member.name} className="border-b border-gray-200 dark:border-slate-700 last:border-b-0 hover:bg-gray-50 dark:hover:bg-slate-800">
+                                <td className="p-3 font-semibold text-text-dark dark:text-slate-200">{t(member.name)}</td>
+                                <td className="p-3 text-text-light dark:text-slate-300">{t(member.role)}</td>
+                                <td className="p-3 text-text-light dark:text-slate-300">{t(member.desc)}</td>
+                                <td className="p-3 text-text-light dark:text-slate-300">
+                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${t(member.rbac) === 'Admin' ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'}`}>
                                       {t(member.rbac)}
                                     </span>
                                 </td>
@@ -173,7 +177,7 @@ const FuturesPage: React.FC = () => {
     
     return (
         <div>
-            {isNotifyModalOpen && <NotifyModal onClose={() => setIsNotifyModalOpen(false)} />}
+            {isNotifyModalOpen && <NotifyModal onClose={() => setIsNotifyModalOpen(false)} t={t} />}
             <PageHeader title={t('FuturesPageTitle')} subtitle={t('FuturesPageSubtitle')} />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">
@@ -218,31 +222,31 @@ const FuturesPage: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="mt-24 bg-white p-4 sm:p-8 rounded-lg shadow-xl">
-                    <h2 className="text-3xl font-display font-bold text-primary text-center mb-8">{t('OrgStructureTitle')}</h2>
+                <div className="mt-24 bg-white dark:bg-slate-900 p-4 sm:p-8 rounded-lg shadow-xl">
+                    <h2 className="text-3xl font-display font-bold text-primary dark:text-white text-center mb-8">{t('OrgStructureTitle')}</h2>
 
                     <div className="space-y-12">
-                        <OrgTable title="ExecutiveLeadership" members={executiveLeadership} descHeader="CoreResponsibilities" />
-                        <OrgTable title="SeniorManagement" members={seniorManagement} descHeader="FocusArea" />
-                        <OrgTable title="CorporateFunctions" members={corporateFunctions} descHeader="Domain" />
-                        <OrgTable title="SpecializedRD" members={specializedRD} descHeader="Domain" />
+                        <OrgTable title="ExecutiveLeadership" members={executiveLeadership} descHeader="CoreResponsibilities" t={t} />
+                        <OrgTable title="SeniorManagement" members={seniorManagement} descHeader="FocusArea" t={t} />
+                        <OrgTable title="CorporateFunctions" members={corporateFunctions} descHeader="Domain" t={t} />
+                        <OrgTable title="SpecializedRD" members={specializedRD} descHeader="Domain" t={t} />
                         
                         <div>
                             <h3 className="font-display font-bold text-2xl text-secondary mb-4 mt-6">{t('AdvisoryBoard')}</h3>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="border-b bg-gray-50">
+                                    <thead className="border-b dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
                                         <tr>
-                                            <th className="font-semibold p-3 text-text-dark">{t('Name')}</th>
-                                            <th className="font-semibold p-3 text-text-dark">{t('Role')}</th>
-                                            <th className="font-semibold p-3 text-text-dark">{t('Domain')}</th>
-                                            <th className="font-semibold p-3 text-text-dark">{t('RBAC')}</th>
+                                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('Name')}</th>
+                                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('Role')}</th>
+                                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('Domain')}</th>
+                                            <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('RBAC')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {advisoryBoard.map(member => (
-                                            <tr key={member.name + member.role} className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
-                                                <td className="p-3 font-semibold text-text-dark">
+                                            <tr key={member.name + member.role} className="border-b border-gray-200 dark:border-slate-700 last:border-b-0 hover:bg-gray-50 dark:hover:bg-slate-800">
+                                                <td className="p-3 font-semibold text-text-dark dark:text-slate-200">
                                                     {t(member.name) === '(TBD)' ? (
                                                         <button onClick={() => setIsNotifyModalOpen(true)} className="text-accent-yellow hover:underline font-semibold">
                                                             {t(member.name)}
@@ -251,10 +255,10 @@ const FuturesPage: React.FC = () => {
                                                         t(member.name)
                                                     )}
                                                 </td>
-                                                <td className="p-3 text-text-light">{t(member.role)}</td>
-                                                <td className="p-3 text-text-light">{t(member.desc)}</td>
-                                                <td className="p-3 text-text-light">
-                                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800`}>
+                                                <td className="p-3 text-text-light dark:text-slate-300">{t(member.role)}</td>
+                                                <td className="p-3 text-text-light dark:text-slate-300">{t(member.desc)}</td>
+                                                <td className="p-3 text-text-light dark:text-slate-300">
+                                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300`}>
                                                       {t(member.rbac)}
                                                     </span>
                                                 </td>
@@ -268,39 +272,39 @@ const FuturesPage: React.FC = () => {
                 </div>
 
                 <div className="mt-24 grid md:grid-cols-2 gap-8">
-                    <div className="bg-white p-8 rounded-lg shadow-xl">
-                        <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('RBACLogicTitle')}</h2>
+                    <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-xl">
+                        <h2 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('RBACLogicTitle')}</h2>
                         <table className="w-full text-left text-sm">
-                            <thead className="border-b bg-gray-50">
+                            <thead className="border-b dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
                                 <tr>
-                                    <th className="font-semibold p-3 text-text-dark">{t('RBACLevel')}</th>
-                                    <th className="font-semibold p-3 text-text-dark">{t('AccessScope')}</th>
+                                    <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('RBACLevel')}</th>
+                                    <th className="font-semibold p-3 text-text-dark dark:text-slate-200">{t('AccessScope')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {rbacLogic.map(item => (
-                                    <tr key={item.level} className="border-b border-gray-200 last:border-b-0">
-                                        <td className="p-3 font-semibold text-text-dark">{t(item.level as TranslationKey)}</td>
-                                        <td className="p-3 text-text-light">{t(item.scope as TranslationKey)}</td>
+                                    <tr key={item.level} className="border-b border-gray-200 dark:border-slate-700 last:border-b-0">
+                                        <td className="p-3 font-semibold text-text-dark dark:text-slate-200">{t(item.level as TranslationKey)}</td>
+                                        <td className="p-3 text-text-light dark:text-slate-300">{t(item.scope as TranslationKey)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                     <div className="bg-white p-8 rounded-lg shadow-xl">
-                         <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('TemplatesTitle')}</h2>
+                     <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-xl">
+                         <h2 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('TemplatesTitle')}</h2>
                          <div className="space-y-4">
                              <div>
-                                 <h3 className="font-semibold text-text-dark">{t('LinkedDatabases')}</h3>
-                                 <ul className="list-disc list-inside text-text-light text-sm space-y-1 mt-2">
+                                 <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('LinkedDatabases')}</h3>
+                                 <ul className="list-disc list-inside text-text-light dark:text-slate-300 text-sm space-y-1 mt-2">
                                      <li>{t('RolesDatabase')}</li>
                                      <li>{t('AccessModulesDatabase')}</li>
                                      <li>{t('GovernanceChecklistDatabase')}</li>
                                  </ul>
                              </div>
                              <div>
-                                 <h3 className="font-semibold text-text-dark">{t('WorkflowTemplates')}</h3>
-                                 <ul className="list-disc list-inside text-text-light text-sm space-y-1 mt-2">
+                                 <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('WorkflowTemplates')}</h3>
+                                 <ul className="list-disc list-inside text-text-light dark:text-slate-300 text-sm space-y-1 mt-2">
                                      <li>{t('IntakeTracker')}</li>
                                      <li>{t('ReviewerDashboard')}</li>
                                      <li>{t('EvidenceVault')}</li>

@@ -1,6 +1,7 @@
-
 import React, { useState } from 'react';
-import { Page, NewsItem, Video } from '../types';
+import type { ReactNode } from 'react';
+import { Page } from '../types';
+import type { NewsItem, Video } from '../types';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
 import Card from '../components/Card';
 import { useLanguage } from '../LanguageContext';
@@ -14,11 +15,11 @@ interface HomePageProps {
   onSelectArticle: (article: NewsItem) => void;
 }
 
-const SectionTitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
+const SectionTitle: React.FC<{children: ReactNode}> = ({ children }) => (
     <h2 className="text-3xl md:text-4xl font-display font-extrabold text-primary dark:text-white text-center">{children}</h2>
 );
 
-const SectionSubtitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
+const SectionSubtitle: React.FC<{children: ReactNode}> = ({ children }) => (
     <p className="mt-4 text-lg text-text-light dark:text-slate-300 text-center max-w-3xl mx-auto">{children}</p>
 );
 

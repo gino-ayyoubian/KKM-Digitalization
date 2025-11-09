@@ -2,6 +2,10 @@ import React from 'react';
 
 // A simple component to render basic markdown
 const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {
+    if (typeof text !== 'string' || !text) {
+        return null;
+    }
+
     const html = text
         .split('\n')
         .map(line => line.trim())

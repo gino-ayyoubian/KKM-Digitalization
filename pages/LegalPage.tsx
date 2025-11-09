@@ -11,32 +11,32 @@ const LegalPage: React.FC = () => {
     <div>
         <PageHeader title={t(Page.Legal)} subtitle={t('LegalPageSubtitle')}/>
         
-        <Section title={t('CorporateInformation')} id="corporate">
+        <Section title={t('CorporateInformation')} id="corporate" className="bg-white dark:bg-slate-800">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 not-prose">
                 <div>
-                    <h3 className="font-semibold text-text-dark">{t('LegalName')}</h3>
-                    <p className="text-text-light">{t('LegalNameText')}</p>
+                    <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('LegalName')}</h3>
+                    <p className="text-text-light dark:text-slate-300">{t('LegalNameText')}</p>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-text-dark">{t('RegistrationNumber')}</h3>
-                    <p className="text-text-light">384054</p>
+                    <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('RegistrationNumber')}</h3>
+                    <p className="text-text-light dark:text-slate-300">384054</p>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-text-dark">{t('NationalID')}</h3>
-                    <p className="text-text-light">10320351200</p>
+                    <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('NationalID')}</h3>
+                    <p className="text-text-light dark:text-slate-300">10320351200</p>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-text-dark">{t('RegistrationDate')}</h3>
-                    <p className="text-text-light">21 September 2010</p>
+                    <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('RegistrationDate')}</h3>
+                    <p className="text-text-light dark:text-slate-300">21 September 2010</p>
                 </div>
                 <div className="md:col-span-2">
-                    <h3 className="font-semibold text-text-dark">{t('CompanyCapital')}</h3>
-                    <p className="text-text-light">{t('CompanyCapitalText')}</p>
+                    <h3 className="font-semibold text-text-dark dark:text-slate-200">{t('CompanyCapital')}</h3>
+                    <p className="text-text-light dark:text-slate-300">{t('CompanyCapitalText')}</p>
                 </div>
             </div>
         </Section>
         
-        <Section title={t('PrivacyPolicy')} id="privacy" className="bg-white">
+        <Section title={t('PrivacyPolicy')} id="privacy" className="bg-white dark:bg-slate-800">
             <p><strong>Last Updated: {new Date().toLocaleDateString()}</strong></p>
             <p>KKM International Group ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
             
@@ -47,7 +47,7 @@ const LegalPage: React.FC = () => {
             <p>Having accurate information about you permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Site to: create and manage your account, email you regarding your account or order, fulfill and manage purchases, orders, payments, and other transactions related to the Site, and increase the efficiency and operation of the Site.</p>
         </Section>
 
-        <Section title={t('TermsOfUse')} id="terms">
+        <Section title={t('TermsOfUse')} id="terms" className="bg-white dark:bg-slate-800">
              <p><strong>Agreement to Terms</strong></p>
              <p>These Terms of Use constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and KKM International Group (“Company”, “we”, “us”, or “our”), concerning your access to and use of the website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”).</p>
             

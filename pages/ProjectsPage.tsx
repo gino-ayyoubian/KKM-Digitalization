@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { PROJECTS } from '../constants';
-import { Project, Page, MapMarker } from '../types';
+import type { Project, MapMarker } from '../types';
+import { Page } from '../types';
 import ProjectDetailModal from './ProjectDetailModal';
 import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
@@ -10,6 +11,13 @@ import { motion } from 'framer-motion';
 interface ProjectsPageProps {
     setPage: (page: Page) => void;
 }
+
+const getSnippet = (htmlContent: string) => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    const textContent = tempDiv.textContent || tempDiv.innerText || "";
+    return textContent.split(' ').slice(0, 40).join(' ') + '...';
+};
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
     const [selectedProjectForModal, setSelectedProjectForModal] = useState<Project | null>(null);
@@ -80,13 +88,6 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
             type: 'project',
         };
     }, [activeProjectForMap]);
-
-    const getSnippet = (htmlContent: string) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-        const textContent = tempDiv.textContent || tempDiv.innerText || "";
-        return textContent.split(' ').slice(0, 40).join(' ') + '...';
-    };
 
     return (
         <div>

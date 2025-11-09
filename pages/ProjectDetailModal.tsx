@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Project, Page } from '../types';
+import type { Project } from '../types';
+import { Page } from '../types';
 import ProjectMetricsChart from '../components/ProjectMetricsChart';
 import ImageGallery from '../components/ImageGallery';
 import Accordion from '../components/Accordion';
@@ -9,6 +10,12 @@ interface ProjectDetailModalProps {
   onClose: () => void;
   setPage: (page: Page) => void;
 }
+
+const getYouTubeId = (url: string) => {
+  const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
 
 const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClose, setPage }) => {
   const [playVideo, setPlayVideo] = useState(false);
@@ -30,12 +37,6 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClos
         document.body.style.overflow = 'auto';
     };
   }, [onClose]);
-
-  const getYouTubeId = (url: string) => {
-    const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  };
 
   const videoId = project.videoUrl ? getYouTubeId(project.videoUrl) : null;
   

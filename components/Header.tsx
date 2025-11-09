@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Page } from '../types';
 import { NAV_LINKS } from '../constants';
-import { useLanguage, Language } from '../LanguageContext';
+import { useLanguage } from '../LanguageContext';
+import type { Language } from '../LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../ThemeContext';
 
@@ -11,45 +12,75 @@ interface HeaderProps {
   onSearch: (query: string) => void;
 }
 
-const KkmLogo: React.FC = () => (
-    <svg width="100" height="120" viewBox="0 0 170 215" className="h-14 md:h-16 w-auto" aria-labelledby="kkm-logo-title-header">
-        <title id="kkm-logo-title-header">KKM International Group Logo</title>
-        <defs>
-            <linearGradient id="logoSwooshDark" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stopColor="#00529B" />
-                <stop offset="100%" stopColor="#002D56" />
-            </linearGradient>
-            <linearGradient id="logoSwooshLight" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stopColor="#89CFF0" />
-                <stop offset="100%" stopColor="#0A92EF" />
-            </linearGradient>
-            <radialGradient id="logoSphereGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
-                <stop offset="0%" stopColor="#FFD700" />
-                <stop offset="100%" stopColor="#FFC107" />
-            </radialGradient>
-        </defs>
-        <g transform="translate(0, 10)">
-            <path d="M76.3 150.3C34.2 147.1 3.5 113.8 9.2 72.3C14.8 30.8 52.8 0.1 94.9 3.3C137 6.4 167.7 39.7 162.1 81.2C158.4 107.9 141.2 131.5 117.8 141.6C103.6 147.9 88.6 151.3 76.3 150.3Z" fill="url(#logoSwooshDark)"/>
-            <path d="M152.5 73.1C152.5 53.6 143.1 35.8 127.8 24.8C110.1 12.1 87.1 8.8 66.8 15.6C41.7 23.9 24.8 45.4 22.1 71.9C21.3 80.2 22.8 88.5 26.2 96C40.1 66.7 72.8 53.8 102.1 67.7C124.7 78.4 138.8 100.7 138.8 125.6C148.1 110.8 152.5 92.6 152.5 73.1Z" fill="url(#logoSwooshLight)"/>
-            <circle cx="115" cy="98" r="33" fill="url(#logoSphereGradient)"/>
-        </g>
-        <text
-            x="85"
-            y="180"
-            className="fill-text-dark dark:fill-white"
-            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '800', fontSize: '38px', textAnchor: 'middle' }}
-        >
-            K.K.M.
-        </text>
-        <text
-            x="85"
-            y="205"
-            className="fill-text-dark dark:fill-white"
-            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: '700', fontSize: '20px', textAnchor: 'middle', letterSpacing: '0.5px' }}
-        >
-            INTERNATIONAL
-        </text>
-    </svg>
+const KkmLogo: React.FC = () => {
+    const { theme } = useTheme();
+    const fillColor = theme === 'dark' ? 'white' : '#002D56';
+
+    return (
+        <svg width="100" height="120" viewBox="0 0 170 215" className="h-14 md:h-16 w-auto" aria-labelledby="kkm-logo-title-header">
+            <title id="kkm-logo-title-header">KKM International Group Logo</title>
+            <defs>
+                <linearGradient id="logoSwooshDark" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stopColor="#00529B" />
+                    <stop offset="100%" stopColor="#002D56" />
+                </linearGradient>
+                <linearGradient id="logoSwooshLight" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stopColor="#89CFF0" />
+                    <stop offset="100%" stopColor="#0A92EF" />
+                </linearGradient>
+                <radialGradient id="logoSphereGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                    <stop offset="0%" stopColor="#FFD700" />
+                    <stop offset="100%" stopColor="#FFC107" />
+                </radialGradient>
+            </defs>
+            <g transform="translate(0, 10)">
+                <path d="M76.3 150.3C34.2 147.1 3.5 113.8 9.2 72.3C14.8 30.8 52.8 0.1 94.9 3.3C137 6.4 167.7 39.7 162.1 81.2C158.4 107.9 141.2 131.5 117.8 141.6C103.6 147.9 88.6 151.3 76.3 150.3Z" fill="url(#logoSwooshDark)"/>
+                <path d="M152.5 73.1C152.5 53.6 143.1 35.8 127.8 24.8C110.1 12.1 87.1 8.8 66.8 15.6C41.7 23.9 24.8 45.4 22.1 71.9C21.3 80.2 22.8 88.5 26.2 96C40.1 66.7 72.8 53.8 102.1 67.7C124.7 78.4 138.8 100.7 138.8 125.6C148.1 110.8 152.5 92.6 152.5 73.1Z" fill="url(#logoSwooshLight)"/>
+                <circle cx="115" cy="98" r="33" fill="url(#logoSphereGradient)"/>
+            </g>
+            <text
+                x="85"
+                y="180"
+                textAnchor="middle"
+                fontSize="38"
+                fontFamily="Montserrat, sans-serif"
+                fontWeight="800"
+                fill={fillColor}
+            >
+                K.K.M.
+            </text>
+            <text
+                x="85"
+                y="205"
+                textAnchor="middle"
+                fontSize="20"
+                fontFamily="Montserrat, sans-serif"
+                fontWeight="700"
+                fill={fillColor}
+            >
+                INTERNATIONAL
+            </text>
+        </svg>
+    );
+};
+
+const NavLink: React.FC<{
+    page: Page;
+    currentPage: Page;
+    setPage: (page: Page) => void;
+    t: (key: string) => string;
+    isMobile?: boolean;
+}> = ({ page, currentPage, setPage, t, isMobile = false }) => (
+    <button
+        onClick={() => setPage(page)}
+        className={`transition-colors duration-200 ${isMobile ? 'block w-full text-left px-3 py-2 rounded-md text-base' : 'px-3 py-2 rounded-md text-sm'} font-medium ${
+        currentPage === page
+            ? 'text-primary dark:text-secondary font-bold'
+            : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'
+        }`}
+    >
+        {t(page)}
+    </button>
 );
 
 
@@ -106,19 +137,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
     }
   };
 
-  const NavLink: React.FC<{ page: Page, isMobile?: boolean }> = ({ page, isMobile = false }) => (
-    <button
-      onClick={() => setPage(page)}
-      className={`transition-colors duration-200 ${isMobile ? 'block w-full text-left px-3 py-2 rounded-md text-base' : 'px-3 py-2 rounded-md text-sm'} font-medium ${
-        currentPage === page
-          ? 'text-primary dark:text-secondary font-bold'
-          : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'
-      }`}
-    >
-      {t(page)}
-    </button>
-  );
-
   return (
     <header
       ref={headerRef}
@@ -136,7 +154,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           </div>
 
           <nav className="hidden lg:flex items-center space-x-1">
-            {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} />)}
+            {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} currentPage={currentPage} setPage={setPage} t={t} />)}
           </nav>
           
           <div className="flex items-center space-x-1 sm:space-x-2">
@@ -223,7 +241,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
         {isMenuOpen && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="lg:hidden overflow-hidden" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/80 dark:bg-slate-900/80 border-t border-gray-200 dark:border-slate-700">
-              {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} isMobile />)}
+              {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} currentPage={currentPage} setPage={setPage} t={t} isMobile />)}
             </div>
           </motion.div>
         )}
