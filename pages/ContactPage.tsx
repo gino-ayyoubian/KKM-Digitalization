@@ -35,7 +35,7 @@ const FormField: React.FC<{
 const ContactPage: React.FC = () => {
     const { t } = useLanguage();
     const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [errors, setErrors] = useState<{ [key: string]: string | undefined }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formSubmittedSuccessfully, setFormSubmittedSuccessfully] = useState(false);
     const [activeLocation, setActiveLocation] = useState<MapMarker | null>(null);
@@ -67,29 +67,58 @@ const ContactPage: React.FC = () => {
     }, [officeLocations]);
 
 
-    const validateForm = () => {
-        const newErrors: { [key: string]: string } = {};
-        if (!formData.name.trim()) newErrors.name = t('ValidationRequired', { field: t('FullName') });
-        if (!formData.email.trim()) {
-            newErrors.email = t('ValidationRequired', { field: t('EmailAddress') });
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = t('ValidationInvalid', { field: t('EmailAddress') });
+    const validateField = (name: keyof typeof formData, value: string): string => {
+        switch (name) {
+            case 'name':
+                if (!value.trim()) return t('ValidationRequired', { field: t('FullName') });
+                break;
+            case 'email':
+                if (!value.trim()) return t('ValidationRequired', { field: t('EmailAddress') });
+                if (!/\S+@\S+\.\S+/.test(value)) return t('ValidationInvalid', { field: t('EmailAddress') });
+                break;
+            case 'subject':
+                if (!value.trim()) return t('ValidationRequired', { field: t('Subject') });
+                break;
+            case 'message':
+                if (!value.trim()) return t('ValidationRequired', { field: t('Message') });
+                break;
         }
-        if (!formData.subject.trim()) newErrors.subject = t('ValidationRequired', { field: t('Subject') });
-        if (!formData.message.trim()) newErrors.message = t('ValidationRequired', { field: t('Message') });
-        
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return '';
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target as { name: keyof typeof formData; value: string };
+        const error = validateField(name, value);
+        setErrors(prev => ({ ...prev, [name]: error }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (validateForm()) {
+        
+        const formErrors: { [key: string]: string } = {};
+        let isValid = true;
+
+        // FIX: Use Object.entries to safely iterate over form data and prevent a TypeScript indexing error.
+        for (const [key, value] of Object.entries(formData)) {
+            // FIX: The value from Object.entries can be inferred as `unknown`. Cast to string before validation.
+            const error = validateField(key as keyof typeof formData, String(value));
+            if (error) {
+                formErrors[key] = error;
+                isValid = false;
+            }
+        }
+        
+        setErrors(formErrors);
+
+        if (isValid) {
             setIsSubmitting(true);
             // Simulate API call
             setTimeout(() => {
@@ -104,6 +133,10 @@ const ContactPage: React.FC = () => {
         setErrors({});
         setFormSubmittedSuccessfully(false);
     }
+    
+    const inputClasses = "w-full px-4 py-2 border rounded-md bg-white dark:bg-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2";
+    const normalClasses = "border-gray-300 dark:border-slate-600 focus:ring-secondary";
+    const errorClasses = "border-red-500 dark:border-red-500 focus:ring-red-500";
 
     return (
         <div>
@@ -143,11 +176,12 @@ const ContactPage: React.FC = () => {
                                                 name="name"
                                                 value={formData.name}
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 aria-label={t('FullName')}
                                                 aria-required="true"
                                                 aria-invalid={!!errors.name}
                                                 aria-describedby={errors.name ? 'name-error' : undefined}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                                                className={`${inputClasses} ${errors.name ? errorClasses : normalClasses}`}
                                             />
                                         </FormField>
                                         <FormField id="email" label={t('EmailAddress')} error={errors.email}>
@@ -157,11 +191,12 @@ const ContactPage: React.FC = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 aria-label={t('EmailAddress')}
                                                 aria-required="true"
                                                 aria-invalid={!!errors.email}
                                                 aria-describedby={errors.email ? 'email-error' : undefined}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                                                className={`${inputClasses} ${errors.email ? errorClasses : normalClasses}`}
                                             />
                                         </FormField>
                                         <FormField id="subject" label={t('Subject')} error={errors.subject}>
@@ -171,11 +206,12 @@ const ContactPage: React.FC = () => {
                                                 name="subject"
                                                 value={formData.subject}
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 aria-label={t('Subject')}
                                                 aria-required="true"
                                                 aria-invalid={!!errors.subject}
                                                 aria-describedby={errors.subject ? 'subject-error' : undefined}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                                                className={`${inputClasses} ${errors.subject ? errorClasses : normalClasses}`}
                                             />
                                         </FormField>
                                         <FormField id="message" label={t('Message')} error={errors.message}>
@@ -185,11 +221,12 @@ const ContactPage: React.FC = () => {
                                                 rows={5}
                                                 value={formData.message}
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                                 aria-label={t('Message')}
                                                 aria-required="true"
                                                 aria-invalid={!!errors.message}
                                                 aria-describedby={errors.message ? 'message-error' : undefined}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                                                className={`${inputClasses} ${errors.message ? errorClasses : normalClasses}`}
                                             />
                                         </FormField>
                                         <div>

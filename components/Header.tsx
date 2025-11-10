@@ -64,30 +64,11 @@ const KkmLogo: React.FC = () => {
     );
 };
 
-const NavLink: React.FC<{
-    page: Page;
-    currentPage: Page;
-    setPage: (page: Page) => void;
-    t: (key: string) => string;
-    isMobile?: boolean;
-}> = ({ page, currentPage, setPage, t, isMobile = false }) => (
-    <button
-        onClick={() => setPage(page)}
-        className={`transition-colors duration-200 ${isMobile ? 'block w-full text-left px-3 py-2 rounded-md text-base' : 'px-3 py-2 rounded-md text-sm'} font-medium ${
-        currentPage === page
-            ? 'text-primary dark:text-secondary font-bold'
-            : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'
-        }`}
-    >
-        {t(page)}
-    </button>
-);
-
-
 const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [openMobileSubMenu, setOpenMobileSubMenu] = useState<Page | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -108,6 +89,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
   useEffect(() => {
     setIsMenuOpen(false);
     setIsSearchOpen(false);
+    setOpenMobileSubMenu(null);
   }, [currentPage]);
   
   useEffect(() => {
@@ -154,7 +136,44 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
           </div>
 
           <nav className="hidden lg:flex items-center space-x-1">
-            {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} currentPage={currentPage} setPage={setPage} t={t} />)}
+            {NAV_LINKS.map(link => {
+              if (link.subLinks && link.subLinks.length > 0) {
+                return (
+                  <div key={link.name} className="relative group">
+                    <button
+                      onClick={() => setPage(link.name)}
+                      className={`flex items-center gap-1 transition-colors duration-200 px-3 py-2 rounded-md text-sm font-medium ${ currentPage === link.name ? 'text-primary dark:text-secondary font-bold' : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'}`}
+                      aria-haspopup="true"
+                    >
+                      {t(link.name)}
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto focus-within:pointer-events-auto z-10">
+                      <div className="bg-white dark:bg-slate-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 dark:ring-slate-700 w-64">
+                        {link.subLinks.map(subLink => (
+                          <button
+                            key={subLink.id}
+                            onClick={() => setPage(link.name)}
+                            className="block px-4 py-2 text-sm text-text-dark dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 w-full text-left"
+                          >
+                            {subLink.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => setPage(link.name)}
+                  className={`transition-colors duration-200 px-3 py-2 rounded-md text-sm font-medium ${ currentPage === link.name ? 'text-primary dark:text-secondary font-bold' : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'}`}
+                >
+                  {t(link.name)}
+                </button>
+              );
+            })}
           </nav>
           
           <div className="flex items-center space-x-1 sm:space-x-2">
@@ -241,7 +260,59 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
         {isMenuOpen && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="lg:hidden overflow-hidden" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/80 dark:bg-slate-900/80 border-t border-gray-200 dark:border-slate-700">
-              {NAV_LINKS.map(link => <NavLink key={link.name} page={link.name} currentPage={currentPage} setPage={setPage} t={t} isMobile />)}
+              {NAV_LINKS.map(link => {
+                if (link.subLinks && link.subLinks.length > 0) {
+                    const isOpen = openMobileSubMenu === link.name;
+                    return (
+                        <div key={link.name}>
+                            <button
+                                onClick={() => setOpenMobileSubMenu(isOpen ? null : link.name)}
+                                className={`flex justify-between items-center w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${ currentPage === link.name ? 'text-primary dark:text-secondary' : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'}`}
+                                aria-expanded={isOpen}
+                            >
+                                <span>{t(link.name)}</span>
+                                <motion.svg
+                                    animate={{ rotate: isOpen ? 180 : 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </motion.svg>
+                            </button>
+                             <AnimatePresence>
+                                {isOpen && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className="overflow-hidden pl-5 mt-1"
+                                    >
+                                        <div className="flex flex-col space-y-1 border-l-2 border-secondary/50 dark:border-primary/50">
+                                            {link.subLinks.map(subLink => (
+                                                <button
+                                                    key={subLink.id}
+                                                    onClick={() => setPage(link.name)}
+                                                    className="block w-full text-left pl-3 py-2 rounded-md text-base font-medium text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary"
+                                                >
+                                                    {subLink.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                             </AnimatePresence>
+                        </div>
+                    );
+                }
+                return (
+                    <button
+                        key={link.name}
+                        onClick={() => setPage(link.name)}
+                        className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${ currentPage === link.name ? 'text-primary dark:text-secondary font-bold' : 'text-text-dark dark:text-slate-200 hover:text-primary dark:hover:text-secondary'}`}
+                    >
+                        {t(link.name)}
+                    </button>
+                );
+              })}
             </div>
           </motion.div>
         )}

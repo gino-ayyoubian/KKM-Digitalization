@@ -22,6 +22,7 @@ const getSnippet = (htmlContent: string) => {
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
     const [selectedProjectForModal, setSelectedProjectForModal] = useState<Project | null>(null);
     const [activeProjectForMap, setActiveProjectForMap] = useState<Project | null>(null);
+    const [hoveredProjectName, setHoveredProjectName] = useState<string | null>(null);
     const { t } = useLanguage();
     const detailsPanelRef = useRef<HTMLDivElement>(null);
     
@@ -107,7 +108,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
                         >
                             <h2 className="text-2xl font-display font-bold text-primary dark:text-secondary mb-4">{t('ProjectDetails')}</h2>
                             {activeProjectForMap ? (
-                                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg">
+                                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg hover:shadow-xl dark:shadow-none transition-shadow duration-300">
                                     <div className="relative group overflow-hidden rounded-t-lg">
                                         <img src={activeProjectForMap.image} alt={activeProjectForMap.name} loading="lazy" className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105" />
                                         <div 
@@ -128,9 +129,9 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
                                             ))}
                                         </div>
                                         <h3 className="text-xl font-display font-bold text-primary dark:text-white">{activeProjectForMap.name}</h3>
-                                        <p className="text-sm text-text-light dark:text-slate-300 mt-2 mb-4">{getSnippet(activeProjectForMap.detailedContent)}</p>
-                                        <button onClick={() => handleViewDetails(activeProjectForMap)} className="font-bold text-primary dark:text-secondary hover:text-accent-yellow dark:hover:text-accent-yellow transition-colors">
-                                            {t('ViewCaseStudy')} →
+                                        <p className="text-sm text-text-light dark:text-slate-300 mt-2 mb-6">{getSnippet(activeProjectForMap.detailedContent)}</p>
+                                        <button onClick={() => handleViewDetails(activeProjectForMap)} className="inline-block px-6 py-2 font-semibold text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary dark:focus:ring-offset-slate-800">
+                                            {t('ViewCaseStudy')}
                                         </button>
                                     </div>
                                 </div>
@@ -165,6 +166,8 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
                                     key={project.name} 
                                     className={`w-full text-left p-3 transition-colors duration-200 border-b dark:border-slate-700 last:border-b-0 ${activeProjectForMap?.name === project.name ? 'bg-secondary/20 font-semibold' : 'hover:bg-gray-100 dark:hover:bg-slate-800'}`}
                                     onClick={() => setActiveProjectForMap(project)}
+                                    onMouseEnter={() => setHoveredProjectName(project.name)}
+                                    onMouseLeave={() => setHoveredProjectName(null)}
                                 >
                                     <h3 className="text-md font-display text-primary dark:text-secondary">{project.name}</h3>
                                 </button>
@@ -173,7 +176,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
 
                         <h2 className="text-2xl font-display font-bold text-primary mb-4">{t('OurGlobalFootprint')}</h2>
                         <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden shadow-lg bg-gray-200">
-                            <InteractiveMap projects={projectMarkers} activeProject={activeMarker} onMarkerSelect={handleProjectSelect} />
+                            <InteractiveMap projects={projectMarkers} activeProject={activeMarker} onMarkerSelect={handleProjectSelect} hoveredProjectName={hoveredProjectName} />
                         </div>
                     </div>
                 </div>

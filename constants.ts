@@ -4,7 +4,17 @@ import type { Project, NavLink, NewsItem, Video } from './types';
 export const NAV_LINKS: NavLink[] = [
   { name: Page.Home },
   { name: Page.AboutUs },
-  { name: Page.CoreTechnologies },
+  { 
+    name: Page.CoreTechnologies,
+    subLinks: [
+      { name: "GMEL-CLG (Closed-loop Geothermal)", id: "gmel-clg" },
+      { name: "GMEL-EHS (Smart Energy Sensors)", id: "gmel-ehs" },
+      { name: "GMEL-DrillX (Advanced Drilling)", id: "gmel-drillx" },
+      { name: "GMEL-ThermoFluid (Heat Transfer Fluid)", id: "gmel-thermofluid" },
+      { name: "GMEL-Desal (Thermal Desalination)", id: "gmel-desal" },
+      { name: "GMEL-H₂Cell (Hydrogen Production)", id: "gmel-h2cell" },
+    ]
+  },
   { name: Page.Futures },
   { name: Page.Projects },
   { name: Page.InnovationHub },
@@ -125,19 +135,19 @@ export const NEWS_ITEMS: NewsItem[] = [
 export const VIDEOS: Video[] = [
     {
         title: "The Future of Energy: Inside GMEL-CLG",
-        description: "A deep dive into our revolutionary closed-loop geothermal technology.",
+        description: "Explore our revolutionary closed-loop geothermal technology designed for zero-emission energy generation.",
         thumbnail: "https://i.ytimg.com/vi/GLK6DErFBPA/hqdefault.jpg",
         youtubeId: "GLK6DErFBPA"
     },
     {
         title: "Project Spotlight: Qeshm Island Transformation",
-        description: "Witness the scale and impact of our landmark EPCI project.",
+        description: "Witness the monumental scale and strategic impact of our landmark EPCI project on Qeshm Island.",
         thumbnail: "https://i.ytimg.com/vi/m_1119yJv-o/hqdefault.jpg",
         youtubeId: "m_1119yJv-o"
     },
     {
         title: "Innovation in Action: The KKM Hub",
-        description: "Meet the innovators and see the ideas shaping tomorrow.",
+        description: "Meet the brilliant minds and see the groundbreaking ideas that are shaping the future at our Innovation Hub.",
         thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
         youtubeId: "dQw4w9WgXcQ"
     }

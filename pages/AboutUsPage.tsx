@@ -11,11 +11,12 @@ type OrgMember = {
     name: TranslationKey;
     role: TranslationKey;
     desc: TranslationKey;
+    image?: string;
 }
 
 // Data for the executive leadership team
 const executiveLeadership: OrgMember[] = [
-    { name: 'GinoAyyoubian', role: 'CEO', desc: 'CEODesc' },
+    { name: 'GinoAyyoubian', role: 'CEO', desc: 'CEODesc', image: 'https://i.imgur.com/lJ4n79b.jpeg' },
     { name: 'DrRezaAsakereh', role: 'CTO', desc: 'CTODesc' },
     { name: 'DrKhosroJarrahian', role: 'CSO', desc: 'CSODesc' },
     { name: 'FaridImani', role: 'CIO', desc: 'CIODesc' },
@@ -39,6 +40,13 @@ const awards: { name: TranslationKey; year: string; body: TranslationKey; }[] = 
     { name: 'CertificationName1', year: 'Ongoing', body: 'CertificationBody1' }
 ];
 
+const history: { year: string; title: TranslationKey; desc: TranslationKey; }[] = [
+    { year: '2010', title: 'History2010Title', desc: 'History2010Desc' },
+    { year: '2015', title: 'History2015Title', desc: 'History2015Desc' },
+    { year: '2020', title: 'History2020Title', desc: 'History2020Desc' },
+    { year: '2022', title: 'History2022Title', desc: 'History2022Desc' },
+    { year: '2023', title: 'History2023Title', desc: 'History2023Desc' },
+];
 
 interface AboutUsPageProps {
     setPage: (page: Page) => void;
@@ -48,6 +56,8 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
   const { t } = useLanguage();
   const [isSeniorManagementVisible, setIsSeniorManagementVisible] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [activeSection, setActiveSection] = useState('overview');
+  const [expandedHistoryYear, setExpandedHistoryYear] = useState<string | null>(history[history.length - 1]?.year ?? null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,7 +65,40 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
     }, 7000); // Change testimonial every 7 seconds
     return () => clearTimeout(timer);
   }, [currentTestimonial]);
+  
+  const sectionIds = ['overview', 'history', 'governance', 'roles', 'sustainability', 'testimonials', 'awards'];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        },
+        {
+            rootMargin: `-25% 0px -70% 0px`, // Highlight when section is in the upper part of the viewport
+            threshold: 0
+        }
+    );
+
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+    });
+
+    return () => {
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) observer.unobserve(el);
+        });
+    };
+}, []);
+
+  const NavLink: React.FC<{id: string, titleKey: TranslationKey}> = ({id, titleKey}) => (
+       <a href={`#${id}`} className={`font-semibold transition-colors ${activeSection === id ? 'text-primary dark:text-secondary font-bold' : 'text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary'}`}>{t(titleKey)}</a>
+  );
 
   return (
     <div>
@@ -63,12 +106,13 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-12 sticky top-20 z-10">
             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm shadow-md rounded-lg p-4 flex flex-wrap justify-center gap-3 sm:gap-6">
-                <a href="#overview" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('CompanyOverview')}</a>
-                <a href="#governance" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('LeadershipGovernance')}</a>
-                <a href="#roles" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('StrategicRoles')}</a>
-                <a href="#sustainability" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('SustainabilityCommitments')}</a>
-                <a href="#testimonials" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('ClientTestimonials')}</a>
-                <a href="#awards" className="font-semibold text-text-light dark:text-slate-300 hover:text-primary dark:hover:text-secondary transition-colors">{t('AwardsRecognition')}</a>
+                <NavLink id="overview" titleKey="CompanyOverview" />
+                <NavLink id="history" titleKey="OurHistory" />
+                <NavLink id="governance" titleKey="LeadershipGovernance" />
+                <NavLink id="roles" titleKey="StrategicRoles" />
+                <NavLink id="sustainability" titleKey="SustainabilityCommitments" />
+                <NavLink id="testimonials" titleKey="ClientTestimonials" />
+                <NavLink id="awards" titleKey="AwardsRecognition" />
             </div>
         </div>
         
@@ -88,6 +132,58 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                 </div>
             </div>
         </Section>
+        
+        <Section title={t('OurHistory')} id="history" className="bg-white dark:bg-slate-800">
+            <div className="relative max-w-3xl mx-auto">
+                <div className="absolute left-4 top-0 h-full w-0.5 bg-gray-200 dark:bg-slate-700" aria-hidden="true"></div>
+                <div className="space-y-4">
+                    {history.map((item, index) => {
+                        const isOpen = expandedHistoryYear === item.year;
+                        return (
+                            <div key={index} className="pl-12 relative">
+                                <div className="absolute left-4 top-1 -translate-x-1/2 w-4 h-4 bg-secondary rounded-full border-4 border-white dark:border-slate-800"></div>
+                                <button
+                                    onClick={() => setExpandedHistoryYear(isOpen ? null : item.year)}
+                                    className="w-full text-left p-2 -ml-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700/50 transition-colors"
+                                    aria-expanded={isOpen}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-display font-bold text-xl text-primary dark:text-secondary">{item.year}</p>
+                                            <h4 className="font-display font-semibold text-lg text-text-dark dark:text-white mt-1">{t(item.title)}</h4>
+                                        </div>
+                                        <motion.svg
+                                            animate={{ rotate: isOpen ? 180 : 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </motion.svg>
+                                    </div>
+                                </button>
+                                <AnimatePresence initial={false}>
+                                    {isOpen && (
+                                        <motion.div
+                                            key="content"
+                                            initial="collapsed"
+                                            animate="open"
+                                            exit="collapsed"
+                                            variants={{
+                                                open: { opacity: 1, height: 'auto', marginTop: '8px' },
+                                                collapsed: { opacity: 0, height: 0, marginTop: '0px' }
+                                            }}
+                                            transition={{ duration: 0.4, ease: 'easeInOut' }}
+                                            className="overflow-hidden"
+                                        >
+                                            <p className="pb-4 text-sm">{t(item.desc)}</p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+        </Section>
 
         <Section title={t('LeadershipGovernance')} id="governance" className="bg-white dark:bg-slate-800">
             <p className="mb-8">{t('LeadershipGovernanceText')}</p>
@@ -96,7 +192,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                 {topLeadership.map(member => (
                     <div key={member.name} className="bg-gray-50 dark:bg-slate-700 p-6 rounded-lg shadow-md text-center transform hover:-translate-y-1 transition-transform duration-300">
                          <img 
-                            src={`https://i.pravatar.cc/150?u=${member.name}`} 
+                            src={member.image || `https://i.pravatar.cc/150?u=${member.name}`} 
                             alt={t(member.name)}
                             className="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary/50" 
                         />
@@ -134,7 +230,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                                 {seniorManagement.map(member => (
                                     <div key={member.name} className="bg-gray-50 dark:bg-slate-800 p-6 rounded-lg shadow text-center">
                                          <img 
-                                            src={`https://i.pravatar.cc/150?u=${member.name}`} 
+                                            src={member.image || `https://i.pravatar.cc/150?u=${member.name}`} 
                                             alt={t(member.name)}
                                             className="w-24 h-24 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary/50" 
                                         />
@@ -203,10 +299,10 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentTestimonial}
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                        transition={{ duration: 0.7, ease: 'easeInOut' }}
                         className="text-center max-w-3xl"
                     >
                         <img src={testimonials[currentTestimonial].image} alt={t(testimonials[currentTestimonial].name)} className="w-24 h-24 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary" />

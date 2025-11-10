@@ -75,7 +75,7 @@ const CEOBriefingWidget: React.FC = () => {
         <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 flex flex-col md:flex-row gap-8">
             <div className="text-center md:text-left md:w-1/4 flex-shrink-0">
                 <img 
-                    src={`https://i.pravatar.cc/150?u=GinoAyyoubian`} 
+                    src="https://i.imgur.com/lJ4n79b.jpeg"
                     alt="Gino Ayyoubian, CEO"
                     className="w-32 h-32 rounded-full mx-auto object-cover ring-4 ring-secondary/50" 
                 />

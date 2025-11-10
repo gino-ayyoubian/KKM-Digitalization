@@ -5,6 +5,7 @@ import { Page } from '../types';
 import PageHeader from '../components/PageHeader';
 import { useLanguage } from '../LanguageContext';
 import NewsCard from '../components/NewsCard';
+import { motion } from 'framer-motion';
 
 interface NewsPageProps {
     onSelectArticle: (article: NewsItem) => void;
@@ -82,13 +83,20 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                     {visibleNewsItems.length > 0 ? visibleNewsItems.map(item => (
-                       <NewsCard 
-                            key={item.title} 
-                            item={item} 
-                            onSelectArticle={onSelectArticle}
-                            imageHeight="h-64"
-                            showCategory={true}
-                        />
+                       <motion.div
+                            key={item.title}
+                            layout
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, ease: 'easeOut' }}
+                       >
+                            <NewsCard 
+                                item={item} 
+                                onSelectArticle={onSelectArticle}
+                                imageHeight="h-64"
+                                showCategory={true}
+                            />
+                       </motion.div>
                     )) : (
                         <p className="md:col-span-2 text-center text-text-light dark:text-slate-400">No news articles match the current filters.</p>
                     )}

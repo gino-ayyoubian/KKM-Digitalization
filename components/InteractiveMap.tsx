@@ -5,7 +5,6 @@ import { useLanguage } from '../LanguageContext';
 declare global {
     interface Window {
         google: any;
-        initMapCallback: () => void;
     }
 }
 
@@ -26,7 +25,7 @@ const ICON_PATHS: { [key: string]: string } = {
     'Power Generation': 'M7 2v11h3v9l7-12h-4l4-8H7z',
     'Oil & Gas Infrastructure': 'M17.66 7.93L12 2.27 6.34 7.93c-3.12 3.12-3.12 8.19 0 11.31C7.9 20.8 9.95 21.58 12 21.58s4.1-.78 5.66-2.34c3.12-3.12 3.12-8.19 0-11.31zM12 19.59c-1.6 0-3.11-.62-4.24-1.76C6.62 16.69 6 15.19 6 13.78c0-1.41.62-2.91 1.76-4.04L12 5.09l4.24 4.65c1.14 1.14 1.76 2.64 1.76 4.04 0 1.41-.62 2.91-1.76 4.04-1.13 1.14-2.64 1.76-4.24 1.76z',
     'Upstream Services': 'M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z',
-    'Industrial Solutions': 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17-.59-1.69-.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24-.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49 1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49.42l.38-2.65c.61-.25 1.17-.59-1.69-.98l2.49 1c.23.09.49 0 .61.22l2-3.46c.12-.22-.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z',
+    'Industrial Solutions': 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17-.59-1.69-.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19-.15-.24-.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49 1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49.42l.38-2.65c.61-.25 1.17-.59-1.69-.98l2.49 1c.23.09.49 0 .61.22l2-3.46c.12-.22-.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z',
     'Default': 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
 };
 
@@ -38,58 +37,72 @@ const loadMapsApi = () => {
         return mapsApiPromise;
     }
 
-    mapsApiPromise = new Promise((resolve, reject) => {
-        // Case 1: API is already available.
-        if (typeof window.google === 'object' && typeof window.google.maps === 'object') {
-            return resolve(window.google.maps);
-        }
+    mapsApiPromise = new Promise(async (resolve, reject) => {
+        try {
+            if (!window.google?.maps?.importLibrary) {
+                if (!process.env.API_KEY) {
+                    return reject(new Error("Google Maps API Key is missing."));
+                }
+                
+                await new Promise<void>((resolveScript, rejectScript) => {
+                    if (document.getElementById(SCRIPT_ID)) {
+                        // Script is already in the DOM, likely loading. Poll for it to be ready.
+                        const interval = setInterval(() => {
+                            if (window.google?.maps?.importLibrary) {
+                                clearInterval(interval);
+                                resolveScript();
+                            }
+                        }, 100);
+                        // Timeout to prevent infinite loop
+                        setTimeout(() => {
+                            clearInterval(interval);
+                            if (!window.google?.maps?.importLibrary) {
+                                rejectScript(new Error("Google Maps script failed to load in time."));
+                            }
+                        }, 5000);
+                        return;
+                    }
 
-        // Case 2: API key is missing.
-        if (!process.env.API_KEY) {
-            mapsApiPromise = null; // Reset for retry.
-            return reject(new Error("Google Maps API Key is missing."));
-        }
-        
-        // Set up the global callback. It will be called by the script once loaded.
-        window.initMapCallback = () => {
-            if (window.google && window.google.maps) {
-                resolve(window.google.maps);
-            } else {
-                reject(new Error("Google Maps loaded but `window.google.maps` is not available."));
+                    const script = document.createElement('script');
+                    script.id = SCRIPT_ID;
+                    // The KEY FIX: use `loading=async` to enable the new loader required for `importLibrary`.
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&v=weekly&loading=async`;
+                    script.async = true;
+                    script.defer = true;
+                    document.head.appendChild(script);
+                    script.onload = () => resolveScript();
+                    script.onerror = (e) => {
+                        script.remove();
+                        rejectScript(new Error(`Failed to load Google Maps script. Error: ${e.toString()}`));
+                    };
+                });
             }
-            // Cleanup after execution.
-            delete window.initMapCallback;
-        };
+            
+            // All components should be available via `importLibrary` now.
+            const [maps, marker] = await Promise.all([
+                window.google.maps.importLibrary('maps'),
+                window.google.maps.importLibrary('marker'),
+            ]);
 
-        // Case 3: Script tag is NOT in the DOM. Create and append it.
-        if (!document.getElementById(SCRIPT_ID)) {
-            const script = document.createElement('script');
-            script.id = SCRIPT_ID;
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&v=weekly&libraries=marker&callback=initMapCallback`;
-            script.async = true;
-            script.defer = true;
-            script.onerror = (event: Event | string) => {
-                script.remove();
-                mapsApiPromise = null; // Reset for retry.
-                delete window.initMapCallback;
-                reject(new Error(`Failed to load Google Maps script. Check API key and network. Error: ${event.toString()}`));
-            };
-            document.head.appendChild(script);
+            const combinedApi = { ...maps, ...marker };
+            resolve(combinedApi);
+        } catch (error) {
+            mapsApiPromise = null; // Allow retry on failure
+            reject(error);
         }
-        // Case 4: Script tag is already in the DOM (added by this loader or another part of the app).
-        // In this case, we just wait. Our `window.initMapCallback` is set up and will be called when it finishes loading.
     });
-    
+
     return mapsApiPromise;
 };
 
 interface InteractiveMapProps {
     projects: MapMarker[];
     activeProject: MapMarker | null;
+    hoveredProjectName?: string | null;
     onMarkerSelect?: (projectName: string) => void;
 }
 
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject, onMarkerSelect }) => {
+const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject, hoveredProjectName, onMarkerSelect }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const [mapIsReady, setMapIsReady] = useState(false);
     
@@ -100,8 +113,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     const markerClusterer = useRef<any>(null);
     const userLocationMarker = useRef<any>(null);
     const pulsingMarkerElement = useRef<HTMLElement | null>(null);
+    const hoveredMarkerRef = useRef<{ name: string; originalZIndex?: number } | null>(null);
     
-    // Refs for cleaning up event listeners
     const locationButtonRef = useRef<HTMLButtonElement | null>(null);
     const locationClickListenerRef = useRef<(() => void) | null>(null);
     
@@ -117,19 +130,19 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
         loadMapsApi().then(maps => {
             if (!isMounted || !mapElement) return;
 
-            if (!maps || !maps.marker || !maps.Map || !maps.marker.AdvancedMarkerElement || !maps.marker.MarkerClusterer) {
+            if (!maps || !maps.Map || !maps.AdvancedMarkerElement || !maps.MarkerClusterer || !maps.PinElement) {
                 const error = new Error("Google Maps loaded but required components are missing.");
-                console.error(error);
+                console.error(error, maps);
                 if (mapElement) mapElement.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;text-align:center;padding:2rem;color:#c00;background-color:#fdd;">${error.message}</div>`;
                 return;
             }
 
             mapApi.current = {
                 Map: maps.Map,
-                AdvancedMarkerElement: maps.marker.AdvancedMarkerElement,
-                PinElement: maps.marker.PinElement,
-                GlyphElement: maps.marker.GlyphElement,
-                MarkerClusterer: maps.marker.MarkerClusterer,
+                AdvancedMarkerElement: maps.AdvancedMarkerElement,
+                PinElement: maps.PinElement,
+                GlyphElement: maps.GlyphElement,
+                MarkerClusterer: maps.MarkerClusterer,
                 ControlPosition: maps.ControlPosition,
                 InfoWindow: maps.InfoWindow,
             };
@@ -146,7 +159,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
             infoWindow.current = new InfoWindow();
             
             const locationButton = document.createElement("button");
-            locationButtonRef.current = locationButton; // Store for cleanup
+            locationButtonRef.current = locationButton; 
             locationButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#333"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7z"/></svg>`;
             locationButton.title = "Center on my location";
             Object.assign(locationButton.style, { backgroundColor: '#fff', border: 'none', borderRadius: '3px', boxShadow: '0 2px 6px rgba(0,0,0,.3)', cursor: 'pointer', margin: '10px', padding: '8px' });
@@ -169,7 +182,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
                     alert("Geolocation is not supported by this browser.");
                 }
             };
-            locationClickListenerRef.current = locationClickListener; // Store for cleanup
+            locationClickListenerRef.current = locationClickListener; 
             locationButton.addEventListener("click", locationClickListener);
 
             setMapIsReady(true);
@@ -188,7 +201,11 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
                 locationButtonRef.current.removeEventListener('click', locationClickListenerRef.current);
             }
             if (mapInstance.current && mapApi.current && mapInstance.current.controls) {
-                mapInstance.current.controls[mapApi.current.ControlPosition.RIGHT_BOTTOM].clear();
+                try {
+                  mapInstance.current.controls[mapApi.current.ControlPosition.RIGHT_BOTTOM].clear();
+                } catch(e) {
+                  // In case map instance is already destroyed
+                }
             }
 
             if (markerClusterer.current) {
@@ -283,6 +300,32 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
             }
         }
     }, [activeProject, mapIsReady, getInfoWindowContent, handleMarkerAnimation]);
+    
+    // Effect 4: Handle hovered project
+    useEffect(() => {
+        if (!mapIsReady) return;
+    
+        // Reset previously hovered marker
+        if (hoveredMarkerRef.current) {
+            const marker = markers.current.get(hoveredMarkerRef.current.name);
+            if (marker && marker.content) {
+                marker.content.style.transform = '';
+                marker.zIndex = hoveredMarkerRef.current.originalZIndex;
+            }
+            hoveredMarkerRef.current = null;
+        }
+    
+        // Set new hovered marker, but only if it's not the currently active (pulsing) one
+        if (hoveredProjectName && hoveredProjectName !== activeProject?.name) {
+            const marker = markers.current.get(hoveredProjectName);
+            if (marker && marker.content) {
+                hoveredMarkerRef.current = { name: hoveredProjectName, originalZIndex: marker.zIndex };
+                marker.content.style.transition = 'transform 0.2s ease-out';
+                marker.content.style.transform = 'scale(1.4)';
+                marker.zIndex = 999;
+            }
+        }
+    }, [hoveredProjectName, activeProject, mapIsReady]);
 
     return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />;
 };
