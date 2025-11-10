@@ -5,6 +5,7 @@ import { useLanguage } from '../LanguageContext';
 declare global {
     interface Window {
         google: any;
+        __googleMapsApiCallback: () => void;
     }
 }
 
@@ -31,6 +32,7 @@ const ICON_PATHS: { [key: string]: string } = {
 
 let mapsApiPromise: Promise<any> | null = null;
 const SCRIPT_ID = 'google-maps-api-script';
+const MAP_CALLBACK_NAME = '__googleMapsApiCallback';
 
 const loadMapsApi = () => {
     if (mapsApiPromise) {
@@ -38,57 +40,54 @@ const loadMapsApi = () => {
     }
 
     mapsApiPromise = new Promise(async (resolve, reject) => {
-        try {
-            if (!window.google?.maps?.importLibrary) {
-                if (!process.env.API_KEY) {
-                    return reject(new Error("Google Maps API Key is missing."));
-                }
-                
-                await new Promise<void>((resolveScript, rejectScript) => {
-                    if (document.getElementById(SCRIPT_ID)) {
-                        // Script is already in the DOM, likely loading. Poll for it to be ready.
-                        const interval = setInterval(() => {
-                            if (window.google?.maps?.importLibrary) {
-                                clearInterval(interval);
-                                resolveScript();
-                            }
-                        }, 100);
-                        // Timeout to prevent infinite loop
-                        setTimeout(() => {
-                            clearInterval(interval);
-                            if (!window.google?.maps?.importLibrary) {
-                                rejectScript(new Error("Google Maps script failed to load in time."));
-                            }
-                        }, 5000);
-                        return;
-                    }
-
-                    const script = document.createElement('script');
-                    script.id = SCRIPT_ID;
-                    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&v=weekly&loading=async`;
-                    script.async = true;
-                    script.defer = true;
-                    document.head.appendChild(script);
-                    script.onload = () => resolveScript();
-                    script.onerror = (e) => {
-                        script.remove();
-                        rejectScript(new Error(`Failed to load Google Maps script. Error: ${e.toString()}`));
-                    };
-                });
+        const getLibraries = async () => {
+            try {
+                const [maps, marker] = await Promise.all([
+                    window.google.maps.importLibrary('maps'),
+                    window.google.maps.importLibrary('marker'),
+                ]);
+                return { ...maps, ...marker };
+            } catch (error) {
+                throw error;
             }
-            
-            // All components should be available via `importLibrary` now.
-            const [maps, marker] = await Promise.all([
-                window.google.maps.importLibrary('maps'),
-                window.google.maps.importLibrary('marker'),
-            ]);
+        };
 
-            const combinedApi = { ...maps, ...marker };
-            resolve(combinedApi);
-        } catch (error) {
-            mapsApiPromise = null; // Allow retry on failure
-            reject(error);
+        if (window.google?.maps?.importLibrary) {
+            getLibraries().then(resolve).catch(reject);
+            return;
         }
+
+        window[MAP_CALLBACK_NAME] = () => {
+            getLibraries().then(resolve).catch(reject);
+            delete window[MAP_CALLBACK_NAME];
+        };
+
+        if (document.getElementById(SCRIPT_ID)) {
+            // Script is already loading, the callback will be triggered.
+            return;
+        }
+        
+        if (!process.env.API_KEY) {
+            const error = new Error("Google Maps API Key is missing.");
+            console.error(error);
+            return reject(error);
+        }
+
+        const script = document.createElement('script');
+        script.id = SCRIPT_ID;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&v=weekly&loading=async&callback=${MAP_CALLBACK_NAME}`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = (e) => {
+            script.remove();
+            delete window[MAP_CALLBACK_NAME];
+            const error = new Error(`Failed to load Google Maps script. Error: ${e.toString()}`);
+            console.error(error);
+            mapsApiPromise = null; // Allow retry
+            reject(error);
+        };
+        
+        document.head.appendChild(script);
     });
 
     return mapsApiPromise;
