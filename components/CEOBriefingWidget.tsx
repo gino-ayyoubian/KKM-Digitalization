@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import * as React from 'react';
 import { GoogleGenAI } from '@google/genai';
 import type { GeminiSearchResult } from '../types';
 import { useLanguage } from '../LanguageContext';
@@ -20,20 +20,20 @@ const LoadingSkeleton = () => (
 );
 
 const CEOBriefingWidget: React.FC = () => {
-    const [briefing, setBriefing] = useState<GeminiSearchResult | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [briefing, setBriefing] = React.useState<GeminiSearchResult | null>(null);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [error, setError] = React.useState<string | null>(null);
     const { t } = useLanguage();
-    const isMounted = useRef(true);
+    const isMounted = React.useRef(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
         isMounted.current = true;
         return () => {
             isMounted.current = false;
         };
     }, []);
 
-    const fetchBriefing = useCallback(async () => {
+    const fetchBriefing = React.useCallback(async () => {
         if (!isMounted.current) return;
         setIsLoading(true);
         setError(null);
@@ -67,7 +67,7 @@ const CEOBriefingWidget: React.FC = () => {
         }
     }, [t]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetchBriefing();
     }, [fetchBriefing]);
     

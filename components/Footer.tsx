@@ -1,5 +1,4 @@
-import React from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import { useLanguage } from '../LanguageContext';
 import type { TranslationKey } from '../translations';
@@ -51,7 +50,7 @@ const FooterLink: React.FC<{
     page: Page;
     setPage: (page: Page) => void;
     t: (key: TranslationKey, options?: { [key: string]: string | number }) => string;
-    children?: ReactNode;
+    children?: React.ReactNode;
 }> = ({ page, setPage, t, children }) => (
     <li>
         <button onClick={() => setPage(page)} className="text-gray-200 hover:text-white transition-colors duration-200">

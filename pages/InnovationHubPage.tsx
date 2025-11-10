@@ -1,10 +1,9 @@
-import React from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import { useLanguage } from '../LanguageContext';
 import PageHeader from '../components/PageHeader';
 
-const InnovationStep: React.FC<{ number: string; title: string; children: ReactNode }> = ({ number, title, children }) => (
+const InnovationStep: React.FC<{ number: string; title: string; children: React.ReactNode }> = ({ number, title, children }) => (
     <div className="flex">
         <div className="flex flex-col items-center me-4">
             <div>

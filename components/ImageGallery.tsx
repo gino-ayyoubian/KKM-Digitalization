@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 
 interface ImageGalleryProps {
     images: string[];
@@ -6,7 +6,7 @@ interface ImageGalleryProps {
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, altText }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
 
     if (!images || images.length === 0) {
         return null;

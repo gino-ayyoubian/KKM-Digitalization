@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PageHeader from '../components/PageHeader';
 import Section from '../components/Section';
 import { useLanguage } from '../LanguageContext';

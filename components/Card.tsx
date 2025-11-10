@@ -1,10 +1,9 @@
-import React from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 
 interface CardProps {
   title: string;
   description: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   imageUrl?: string;
   actionText?: string;
   onActionClick?: () => void;

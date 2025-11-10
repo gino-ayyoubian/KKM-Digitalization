@@ -1,5 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { translations } from './translations';
 import type { TranslationKey } from './translations';
 
@@ -13,10 +12,10 @@ interface LanguageContextType {
   direction: Direction;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = React.createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('EN');
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = React.useState<Language>('EN');
 
   const direction = ['FA', 'AR'].includes(language) ? 'rtl' : 'ltr';
 
@@ -38,7 +37,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 };
 
 export const useLanguage = (): LanguageContextType => {
-  const context = useContext(LanguageContext);
+  const context = React.useContext(LanguageContext);
   if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }

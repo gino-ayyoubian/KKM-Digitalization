@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo, useCallback, useState } from 'react';
+import * as React from 'react';
 import type { MapMarker } from '../types';
 import { useLanguage } from '../LanguageContext';
 
@@ -65,7 +65,6 @@ const loadMapsApi = () => {
 
                     const script = document.createElement('script');
                     script.id = SCRIPT_ID;
-                    // The KEY FIX: use `loading=async` to enable the new loader required for `importLibrary`.
                     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&v=weekly&loading=async`;
                     script.async = true;
                     script.defer = true;
@@ -103,25 +102,25 @@ interface InteractiveMapProps {
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject, hoveredProjectName, onMarkerSelect }) => {
-    const mapRef = useRef<HTMLDivElement>(null);
-    const [mapIsReady, setMapIsReady] = useState(false);
+    const mapRef = React.useRef<HTMLDivElement>(null);
+    const [mapIsReady, setMapIsReady] = React.useState(false);
     
-    const mapApi = useRef<any>(null);
-    const mapInstance = useRef<any>(null);
-    const markers = useRef<Map<string, any>>(new Map());
-    const infoWindow = useRef<any>(null);
-    const markerClusterer = useRef<any>(null);
-    const userLocationMarker = useRef<any>(null);
-    const pulsingMarkerElement = useRef<HTMLElement | null>(null);
-    const hoveredMarkerRef = useRef<{ name: string; originalZIndex?: number } | null>(null);
+    const mapApi = React.useRef<any>(null);
+    const mapInstance = React.useRef<any>(null);
+    const markers = React.useRef<Map<string, any>>(new Map());
+    const infoWindow = React.useRef<any>(null);
+    const markerClusterer = React.useRef<any>(null);
+    const userLocationMarker = React.useRef<any>(null);
+    const pulsingMarkerElement = React.useRef<HTMLElement | null>(null);
+    const hoveredMarkerRef = React.useRef<{ name: string; originalZIndex?: number } | null>(null);
     
-    const locationButtonRef = useRef<HTMLButtonElement | null>(null);
-    const locationClickListenerRef = useRef<(() => void) | null>(null);
+    const locationButtonRef = React.useRef<HTMLButtonElement | null>(null);
+    const locationClickListenerRef = React.useRef<(() => void) | null>(null);
     
     const { t } = useLanguage();
 
     // Effect 1: Initialization. Runs once.
-    useEffect(() => {
+    React.useEffect(() => {
         const mapElement = mapRef.current;
         if (!mapElement) return;
 
@@ -225,7 +224,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
         };
     }, []);
 
-    const getInfoWindowContent = useCallback((project: MapMarker) => `
+    const getInfoWindowContent = React.useCallback((project: MapMarker) => `
         <div style="font-family: 'Open Sans', sans-serif; color: #002D56; padding: 5px; max-width: 250px;">
             <h3 style="font-weight: 700; font-family: 'Montserrat', sans-serif; margin: 0 0 8px 0; font-size: 16px;">${project.name}</h3>
             <p style="font-size: 14px; margin: 0 0 12px 0; line-height: 1.5;">${project.description}</p>
@@ -233,7 +232,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
         </div>
     `, [t]);
 
-    const handleMarkerAnimation = useCallback((marker: any) => {
+    const handleMarkerAnimation = React.useCallback((marker: any) => {
         if (pulsingMarkerElement.current) {
             pulsingMarkerElement.current.classList.remove('animate-marker-pulse');
         }
@@ -246,7 +245,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     }, []);
 
     // Effect 2: Update Markers when projects change OR map becomes ready
-    useEffect(() => {
+    React.useEffect(() => {
         if (!mapIsReady || !mapApi.current || !mapInstance.current) return;
 
         const { AdvancedMarkerElement, PinElement, GlyphElement, MarkerClusterer } = mapApi.current;
@@ -276,7 +275,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     }, [projects, mapIsReady, onMarkerSelect]);
 
     // Effect 3: Handle active project selection
-    useEffect(() => {
+    React.useEffect(() => {
         if (!mapIsReady || !mapInstance.current || !infoWindow.current) return;
         
         infoWindow.current.close();
@@ -302,7 +301,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     }, [activeProject, mapIsReady, getInfoWindowContent, handleMarkerAnimation]);
     
     // Effect 4: Handle hovered project
-    useEffect(() => {
+    React.useEffect(() => {
         if (!mapIsReady) return;
     
         // Reset previously hovered marker
@@ -330,4 +329,4 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />;
 };
 
-export default memo(InteractiveMap);
+export default React.memo(InteractiveMap);

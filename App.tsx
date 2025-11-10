@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import { Page } from './types';
 import type { NewsItem, GeminiSearchResult } from './types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,17 +21,17 @@ import { GoogleGenAI } from '@google/genai';
 import BackToTopButton from './components/BackToTopButton';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
-  const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
-  const [searchResults, setSearchResults] = useState<GeminiSearchResult | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = React.useState<Page>(Page.Home);
+  const [selectedArticle, setSelectedArticle] = React.useState<NewsItem | null>(null);
+  const [searchResults, setSearchResults] = React.useState<GeminiSearchResult | null>(null);
+  const [searchQuery, setSearchQuery] = React.useState('');
   const { direction } = useLanguage();
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.documentElement.dir = direction;
   }, [direction]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, selectedArticle]);
 

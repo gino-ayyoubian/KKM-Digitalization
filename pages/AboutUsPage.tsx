@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import PageHeader from '../components/PageHeader';
 import Section from '../components/Section';
 import { useLanguage } from '../LanguageContext';
@@ -54,12 +54,12 @@ interface AboutUsPageProps {
 
 const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
   const { t } = useLanguage();
-  const [isSeniorManagementVisible, setIsSeniorManagementVisible] = useState(false);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [activeSection, setActiveSection] = useState('overview');
-  const [expandedHistoryYear, setExpandedHistoryYear] = useState<string | null>(history[history.length - 1]?.year ?? null);
+  const [isSeniorManagementVisible, setIsSeniorManagementVisible] = React.useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
+  const [activeSection, setActiveSection] = React.useState('overview');
+  const [expandedHistoryYear, setExpandedHistoryYear] = React.useState<string | null>(history[history.length - 1]?.year ?? null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timer = setTimeout(() => {
         setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 7000); // Change testimonial every 7 seconds
@@ -68,7 +68,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setPage }) => {
   
   const sectionIds = ['overview', 'history', 'governance', 'roles', 'sustainability', 'testimonials', 'awards'];
 
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach(entry => {

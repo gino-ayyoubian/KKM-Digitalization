@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import type { NewsItem, Video } from '../types';
 import { GMEL_TECHNOLOGIES, PROJECTS, NEWS_ITEMS, VIDEOS } from '../constants';
@@ -15,16 +14,16 @@ interface HomePageProps {
   onSelectArticle: (article: NewsItem) => void;
 }
 
-const SectionTitle: React.FC<{children: ReactNode}> = ({ children }) => (
+const SectionTitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
     <h2 className="text-3xl md:text-4xl font-display font-extrabold text-primary dark:text-white text-center">{children}</h2>
 );
 
-const SectionSubtitle: React.FC<{children: ReactNode}> = ({ children }) => (
+const SectionSubtitle: React.FC<{children: React.ReactNode}> = ({ children }) => (
     <p className="mt-4 text-lg text-text-light dark:text-slate-300 text-center max-w-3xl mx-auto">{children}</p>
 );
 
 const HomePage: React.FC<HomePageProps> = ({ setPage, onSelectArticle }) => {
-  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
+  const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
   const { t } = useLanguage();
 
   const heroContainerVariants = {

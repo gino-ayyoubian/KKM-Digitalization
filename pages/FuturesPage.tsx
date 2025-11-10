@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { useLanguage } from '../LanguageContext';
 import type { TranslationKey } from '../translations';
 import PageHeader from '../components/PageHeader';
 
 const NotifyModal: React.FC<{onClose: () => void; t: (key: TranslationKey) => string;}> = ({ onClose, t }) => {
-    const [email, setEmail] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [email, setEmail] = React.useState('');
+    const [submitted, setSubmitted] = React.useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,7 +66,7 @@ const NotifyModal: React.FC<{onClose: () => void; t: (key: TranslationKey) => st
     );
 };
 
-const FuturesSection: React.FC<{title: string; icon: ReactNode; children: ReactNode}> = ({ title, icon, children }) => (
+const FuturesSection: React.FC<{title: string; icon: React.ReactNode; children: React.ReactNode}> = ({ title, icon, children }) => (
     <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg h-full">
         <div className="flex items-center mb-4">
             <div className="text-accent-yellow mr-4">{icon}</div>
@@ -128,7 +127,7 @@ const OrgTable: React.FC<{
 
 const FuturesPage: React.FC = () => {
     const { t } = useLanguage();
-    const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+    const [isNotifyModalOpen, setIsNotifyModalOpen] = React.useState(false);
 
     const executiveLeadership: OrgMember[] = [
         { name: 'GinoAyyoubian', role: 'CEO', desc: 'CEODesc', rbac: 'Admin' },

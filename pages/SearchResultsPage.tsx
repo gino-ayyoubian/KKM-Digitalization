@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import type { GeminiSearchResult } from '../types';
 import { useLanguage } from '../LanguageContext';

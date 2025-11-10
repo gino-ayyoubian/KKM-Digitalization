@@ -1,10 +1,9 @@
-import React from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 
 interface SectionProps {
   title: string;
   id?: string;
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 // A simple component to render basic markdown
 const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {

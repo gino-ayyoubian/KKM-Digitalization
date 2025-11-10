@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { PROJECTS } from '../constants';
 import type { Project, MapMarker } from '../types';
 import { Page } from '../types';
@@ -20,27 +20,27 @@ const getSnippet = (htmlContent: string) => {
 };
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
-    const [selectedProjectForModal, setSelectedProjectForModal] = useState<Project | null>(null);
-    const [activeProjectForMap, setActiveProjectForMap] = useState<Project | null>(null);
-    const [hoveredProjectName, setHoveredProjectName] = useState<string | null>(null);
+    const [selectedProjectForModal, setSelectedProjectForModal] = React.useState<Project | null>(null);
+    const [activeProjectForMap, setActiveProjectForMap] = React.useState<Project | null>(null);
+    const [hoveredProjectName, setHoveredProjectName] = React.useState<string | null>(null);
     const { t } = useLanguage();
-    const detailsPanelRef = useRef<HTMLDivElement>(null);
+    const detailsPanelRef = React.useRef<HTMLDivElement>(null);
     
-    const [activeTag, setActiveTag] = useState<string>('All');
-    const allTags = useMemo(() => {
+    const [activeTag, setActiveTag] = React.useState<string>('All');
+    const allTags = React.useMemo(() => {
         const tags = new Set<string>();
         PROJECTS.forEach(p => p.tags.forEach(tag => tags.add(tag)));
         return ['All', ...Array.from(tags).sort()];
     }, []);
     
-    const filteredProjects = useMemo(() => {
+    const filteredProjects = React.useMemo(() => {
         if (activeTag === 'All') {
             return PROJECTS;
         }
         return PROJECTS.filter(p => p.tags.includes(activeTag));
     }, [activeTag]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (filteredProjects.length > 0) {
             // If active project is not in the new filtered list, reset it
             if (!activeProjectForMap || !filteredProjects.some(p => p.name === activeProjectForMap.name)) {
@@ -52,7 +52,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
     }, [filteredProjects, activeProjectForMap]);
 
     // Smooth scroll for mobile
-    useEffect(() => {
+    React.useEffect(() => {
         if (activeProjectForMap && detailsPanelRef.current && window.innerWidth < 1024) { // lg breakpoint
             detailsPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -62,14 +62,14 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
         setSelectedProjectForModal(project);
     };
 
-    const handleProjectSelect = useCallback((projectName: string) => {
+    const handleProjectSelect = React.useCallback((projectName: string) => {
         const projectToShow = PROJECTS.find(p => p.name === projectName);
         if (projectToShow) {
             setActiveProjectForMap(projectToShow);
         }
     }, []);
 
-    const projectMarkers = useMemo((): MapMarker[] => PROJECTS.map((p) => ({
+    const projectMarkers = React.useMemo((): MapMarker[] => PROJECTS.map((p) => ({
         name: p.name,
         description: p.description,
         coordinates: p.coordinates,
@@ -78,7 +78,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
         type: 'project',
     })), []);
     
-    const activeMarker = useMemo((): MapMarker | null => {
+    const activeMarker = React.useMemo((): MapMarker | null => {
         if (!activeProjectForMap) return null;
         return {
             name: activeProjectForMap.name,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { GMEL_TECHNOLOGIES, OTHER_CORE_AREAS } from '../constants';
 import PageHeader from '../components/PageHeader';
 import { useLanguage } from '../LanguageContext';
@@ -6,7 +6,7 @@ import { Page } from '../types';
 import Card from '../components/Card';
 
 const CoreTechnologiesPage: React.FC = () => {
-    const [selectedTech, setSelectedTech] = useState(GMEL_TECHNOLOGIES[0].name);
+    const [selectedTech, setSelectedTech] = React.useState(GMEL_TECHNOLOGIES[0].name);
     const { t } = useLanguage();
 
     return (

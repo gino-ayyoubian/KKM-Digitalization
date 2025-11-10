@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import type { NewsItem } from '../types';
 import { useLanguage } from '../LanguageContext';
 

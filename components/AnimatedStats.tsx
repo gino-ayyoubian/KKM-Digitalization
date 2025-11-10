@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import * as React from 'react';
 import { useInView, useMotionValue, useSpring, animate, motion, useTransform } from 'framer-motion';
 import { useLanguage } from '../LanguageContext';
 import type { TranslationKey } from '../translations';
@@ -10,7 +10,7 @@ interface CounterProps {
 }
 
 const Counter: React.FC<CounterProps> = ({ from = 0, to, suffix = '' }) => {
-    const nodeRef = useRef<HTMLSpanElement>(null);
+    const nodeRef = React.useRef<HTMLSpanElement>(null);
     const motionValue = useMotionValue(from);
     
     const springValue = useSpring(motionValue, {
@@ -24,7 +24,7 @@ const Counter: React.FC<CounterProps> = ({ from = 0, to, suffix = '' }) => {
 
     const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (isInView) {
             animate(motionValue, to, { duration: 2, ease: 'easeOut' });
         }

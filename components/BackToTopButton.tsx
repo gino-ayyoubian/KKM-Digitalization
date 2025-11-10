@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const BackToTopButton: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const toggleVisibility = () => {
       if (window.scrollY > 300) {
         setIsVisible(true);

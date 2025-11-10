@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface AccordionProps {
     title: string;
-    children: ReactNode;
+    children: React.ReactNode;
     defaultOpen?: boolean;
 }
 
 const Accordion: React.FC<AccordionProps> = ({ title, children, defaultOpen = false }) => {
-    const [isOpen, setIsOpen] = useState(defaultOpen);
+    const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
     return (
         <div className="border-t dark:border-slate-700">

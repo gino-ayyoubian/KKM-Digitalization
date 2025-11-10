@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import * as React from 'react';
 import { NEWS_ITEMS } from '../constants';
 import type { NewsItem } from '../types';
 import { Page } from '../types';
@@ -14,14 +14,14 @@ interface NewsPageProps {
 const BATCH_SIZE = 4; // Number of articles to load at a time
 
 const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
-    const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
-    const [filterCategory, setFilterCategory] = useState<string>('All');
-    const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+    const [sortOrder, setSortOrder] = React.useState<'newest' | 'oldest'>('newest');
+    const [filterCategory, setFilterCategory] = React.useState<string>('All');
+    const [visibleCount, setVisibleCount] = React.useState(BATCH_SIZE);
     const { t } = useLanguage();
     
     const categories = ['All', ...Array.from(new Set(NEWS_ITEMS.map(item => item.category)))];
 
-    const filteredAndSortedNews = useMemo(() => {
+    const filteredAndSortedNews = React.useMemo(() => {
         let items = [...NEWS_ITEMS];
 
         if (filterCategory !== 'All') {
@@ -38,11 +38,11 @@ const NewsPage: React.FC<NewsPageProps> = ({ onSelectArticle }) => {
     }, [sortOrder, filterCategory]);
 
     // Reset visible count when filters change
-    useEffect(() => {
+    React.useEffect(() => {
         setVisibleCount(BATCH_SIZE);
     }, [sortOrder, filterCategory]);
     
-    const visibleNewsItems = useMemo(() => {
+    const visibleNewsItems = React.useMemo(() => {
         return filteredAndSortedNews.slice(0, visibleCount);
     }, [filteredAndSortedNews, visibleCount]);
 

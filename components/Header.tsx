@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import { NAV_LINKS } from '../constants';
 import { useLanguage } from '../LanguageContext';
@@ -65,20 +65,20 @@ const KkmLogo: React.FC = () => {
 };
 
 const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const [openMobileSubMenu, setOpenMobileSubMenu] = useState<Page | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const langMenuRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = React.useState(false);
+  const [openMobileSubMenu, setOpenMobileSubMenu] = React.useState<Page | null>(null);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement>(null);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+  const langMenuRef = React.useRef<HTMLDivElement>(null);
 
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -86,19 +86,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setPage, onSearch }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  useEffect(() => {
+  React.useEffect(() => {
     setIsMenuOpen(false);
     setIsSearchOpen(false);
     setOpenMobileSubMenu(null);
   }, [currentPage]);
   
-  useEffect(() => {
+  React.useEffect(() => {
       if(isSearchOpen) {
           searchInputRef.current?.focus();
       }
   }, [isSearchOpen]);
   
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
         if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
             setIsLangMenuOpen(false);

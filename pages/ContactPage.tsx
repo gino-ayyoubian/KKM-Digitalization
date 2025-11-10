@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { Page } from '../types';
 import type { MapMarker } from '../types';
 import { useLanguage } from '../LanguageContext';
@@ -10,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const FormField: React.FC<{
     id: string;
     label: string;
-    children: ReactNode;
+    children: React.ReactNode;
     error?: string;
 }> = ({ id, label, children, error }) => (
     <div>
@@ -34,13 +33,13 @@ const FormField: React.FC<{
 
 const ContactPage: React.FC = () => {
     const { t } = useLanguage();
-    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-    const [errors, setErrors] = useState<{ [key: string]: string | undefined }>({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formSubmittedSuccessfully, setFormSubmittedSuccessfully] = useState(false);
-    const [activeLocation, setActiveLocation] = useState<MapMarker | null>(null);
+    const [formData, setFormData] = React.useState({ name: '', email: '', subject: '', message: '' });
+    const [errors, setErrors] = React.useState<{ [key: string]: string | undefined }>({});
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [formSubmittedSuccessfully, setFormSubmittedSuccessfully] = React.useState(false);
+    const [activeLocation, setActiveLocation] = React.useState<MapMarker | null>(null);
 
-    const officeLocations: MapMarker[] = useMemo(() => [
+    const officeLocations: MapMarker[] = React.useMemo(() => [
         {
             name: t('HeadOffice'),
             description: t('TehranOfficeAddress'),
@@ -59,7 +58,7 @@ const ContactPage: React.FC = () => {
         },
     ], [t]);
     
-    useEffect(() => {
+    React.useEffect(() => {
         // Set the head office as the default active location on load
         if (officeLocations.length > 0) {
             setActiveLocation(officeLocations[0]);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import type { Project } from '../types';
 import { Page } from '../types';
 import ProjectMetricsChart from '../components/ProjectMetricsChart';
@@ -18,10 +18,10 @@ const getYouTubeId = (url: string) => {
 };
 
 const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, onClose, setPage }) => {
-  const [playVideo, setPlayVideo] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [playVideo, setPlayVideo] = React.useState(false);
+  const modalRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             onClose();
