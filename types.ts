@@ -72,6 +72,7 @@ export interface GroundingChunk {
 export interface GeminiSearchResult {
   summary: string;
   sources: GroundingChunk[];
+  sourceType?: 'internal' | 'web';
 }
 
 

@@ -19,6 +19,7 @@ import FuturesPage from './pages/FuturesPage';
 import { useLanguage } from './LanguageContext';
 import { GoogleGenAI } from '@google/genai';
 import BackToTopButton from './components/BackToTopButton';
+import { PROJECTS, NEWS_ITEMS } from './constants';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState<Page>(Page.Home);
@@ -53,22 +54,66 @@ const App: React.FC = () => {
 
     try {
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        const prompt = `You are a helpful assistant for KKM International Group. Your task is to provide a comprehensive and informative answer to user queries based on real-time, verifiable information from the web. The user is asking about news, projects, or other aspects related to KKM International Group.
-        User Query: "${query}"
-        Please provide a summary based on your search findings.`;
+        const lowerCaseQuery = query.toLowerCase();
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-            config: {
-                tools: [{ googleSearch: {} }],
-            },
-        });
+        // 1. Local Search
+        const foundProjects = PROJECTS.filter(p => 
+            p.name.toLowerCase().includes(lowerCaseQuery) ||
+            p.description.toLowerCase().includes(lowerCaseQuery) ||
+            p.detailedContent.toLowerCase().includes(lowerCaseQuery) ||
+            p.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
+        );
 
-        const summary = response.text;
-        const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+        const foundNews = NEWS_ITEMS.filter(n =>
+            n.title.toLowerCase().includes(lowerCaseQuery) ||
+            n.excerpt.toLowerCase().includes(lowerCaseQuery) ||
+            n.content.toLowerCase().includes(lowerCaseQuery)
+        );
+        
+        if (foundProjects.length > 0 || foundNews.length > 0) {
+            // 2. Summarize local content
+            let context = "INTERNAL KKM DOCUMENTATION:\n\n";
+            
+            if (foundProjects.length > 0) {
+              context += "=== PROJECTS ===\n";
+              foundProjects.forEach(p => {
+                context += `Project Name: ${p.name}\nDescription: ${p.description}\nDetails: ${p.detailedContent}\n\n`;
+              });
+            }
+            
+            if (foundNews.length > 0) {
+              context += "=== NEWS ARTICLES ===\n";
+              foundNews.forEach(n => {
+                context += `Article Title: ${n.title}\nDate: ${n.date}\nContent: ${n.content}\n\n`;
+              });
+            }
+    
+            const prompt = `You are a helpful assistant for KKM International Group. Based ONLY on the internal documentation provided below, answer the user's query. Provide a clear and concise summary. Do not use any external knowledge or web search capabilities.\n\nUser Query: "${query}"\n\n${context}`;
+    
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: prompt,
+            });
+    
+            setSearchResults({ summary: response.text, sources: [], sourceType: 'internal' }); // No external sources for internal search
 
-        setSearchResults({ summary, sources });
+        } else {
+            // 3. Fallback to Web Search
+            const prompt = `You are a helpful assistant for KKM International Group. Your task is to provide a comprehensive and informative answer to user queries based on real-time, verifiable information from the web. The user is asking about news, projects, or other aspects related to KKM International Group.\nUser Query: "${query}"\nPlease provide a summary based on your search findings.`;
+
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: prompt,
+                config: {
+                    tools: [{ googleSearch: {} }],
+                },
+            });
+
+            const summary = response.text;
+            const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+
+            setSearchResults({ summary, sources, sourceType: 'web' });
+        }
 
     } catch (error) {
         console.error("Error during Gemini API call:", error);

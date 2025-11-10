@@ -42,6 +42,7 @@ const loadMapsApi = () => {
     mapsApiPromise = new Promise(async (resolve, reject) => {
         const getLibraries = async () => {
             try {
+                // The 'marker' library now includes MarkerClusterer.
                 const [maps, marker] = await Promise.all([
                     window.google.maps.importLibrary('maps'),
                     window.google.maps.importLibrary('marker'),
