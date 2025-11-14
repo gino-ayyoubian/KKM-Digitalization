@@ -86,7 +86,7 @@ const ContactPage: React.FC = () => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target as { name: keyof typeof formData; value: string };
         setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: undefined }));
@@ -102,19 +102,21 @@ const ContactPage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        const formErrors: { [key: string]: string } = {};
+        const formErrors: Partial<Record<keyof typeof formData, string>> = {};
         let isValid = true;
 
-        // FIX: Use Object.entries to safely iterate over form data and prevent a TypeScript indexing error.
-        for (const [key, value] of Object.entries(formData)) {
-            // FIX: The value from Object.entries can be inferred as `unknown`. Cast to string before validation.
-            const error = validateField(key as keyof typeof formData, String(value));
-            if (error) {
-                formErrors[key] = error;
-                isValid = false;
-            }
-        }
+        const nameError = validateField('name', formData.name);
+        if (nameError) { formErrors.name = nameError; isValid = false; }
         
+        const emailError = validateField('email', formData.email);
+        if (emailError) { formErrors.email = emailError; isValid = false; }
+
+        const subjectError = validateField('subject', formData.subject);
+        if (subjectError) { formErrors.subject = subjectError; isValid = false; }
+        
+        const messageError = validateField('message', formData.message);
+        if (messageError) { formErrors.message = messageError; isValid = false; }
+
         setErrors(formErrors);
 
         if (isValid) {

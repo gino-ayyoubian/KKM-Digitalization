@@ -84,3 +84,14 @@ export interface MapMarker {
   category?: string;
   type?: 'project' | 'office';
 }
+
+export interface JobOpening {
+  id: string;
+  title: string;
+  department: 'Engineering' | 'R&D' | 'Corporate' | 'Operations';
+  location: 'Tehran, Iran' | 'Qeshm, Iran' | 'Remote';
+  type: 'Full-time' | 'Contract';
+  description: string;
+  responsibilities: string[];
+  qualifications: string[];
+}

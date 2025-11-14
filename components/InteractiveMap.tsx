@@ -39,7 +39,7 @@ const loadMapsApi = () => {
         return mapsApiPromise;
     }
 
-    mapsApiPromise = new Promise(async (resolve, reject) => {
+    mapsApiPromise = new Promise((resolve, reject) => {
         const getLibraries = async () => {
             try {
                 // The 'marker' library now includes MarkerClusterer.
@@ -62,16 +62,12 @@ const loadMapsApi = () => {
             getLibraries().then(resolve).catch(reject);
             delete window[MAP_CALLBACK_NAME];
         };
-
-        if (document.getElementById(SCRIPT_ID)) {
-            // Script is already loading, the callback will be triggered.
-            return;
-        }
         
         if (!process.env.API_KEY) {
             const error = new Error("Google Maps API Key is missing.");
             console.error(error);
-            return reject(error);
+            reject(error);
+            return;
         }
 
         const script = document.createElement('script');
@@ -140,7 +136,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
                 Map: maps.Map,
                 AdvancedMarkerElement: maps.AdvancedMarkerElement,
                 PinElement: maps.PinElement,
-                GlyphElement: maps.GlyphElement,
                 MarkerClusterer: maps.MarkerClusterer,
                 ControlPosition: maps.ControlPosition,
                 InfoWindow: maps.InfoWindow,
@@ -248,7 +243,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
     React.useEffect(() => {
         if (!mapIsReady || !mapApi.current || !mapInstance.current) return;
 
-        const { AdvancedMarkerElement, PinElement, GlyphElement, MarkerClusterer } = mapApi.current;
+        const { AdvancedMarkerElement, PinElement, MarkerClusterer } = mapApi.current;
 
         markerClusterer.current?.clearMarkers();
         markers.current.clear();
@@ -257,11 +252,19 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ projects, activeProject
             const categoryKey = project.category || 'Default';
             const color = ICON_COLORS[categoryKey] || ICON_COLORS.Default;
             const path = ICON_PATHS[categoryKey] || ICON_PATHS.Default;
+            const glyphScale = categoryKey.includes('Office') ? 0.5 : 0.8;
+
+            const glyphSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            glyphSvg.setAttribute('viewBox', '0 0 24 24');
+            glyphSvg.setAttribute('width', (24 * glyphScale).toString());
+            glyphSvg.setAttribute('height', (24 * glyphScale).toString());
+            glyphSvg.innerHTML = `<path d="${path}" fill="white" />`;
+            
             const pinElement = new PinElement({
                 background: color,
                 borderColor: '#FFFFFF',
-                glyph: new GlyphElement({ path, scale: categoryKey.includes('Office') ? 0.5 : 0.8, strokeWeight: 1, fillColor: '#FFFFFF', fillOpacity: 1 }),
-                scale: 1.2
+                glyph: glyphSvg,
+                scale: 1.2,
             });
 
             const marker = new AdvancedMarkerElement({ position: project.coordinates, title: project.name, content: pinElement.element });

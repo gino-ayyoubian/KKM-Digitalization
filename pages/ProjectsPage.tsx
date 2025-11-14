@@ -58,6 +58,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
         }
     }, [activeProjectForMap]);
     
+    const handleCloseModal = React.useCallback(() => {
+        setSelectedProjectForModal(null);
+    }, []);
+    
     const handleViewDetails = (project: Project) => {
         setSelectedProjectForModal(project);
     };
@@ -92,7 +96,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ setPage }) => {
 
     return (
         <div>
-            {selectedProjectForModal && <ProjectDetailModal project={selectedProjectForModal} onClose={() => setSelectedProjectForModal(null)} setPage={setPage} />}
+            {selectedProjectForModal && <ProjectDetailModal project={selectedProjectForModal} onClose={handleCloseModal} setPage={setPage} />}
             <PageHeader title={t(Page.Projects)} subtitle={t('ProjectsPageSubtitle')}/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-16">

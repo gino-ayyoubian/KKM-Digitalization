@@ -16,6 +16,7 @@ import NewsPage from './pages/NewsPage';
 import NewsArticlePage from './pages/NewsArticlePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import FuturesPage from './pages/FuturesPage';
+import CareersPage from './pages/CareersPage';
 import { useLanguage } from './LanguageContext';
 import { GoogleGenAI } from '@google/genai';
 import BackToTopButton from './components/BackToTopButton';
@@ -171,8 +172,10 @@ const App: React.FC = () => {
       case Page.SearchResults:
         pageComponent = <SearchResultsPage result={searchResults} query={searchQuery} />;
         break;
-      case Page.InternalPortal:
       case Page.Careers:
+        pageComponent = <CareersPage />;
+        break;
+      case Page.InternalPortal:
       default:
         pageComponent = <ComingSoonPage pageTitle={currentPage} />;
         break;

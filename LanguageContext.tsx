@@ -19,7 +19,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const direction = ['FA', 'AR'].includes(language) ? 'rtl' : 'ltr';
 
-  const t = (key: TranslationKey, options?: { [key: string]: string | number }): string => {
+  const t = React.useCallback((key: TranslationKey, options?: { [key: string]: string | number }): string => {
     let text = translations[language][key] || translations['EN'][key] || key;
     if (options) {
         Object.keys(options).forEach(placeholder => {
@@ -27,10 +27,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         });
     }
     return text;
-  };
+  }, [language]);
+
+  const value = React.useMemo(() => ({ language, setLanguage, t, direction }), [language, t, direction]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, direction }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

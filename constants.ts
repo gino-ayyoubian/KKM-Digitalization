@@ -1,5 +1,5 @@
 import { Page } from './types';
-import type { Project, NavLink, NewsItem, Video } from './types';
+import type { Project, NavLink, NewsItem, Video, JobOpening } from './types';
 
 export const NAV_LINKS: NavLink[] = [
   { name: Page.Home },
@@ -150,5 +150,129 @@ export const VIDEOS: Video[] = [
         description: "Meet the brilliant minds and see the groundbreaking ideas that are shaping the future at our Innovation Hub.",
         thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
         youtubeId: "dQw4w9WgXcQ"
+    }
+];
+
+export const JOB_OPENINGS: JobOpening[] = [
+    {
+        id: 'sr-geothermal-engineer',
+        title: 'Senior Geothermal Reservoir Engineer',
+        department: 'Engineering',
+        location: 'Tehran, Iran',
+        type: 'Full-time',
+        description: 'We are seeking an experienced Geothermal Reservoir Engineer to lead modeling, simulation, and performance analysis for our GMEL-CLG projects. You will play a critical role in optimizing energy extraction and ensuring long-term reservoir sustainability.',
+        responsibilities: [
+            'Develop and maintain complex numerical models of geothermal reservoirs.',
+            'Analyze well test data and forecast field performance.',
+            'Collaborate with drilling and production teams to optimize well placement and strategy.',
+            'Contribute to R&D for next-generation geothermal technologies.',
+        ],
+        qualifications: [
+            'M.Sc. or Ph.D. in Petroleum Engineering, Geothermal Engineering, or related field.',
+            '5+ years of experience in reservoir simulation and modeling (e.g., TOUGH2, Petrel).',
+            'Strong understanding of fluid dynamics and heat transfer in porous media.',
+            'Proficiency in programming languages such as Python or MATLAB.',
+        ],
+    },
+    {
+        id: 'biomed-research-scientist',
+        title: 'Biomedical Research Scientist',
+        department: 'R&D',
+        location: 'Tehran, Iran',
+        type: 'Full-time',
+        description: 'Join our Biomedical & Health Innovation team to conduct pioneering research in stem cell therapies and regenerative medicine. This role involves laboratory research, data analysis, and collaboration with academic partners.',
+        responsibilities: [
+            'Design and execute experiments related to exosome-based drug delivery systems.',
+            'Culture and characterize various types of stem cells.',
+            'Author research papers for publication in peer-reviewed journals.',
+            'Present findings at scientific conferences and internal meetings.',
+        ],
+        qualifications: [
+            'Ph.D. in Molecular Biology, Biomedical Engineering, or a related discipline.',
+            'Proven track record of publications in high-impact journals.',
+            'Hands-on experience with cell culture, PCR, and microscopy techniques.',
+            'Excellent analytical and problem-solving skills.',
+        ],
+    },
+    {
+        id: 'project-controls-manager',
+        title: 'Project Controls Manager (EPCI)',
+        department: 'Operations',
+        location: 'Qeshm, Iran',
+        type: 'Contract',
+        description: 'Manage the planning, scheduling, and cost control for our large-scale EPCI projects. The ideal candidate will ensure projects are delivered on time, within budget, and to the highest quality standards.',
+        responsibilities: [
+            'Develop and maintain the project master schedule.',
+            'Monitor project progress and performance, identifying and reporting variances.',
+            'Implement and manage cost control systems.',
+            'Prepare regular progress reports for senior management and clients.',
+        ],
+        qualifications: [
+            'Bachelor\'s degree in Engineering or Construction Management.',
+            '10+ years of experience in project controls on major industrial or infrastructure projects.',
+            'Expert proficiency in Primavera P6 and cost management software.',
+            'Strong leadership and communication skills.',
+        ],
+    },
+    {
+        id: 'hr-business-partner',
+        title: 'HR Business Partner',
+        department: 'Corporate',
+        location: 'Tehran, Iran',
+        type: 'Full-time',
+        description: 'As an HR Business Partner, you will align our HR initiatives with business objectives, providing comprehensive support to our growing teams. You will act as a consultant to management on all HR-related issues.',
+        responsibilities: [
+            'Manage the full recruitment cycle from sourcing to onboarding.',
+            'Develop and implement performance management systems.',
+            'Provide guidance on employee relations and company policies.',
+            'Support learning and development initiatives.',
+        ],
+        qualifications: [
+            'Bachelor\'s degree in Human Resources, Business Administration, or related field.',
+            '5+ years of experience in an HR generalist or business partner role.',
+            'In-depth knowledge of labor law and HR best practices.',
+            'Ability to build strong relationships across all levels of the organization.',
+        ],
+    },
+    {
+        id: 'remote-software-dev',
+        title: 'Full-Stack Software Developer',
+        department: 'R&D',
+        location: 'Remote',
+        type: 'Full-time',
+        description: 'Develop and maintain web applications that support our core technologies, including our GMEL Vision platform. You will work in a collaborative, agile environment to build high-quality, scalable software solutions.',
+        responsibilities: [
+            'Design, build, and maintain efficient, reusable, and reliable code.',
+            'Integrate front-end elements with server-side logic.',
+            'Implement data visualization tools for complex engineering data.',
+            'Participate in code reviews to maintain code quality.',
+        ],
+        qualifications: [
+            'B.Sc. in Computer Science or a related field.',
+            '3+ years of professional experience with React, Node.js, and TypeScript.',
+            'Experience with database technologies like PostgreSQL or MongoDB.',
+            'Familiarity with cloud platforms (GCP, AWS) and containerization (Docker).',
+        ],
+    },
+];
+
+export const EMPLOYEE_TESTIMONIALS: { quote: string; name: string; role: string; image: string; }[] = [
+    {
+        quote: "Working at KKM is a unique opportunity to be at the forefront of the energy transition. The scale of our projects is massive, and the impact we have is real. It's challenging, but incredibly rewarding.",
+        name: 'Sara Ahmadi',
+        role: 'Project Manager, EPCI',
+        image: 'https://i.pravatar.cc/100?u=employee1',
+    },
+    {
+        quote: 'The culture of innovation here is palpable. I\'m constantly encouraged to explore new ideas and collaborate with experts from different fields. We are truly building the future of biomedical engineering.',
+        name: 'Dr. Benyamin Rezaei',
+        role: 'Lead Scientist, R&D',
+        image: 'https://i.pravatar.cc/100?u=employee2',
+    },
+    {
+        quote: "As a young engineer, I couldn't ask for a better place to grow my career. The mentorship opportunities and the hands-on experience on world-class projects are second to none.",
+        name: 'Fatemeh Ghasemi',
+        role: 'Geothermal Engineer',
+        image: 'https://i.pravatar.cc/100?u=employee3',
     }
 ];

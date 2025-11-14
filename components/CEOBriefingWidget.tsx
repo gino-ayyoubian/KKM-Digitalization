@@ -23,53 +23,53 @@ const CEOBriefingWidget: React.FC = () => {
     const [briefing, setBriefing] = React.useState<GeminiSearchResult | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
+    const [triggerFetch, setTriggerFetch] = React.useState(0);
     const { t } = useLanguage();
-    const isMounted = React.useRef(true);
 
     React.useEffect(() => {
-        isMounted.current = true;
-        return () => {
-            isMounted.current = false;
-        };
-    }, []);
+        let isMounted = true;
 
-    const fetchBriefing = React.useCallback(async () => {
-        if (!isMounted.current) return;
-        setIsLoading(true);
-        setError(null);
-        setBriefing(null);
+        const fetchBriefing = async () => {
+            setIsLoading(true);
+            setError(null);
+            setBriefing(null);
 
-        try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-            const prompt = `From the perspective of Gino Ayyoubian, CEO of KKM International Group, provide a concise and insightful weekly briefing on the most significant recent developments. Focus on our key sectors: geothermal energy, sustainable infrastructure (EPCI projects), innovations in lithium extraction from brine, and the global energy market outlook. Frame this as a strategic update for our stakeholders, highlighting potential opportunities and challenges for KKM. Your response should be based on the latest verifiable information from the web. The tone should be authoritative, optimistic, and forward-looking. Format the output using basic markdown (bolding for emphasis, bullet points for lists).`;
+            try {
+                const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                const prompt = `From the perspective of Gino Ayyoubian, CEO of KKM International Group, provide a concise and insightful weekly briefing on the most significant recent developments. Focus on our key sectors: geothermal energy, sustainable infrastructure (EPCI projects), innovations in lithium extraction from brine, and the global energy market outlook. Frame this as a strategic update for our stakeholders, highlighting potential opportunities and challenges for KKM. Your response should be based on the latest verifiable information from the web. The tone should be authoritative, optimistic, and forward-looking. Format the output using basic markdown (bolding for emphasis, bullet points for lists).`;
 
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: prompt,
-                config: {
-                    tools: [{ googleSearch: {} }],
-                },
-            });
+                const response = await ai.models.generateContent({
+                    model: 'gemini-2.5-flash',
+                    contents: prompt,
+                    config: {
+                        tools: [{ googleSearch: {} }],
+                    },
+                });
 
-            if (!isMounted.current) return;
+                if (isMounted) {
+                    const summary = response.text || '';
+                    const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
 
-            const summary = response.text || '';
-            const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-
-            setBriefing({ summary, sources });
-            setIsLoading(false);
-        } catch (err) {
-            console.error("Error fetching CEO briefing:", err);
-            if (isMounted.current) {
-                setError(t('BriefingError'));
-                setIsLoading(false);
+                    setBriefing({ summary, sources });
+                }
+            } catch (err) {
+                console.error("Error fetching CEO briefing:", err);
+                if (isMounted) {
+                    setError(t('BriefingError'));
+                }
+            } finally {
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
-        }
-    }, [t]);
+        };
 
-    React.useEffect(() => {
         fetchBriefing();
-    }, [fetchBriefing]);
+
+        return () => {
+            isMounted = false;
+        };
+    }, [triggerFetch, t]);
     
     return (
         <div className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 flex flex-col md:flex-row gap-8">
@@ -82,7 +82,7 @@ const CEOBriefingWidget: React.FC = () => {
                 <h4 className="font-display font-bold text-xl text-primary dark:text-white mt-4">{t('GinoAyyoubian')}</h4>
                 <p className="text-secondary dark:text-accent-yellow font-semibold">{t('CEO')}</p>
                  <button 
-                    onClick={fetchBriefing} 
+                    onClick={() => setTriggerFetch(c => c + 1)} 
                     disabled={isLoading}
                     className="mt-4 px-4 py-2 text-sm font-semibold text-primary dark:text-secondary bg-gray-100 dark:bg-slate-700 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-wait flex items-center gap-2 mx-auto md:mx-0"
                 >
